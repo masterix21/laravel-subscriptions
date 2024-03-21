@@ -12,7 +12,7 @@ class SubscriptionPayment extends Model
     {
         return [
             'paid_at' => 'datetime',
-            'meta'    => AsArrayObject::class,
+            'meta' => AsArrayObject::class,
         ];
     }
 
