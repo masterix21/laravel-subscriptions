@@ -12,11 +12,12 @@ class SubscriptionsServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-subscriptions')
             ->hasConfigFile()
-            ->hasViews()
             ->hasMigrations([
                 'create_plans_table',
                 'create_features_table',
                 'create_plan_feature_table',
+                'create_subscriptions_table',
+                'create_subscription_payments_table',
             ]);
     }
 }

@@ -14,8 +14,15 @@ return new class extends Migration
         Schema::create('plan_feature', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignIdFor(config('subscriptions.models.plan'), 'plan_id')->constrained();
-            $table->foreignIdFor(config('subscriptions.models.feature'), 'feature_id')->constrained();
+            $table->foreignIdFor(config('subscriptions.models.plan'))
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
+            $table->foreignIdFor(config('subscriptions.models.feature'))
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
 
             $table->timestamps();
 
