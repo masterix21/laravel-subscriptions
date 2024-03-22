@@ -19,8 +19,8 @@ use Livewire\Component;
 
 class Features extends Component implements HasForms, HasTable
 {
-    use InteractsWithTable;
     use InteractsWithForms;
+    use InteractsWithTable;
 
     public function render(): View
     {
@@ -33,7 +33,7 @@ class Features extends Component implements HasForms, HasTable
             ->query(resolve(config('subscriptions.models.feature'))->query())
             ->columns([
                 TextColumn::make('name')
-                    ->label(__('Name'))
+                    ->label(__('Name')),
             ])
             ->actions([
                 EditAction::make()
@@ -68,7 +68,7 @@ class Features extends Component implements HasForms, HasTable
                             ->success()
                             ->title(__('subscriptions::subscriptions.features.created-notification-message'))
                             ->send();
-                    })
+                    }),
             ]);
     }
 }
