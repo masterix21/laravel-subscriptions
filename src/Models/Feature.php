@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Feature extends Model
 {
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::saving(function (self $feature) {
+            $feature->code ??= str($feature->name)->slug();
+        });
+    }
+
     protected function casts(): array
     {
         return [

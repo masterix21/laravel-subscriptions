@@ -13,10 +13,17 @@ class Plan extends Model
     protected function casts(): array
     {
         return [
-            'duration' => 'int',
+            'enabled' => 'bool',
+            'hidden' => 'bool',
+            'starts_at' => 'datetime',
+            'ends_at' => 'datetime',
+            'duration_period' => 'int',
             'duration_interval' => DurationInterval::class,
             'price' => 'decimal',
-            'grace_days' => 'int',
+            'trial_period' => 'int',
+            'trial_interval' => DurationInterval::class,
+            'grace_period' => 'int',
+            'grace_interval' => DurationInterval::class,
             'meta' => AsArrayObject::class,
         ];
     }

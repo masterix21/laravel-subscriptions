@@ -36,24 +36,17 @@ You can publish the config file with:
 php artisan vendor:publish --tag="laravel-subscriptions-config"
 ```
 
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
 Optionally, you can publish the views using
 
 ```bash
 php artisan vendor:publish --tag="laravel-subscriptions-views"
 ```
 
-## Usage
+## Requirements
 
-```php
-$subscriptions = new LucaLongo\Subscriptions();
-echo $subscriptions->echoPhrase('Hello, LucaLongo!');
+The package has built-in livewire views to manage plans, features, etc. If you like to use these views, you should manually install the dependencies:
+```bash
+composer require livewire/volt filament/tables
 ```
 
 ## Testing
