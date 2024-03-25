@@ -60,7 +60,7 @@ class CreateSubscription
                 'grace_ends_at' => $graceEndsAt,
                 'revoked_at' => null,
                 'note' => $note,
-                'meta' => $meta
+                'meta' => $meta,
             ]),
             callback: fn (Subscription $subscription) => event(new SubscriptionCreated($subscription))
         );
