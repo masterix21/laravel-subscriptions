@@ -2,6 +2,7 @@
 
 namespace LucaLongo\Subscriptions\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Subscription extends Model
 {
@@ -119,5 +121,16 @@ class Subscription extends Model
 
             return true;
         });
+    }
+
+    public function scopeActive(Builder $query): void
+    {
+        $query->where(fn (Builder $query) => $query
+            ->whereNull('revoked_at')
+            ->where(fn (Builder $query) => $query
+                ->whereBetwe
+                ->whereBetweenColumns(DB::raw(now()), ['starts_at', 'ends_at'])
+                ->orWhereBetweenColumns(DB::raw(now()), ['trials_starts_at', 'trial_ends_at'])
+                ->orWhereBetweenColumns(DB::raw(now()), ['grace_starts_at', 'grace_ends_at'])));
     }
 }
