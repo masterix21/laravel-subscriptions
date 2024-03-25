@@ -25,9 +25,9 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Guava\FilamentClusters\Forms\Cluster;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use LucaLongo\Subscriptions\Actions\CreateSubscription;
+use LucaLongo\Subscriptions\Contracts\Subscriber;
 use LucaLongo\Subscriptions\Models\Plan;
 use LucaLongo\Subscriptions\Models\Subscription;
 
@@ -36,7 +36,7 @@ class Subscriptions extends Component implements HasForms, HasTable
     use InteractsWithForms;
     use InteractsWithTable;
 
-    public ?Model $subscriber = null;
+    public ?Subscriber $subscriber = null;
 
     public function render(): View
     {
@@ -71,6 +71,10 @@ class Subscriptions extends Component implements HasForms, HasTable
                             'many_interval' => $record->plan->invoice_interval->label(),
                         ]);
                     }),
+
+                TextColumn::make('subscriber.label')
+                    ->visible(fn () => ! $this->subscriber)
+                    ->translateLabel(),
 
                 TextColumn::make('starts_at')
                     ->label('Validity period')
