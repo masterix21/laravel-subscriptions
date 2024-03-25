@@ -2,7 +2,6 @@
 
 namespace LucaLongo\Subscriptions\Actions;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use LucaLongo\Subscriptions\Contracts\Subscriber;
 use LucaLongo\Subscriptions\Events\SubscriptionCreated;
