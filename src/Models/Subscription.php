@@ -10,12 +10,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use function Symfony\Component\Translation\t;
 
 class Subscription extends Model
 {
     use HasUuids;
     use SoftDeletes;
+
+    public $guarded = [];
 
     public function uniqueIds(): array
     {
@@ -51,6 +52,11 @@ class Subscription extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(config('subscriptions.models.subscription_payment'));
+    }
+
+    public function isRevokable(): Attribute
+    {
+        return Attribute::get(fn () => $this->is_active);
     }
 
     public function isRevoked(): Attribute

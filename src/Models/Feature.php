@@ -5,17 +5,13 @@ namespace LucaLongo\Subscriptions\Models;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use LucaLongo\Subscriptions\Models\Concerns\HasCode;
 
 class Feature extends Model
 {
-    protected static function boot(): void
-    {
-        parent::boot();
+    use HasCode;
 
-        static::saving(function (self $feature) {
-            $feature->code ??= str($feature->name)->slug();
-        });
-    }
+    public $guarded = [];
 
     protected function casts(): array
     {

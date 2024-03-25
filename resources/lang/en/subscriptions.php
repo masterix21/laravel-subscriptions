@@ -1,8 +1,5 @@
 <?php
 
 return [
-    'features' => [
-        'code' => 'Code',
-        'created-notification-message' => 'Feature created',
-    ],
+    'cycle' => '{0} One time|[1] / :single_interval|[2,*] / :value :many_interval',
 ];

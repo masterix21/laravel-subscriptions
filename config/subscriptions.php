@@ -7,6 +7,5 @@ return [
         'feature' => \LucaLongo\Subscriptions\Models\Feature::class,
         'plan_feature' => \LucaLongo\Subscriptions\Models\PlanFeature::class,
         'subscription' => \LucaLongo\Subscriptions\Models\Subscription::class,
-        'subscription_payment' => \LucaLongo\Subscriptions\Models\SubscriptionPayment::class,
     ],
 ];

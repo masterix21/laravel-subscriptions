@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SubscriptionPayment extends Model
 {
+    public $guarded = [];
+
     protected function casts(): array
     {
         return [

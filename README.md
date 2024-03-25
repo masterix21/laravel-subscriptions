@@ -46,7 +46,7 @@ php artisan vendor:publish --tag="laravel-subscriptions-views"
 
 The package has built-in livewire views to manage plans, features, etc. If you like to use these views, you should manually install the dependencies:
 ```bash
-composer require livewire/volt filament/tables
+composer require livewire/volt filament/tables guava/filament-clusters
 ```
 
 ## Testing

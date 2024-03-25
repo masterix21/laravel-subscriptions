@@ -1,0 +1,22 @@
+{
+    "day": "giorno",
+    "days": "giorni",
+    "Details": "Dettagli",
+    "Features": "Funzionalità",
+    "Enabled": "Attivo",
+    "Hidden": "Nascosto",
+    "week": "settimana",
+    "weeks": "settimane",
+    "month": "mese",
+    "months": "mesi",
+    "year": "anno",
+    "years": "anni",
+    "price": "prezzo",
+    "Price": "Prezzo",
+    "Starts at": "Inizia il",
+    "Ends at": "Finisce il",
+    "Trial period": "Periodo di prova",
+    "Duration": "Durata",
+    "Grace period": "Periodo di tolleranza",
+    "Invoice cycle": "Ciclo di fatturazione"
+}

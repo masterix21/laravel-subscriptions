@@ -1,8 +1,5 @@
 <?php
 
 return [
-    'features' => [
-        'code' => 'Codice',
-        'created-notification-message' => 'Funzionalità creata con successo.',
-    ],
+    'cycle' => '{0} Una tantum|[1] / :single_interval|[2,*] / :value :many_interval',
 ];

@@ -9,6 +9,8 @@ class PlanFeature extends Pivot
 {
     public $incrementing = true;
 
+    public $guarded = [];
+
     public function plan(): BelongsTo
     {
         return $this->belongsTo(config('subscriptions.models.plan'));

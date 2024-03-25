@@ -5,8 +5,7 @@ namespace LucaLongo\Subscriptions\Livewire\Manage;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
@@ -14,13 +13,12 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
 class Features extends Component implements HasForms, HasTable
 {
-    use InteractsWithTable;
     use InteractsWithForms;
+    use InteractsWithTable;
 
     public function render(): View
     {
@@ -34,41 +32,30 @@ class Features extends Component implements HasForms, HasTable
             ->columns([
                 TextColumn::make('name')
                     ->label(__('Name'))
+                    ->description(fn ($record) => $record->code),
             ])
             ->actions([
                 EditAction::make()
                     ->label('')
-                    ->form([
-                        TextInput::make('name')
-                            ->label(__('Name'))
-                            ->required(),
-                    ])
-                    ->action(function (array $data, Model $record) {
-                        $record->name = $data['name'];
-                        $record->save();
-                    }),
+                    ->form($this->getFormSchema()),
 
                 DeleteAction::make()->label(''),
             ])
             ->headerActions([
-                Action::make('create')
+                CreateAction::make('create')
                     ->label(__('Create'))
-                    ->form([
-                        TextInput::make('name')
-                            ->label(__('Name'))
-                            ->required(),
-                    ])
-                    ->modalSubmitActionLabel(__('Create'))
-                    ->action(function (array $data): void {
-                        $model = resolve(config('subscriptions.models.feature'));
-                        $model->name = $data['name'];
-                        $model->save();
-
-                        Notification::make()
-                            ->success()
-                            ->title(__('subscriptions::subscriptions.features.created-notification-message'))
-                            ->send();
-                    })
+                    ->model(config('subscriptions.models.feature'))
+                    ->form($this->getFormSchema())
+                    ->modalSubmitActionLabel(__('Create')),
             ]);
+    }
+
+    protected function getFormSchema(): array
+    {
+        return [
+            TextInput::make('name')
+                ->label(__('Name'))
+                ->required(),
+        ];
     }
 }
