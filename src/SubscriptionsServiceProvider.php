@@ -37,6 +37,7 @@ class SubscriptionsServiceProvider extends PackageServiceProvider
         if (class_exists('Livewire\\Livewire')) {
             Livewire::component('subscriptions::manage-features', Features::class);
             Livewire::component('subscriptions::manage-plans', Plans::class);
+            Livewire::component('subscriptions::manage-subscriptions', \LucaLongo\Subscriptions\Livewire\Manage\Subscriptions::class);
         }
 
         return $this;

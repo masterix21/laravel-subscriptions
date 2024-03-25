@@ -179,7 +179,7 @@ class Plans extends Component implements HasForms, HasTable
 
                     Tabs\Tab::make('Meta')->translateLabel()
                         ->schema([
-                            KeyValue::make('meta')->default([]),
+                            KeyValue::make('meta')->default([])->label(''),
                         ]),
                 ]),
         ];

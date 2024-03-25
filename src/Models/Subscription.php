@@ -31,7 +31,7 @@ class Subscription extends Model
             'starts_at' => 'datetime',
             'ends_at' => 'datetime',
             'next_billing_at' => 'datetime',
-            'price' => 'decimal',
+            'price' => 'decimal:2',
             'trial_starts_at' => 'datetime',
             'trial_ends_at' => 'datetime',
             'grace_starts_at' => 'datetime',

@@ -8,4 +8,11 @@ return [
         'plan_feature' => \LucaLongo\Subscriptions\Models\PlanFeature::class,
         'subscription' => \LucaLongo\Subscriptions\Models\Subscription::class,
     ],
+
+    /**
+     * Subscriber must implements the contract \LucaLongo\Subscriptions\Contracts\Subscriber
+     */
+    'subscriber' => [
+        \Illuminate\Foundation\Auth\User::class,
+    ],
 ];

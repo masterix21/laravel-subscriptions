@@ -14,9 +14,17 @@
     "price": "prezzo",
     "Price": "Prezzo",
     "Starts at": "Inizia il",
+    "starts at": "inizia il",
     "Ends at": "Finisce il",
     "Trial period": "Periodo di prova",
     "Duration": "Durata",
     "Grace period": "Periodo di tolleranza",
-    "Invoice cycle": "Ciclo di fatturazione"
+    "Invoice cycle": "Ciclo di fatturazione",
+    "Subscriber": "Sottoscrittore",
+    "Plan": "Piano di abbonamento",
+    "Validity period": "Periodo di validità",
+    "Next billing at": "Prossima fattura il",
+    "Revoked at": "Revocato il",
+    "Subscription created": "Abbonamento creato",
+    "Active": "Attivo"
 }

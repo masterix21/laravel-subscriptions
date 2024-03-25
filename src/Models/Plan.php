@@ -68,4 +68,9 @@ class Plan extends Model
     {
         return Attribute::get(fn () => filled($this->grace_period) && filled($this->grace_interval));
     }
+
+    public function hasInvoiceCycle(): Attribute
+    {
+        return Attribute::get(fn () => filled($this->invoice_period) && filled($this->invoice_interval));
+    }
 }
