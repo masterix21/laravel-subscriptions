@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 interface Subscriber
 {
-    public function subscriberKey(): Attribute;
+    public function getKey(): mixed;
 
-    public function subscriberLabel(): Attribute;
+    public function label(): Attribute;
 }

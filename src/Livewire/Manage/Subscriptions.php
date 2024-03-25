@@ -36,7 +36,7 @@ class Subscriptions extends Component implements HasForms, HasTable
     use InteractsWithForms;
     use InteractsWithTable;
 
-    public Model $subscriber;
+    public ?Model $subscriber = null;
 
     public function render(): View
     {
@@ -50,6 +50,7 @@ class Subscriptions extends Component implements HasForms, HasTable
                 resolve(config('subscriptions.models.subscription'))
                     ->query()
                     ->with(['plan'])
+                    ->when(! $this->subscriber, fn ($query) => $query->with('subscriber'))
                     ->when($this->subscriber, fn ($query) => $query
                         ->where('subscriber_type', $this->subscriber::class)
                         ->where('subscriber_id', $this->subscriber->getKey())
@@ -85,12 +86,19 @@ class Subscriptions extends Component implements HasForms, HasTable
             ])
             ->headerActions([
                 Action::make('add')
+                    ->visible(fn () => $this->subscriber)
                     ->link()
                     ->translateLabel()
-                    ->fillForm([
-                        'subscriber_type' => $this->subscriber::class,
-                        'subscriber_id' => $this->subscriber->getKey(),
-                    ])
+                    ->fillForm(function (): array {
+                        if (! $this->subscriber) {
+                            return [];
+                        }
+
+                        return [
+                            'subscriber_type' => $this->subscriber::class,
+                            'subscriber_id' => $this->subscriber->getKey(),
+                        ];
+                    })
                     ->form([
                         Select::make('plan_id')
                             ->translateLabel()
@@ -112,12 +120,19 @@ class Subscriptions extends Component implements HasForms, HasTable
                     }),
 
                 CreateAction::make('create')
+                    ->visible(fn () => $this->subscriber)
                     ->translateLabel()
                     ->model(config('subscriptions.models.feature'))
-                    ->fillForm([
-                        'subscriber_type' => $this->subscriber::class,
-                        'subscriber_id' => $this->subscriber->getKey(),
-                    ])
+                    ->fillForm(function (): array {
+                        if (! $this->subscriber) {
+                            return [];
+                        }
+
+                        return [
+                            'subscriber_type' => $this->subscriber::class,
+                            'subscriber_id' => $this->subscriber->getKey(),
+                        ];
+                    })
                     ->form($this->getFormSchema())
                     ->modalSubmitActionLabel(__('Add')),
             ])

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 interface Subscribable
 {
-    public function subscribableKey(): Attribute;
+    public function getKey(): mixed;
 
-    public function subscribableLabel(): Attribute;
+    public function label(): Attribute;
 }

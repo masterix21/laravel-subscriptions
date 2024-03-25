@@ -4,6 +4,7 @@ namespace LucaLongo\Subscriptions\Actions;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use LucaLongo\Subscriptions\Contracts\Subscriber;
 use LucaLongo\Subscriptions\Events\SubscriptionCreated;
 use LucaLongo\Subscriptions\Models\Plan;
 use LucaLongo\Subscriptions\Models\Subscription;
@@ -16,7 +17,7 @@ class CreateSubscription
      */
     public function execute(
         Plan $plan,
-        Model $subscriber,
+        Subscriber $subscriber,
         ?Carbon $startsAt = null,
         ?string $note = null,
         array $meta = [],
