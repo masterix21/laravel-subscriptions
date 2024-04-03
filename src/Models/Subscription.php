@@ -128,10 +128,9 @@ class Subscription extends Model
         $query->where(fn (Builder $query) => $query
             ->whereNull('revoked_at')
             ->where(fn (Builder $query) => $query
-                ->whereBetweenColumns(DB::raw(now()), ['starts_at', 'ends_at'])
-                ->orWhereBetweenColumns(DB::raw(now()), ['trials_starts_at', 'trial_ends_at'])
-                ->orWhereBetweenColumns(DB::raw(now()), ['grace_starts_at', 'grace_ends_at'])
-            )
+                ->whereRaw('? BETWEEN starts_at AND ends_at', [now()])
+                ->orWhereRaw('? BETWEEN trial_starts_at AND trial_ends_at', [now()])
+                ->orWhereRaw('? BETWEEN grace_starts_at AND grace_ends_at', [now()]))
         );
     }
 }
