@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
@@ -158,8 +157,8 @@ class Subscription extends Model
                         ->where('trial_starts_at', '<=', now())
                         ->where('trial_ends_at', '>=', now()))
                     ->orWhere(fn (Builder $query) => $query
-                            ->where('grace_starts_at', '<=', now())
-                            ->where('grace_ends_at', '>=', now()));
+                        ->where('grace_starts_at', '<=', now())
+                        ->where('grace_ends_at', '>=', now()));
             })
         );
     }

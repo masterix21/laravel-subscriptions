@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use LucaLongo\Subscriptions\Models\Plan;
-use LucaLongo\Subscriptions\Models\Subscription;
 
 /** @mixin Model */
 trait HasSubscriptions
@@ -41,7 +40,7 @@ trait HasSubscriptions
     public function hasActiveFeature(string $feature): bool
     {
         return once(fn () => $this->activeSubscriptions()->with('features')->get())
-            ->pluck("features.*.code")
+            ->pluck('features.*.code')
             ->flatten()
             ->unique()
             ->contains($feature);
@@ -52,7 +51,7 @@ trait HasSubscriptions
         $features = collect($features);
 
         return once(fn () => $this->activeSubscriptions()->with('features')->get())
-            ->pluck("features.*.code")
+            ->pluck('features.*.code')
             ->flatten()
             ->unique()
             ->containsAny($features);
@@ -63,7 +62,7 @@ trait HasSubscriptions
         $features = collect($features);
 
         return once(fn () => $this->activeSubscriptions()->with('features')->get())
-            ->pluck("features.*.code")
+            ->pluck('features.*.code')
             ->flatten()
             ->unique()
             ->containsAll($features);
