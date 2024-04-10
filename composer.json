@@ -19,6 +19,7 @@
     "require": {
         "php": "^8.2",
         "illuminate/contracts": "^10.0||^11.0",
+        "spatie/laravel-collection-macros": "^7.14",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {

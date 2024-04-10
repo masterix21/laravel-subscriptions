@@ -42,6 +42,10 @@ Optionally, you can publish the views using
 php artisan vendor:publish --tag="laravel-subscriptions-views"
 ```
 
+### Protect routes
+
+`RequiresFeatureMiddleware`: protects a route requiring a feature in any user's active subscription.
+
 ## Requirements
 
 The package has built-in livewire views to manage plans, features, etc. If you like to use these views, you should manually install the dependencies:

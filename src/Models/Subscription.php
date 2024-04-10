@@ -9,8 +9,11 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 class Subscription extends Model
 {
@@ -53,6 +56,24 @@ class Subscription extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(config('subscriptions.models.subscription_payment'));
+    }
+
+    public function features(): HasManyThrough
+    {
+        /** @var Model $featureModel */
+        $featureModel = resolve(config('subscriptions.models.feature'));
+
+        /** @var Model $planModel */
+        $planModel = resolve(config('subscriptions.models.plan'));
+
+        return $this->hasManyThrough(
+            $featureModel::class,
+            config('subscriptions.models.plan_feature'),
+            $planModel->getForeignKey(),
+            $featureModel->getKeyName(),
+            $planModel->getForeignKey(),
+            $featureModel->getForeignKey(),
+        );
     }
 
     public function isRevokable(): Attribute
@@ -126,10 +147,35 @@ class Subscription extends Model
     {
         $query->where(fn (Builder $query) => $query
             ->whereNull('revoked_at')
-            ->where(fn (Builder $query) => $query
-                ->whereRaw('? BETWEEN starts_at AND ends_at', [now()])
-                ->orWhereRaw('? BETWEEN trial_starts_at AND trial_ends_at', [now()])
-                ->orWhereRaw('? BETWEEN grace_starts_at AND grace_ends_at', [now()]))
+            ->where(function (Builder $query) {
+                $query
+                    ->where(fn (Builder $query) => $query
+                        ->where('starts_at', '<=', now())
+                        ->where(fn (Builder $query) => $query
+                            ->whereNull('ends_at')
+                            ->orWhere('ends_at', '>=', now())))
+                    ->orWhere(fn (Builder $query) => $query
+                        ->where('trial_starts_at', '<=', now())
+                        ->where('trial_ends_at', '>=', now()))
+                    ->orWhere(fn (Builder $query) => $query
+                            ->where('grace_starts_at', '<=', now())
+                            ->where('grace_ends_at', '>=', now()));
+            })
         );
+    }
+
+    public function hasFeature(string $feature): bool
+    {
+        return $this->features->contains('code', $feature);
+    }
+
+    public function hasAnyFeature(Collection $features): bool
+    {
+        return $this->features->pluck('code')->containsAny($features);
+    }
+
+    public function hasAllFeature(Collection $features): bool
+    {
+        return $this->features->pluck('code')->containsAll($features);
     }
 }
