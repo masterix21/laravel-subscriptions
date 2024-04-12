@@ -126,7 +126,7 @@ class Subscriptions extends Component implements HasForms, HasTable
                 CreateAction::make('create')
                     ->visible(fn () => $this->subscriber)
                     ->translateLabel()
-                    ->model(config('subscriptions.models.feature'))
+                    ->model(config('subscriptions.models.subscription'))
                     ->fillForm(function (): array {
                         if (! $this->subscriber) {
                             return [];
@@ -245,7 +245,6 @@ class Subscriptions extends Component implements HasForms, HasTable
                         ->translateLabel()
                         ->schema([
                             KeyValue::make('meta')
-                                ->default([])
                                 ->label('')
                                 ->translateLabel(),
                         ]),

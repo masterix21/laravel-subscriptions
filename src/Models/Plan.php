@@ -17,6 +17,10 @@ class Plan extends Model
 
     public $guarded = [];
 
+    public $appends = [
+        'invoice_label',
+    ];
+
     protected function casts(): array
     {
         return [
