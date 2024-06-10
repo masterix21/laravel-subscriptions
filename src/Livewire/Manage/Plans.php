@@ -97,6 +97,10 @@ class Plans extends Component implements HasForms, HasTable
             Grid::make()
                 ->columns(3)
                 ->schema([
+                    TextInput::make('code')->translateLabel()
+                        ->columnSpan(2)
+                        ->nullable(),
+
                     TextInput::make('name')->translateLabel()
                         ->columnSpan(2)
                         ->required(),
