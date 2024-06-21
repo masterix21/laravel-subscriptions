@@ -2,6 +2,4 @@
 
 namespace LucaLongo\Subscriptions;
 
-class Subscriptions
-{
-}
+class Subscriptions {}
