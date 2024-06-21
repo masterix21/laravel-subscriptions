@@ -66,10 +66,10 @@ class Subscriptions extends Component implements HasForms, HasTable
                     ->translateLabel()
                     ->description(function (Subscription $record) {
                         return '€ '.$record->price.' '.trans_choice('subscriptions::subscriptions.cycle', $record->plan->invoice_period, [
-                            'value' => $record->plan->invoice_period,
-                            'single_interval' => $record->plan->invoice_interval->labelSingular(),
-                            'many_interval' => $record->plan->invoice_interval->label(),
-                        ]);
+                                'value' => $record->plan->invoice_period,
+                                'single_interval' => $record->plan->invoice_interval->labelSingular(),
+                                'many_interval' => $record->plan->invoice_interval->label(),
+                            ]);
                     }),
 
                 TextColumn::make('subscriber.label')
@@ -88,66 +88,96 @@ class Subscriptions extends Component implements HasForms, HasTable
                         return $record->ends_at->translatedFormat(Table::$defaultDateDisplayFormat);
                     }),
             ])
-            ->headerActions([
-                Action::make('add')
-                    ->visible(fn () => $this->subscriber)
-                    ->link()
+            ->headerActions($this->getTableHeaderActions())
+            ->actions($this->getTableActions());
+    }
+
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            $this->getAddTableHeaderAction(),
+
+            $this->getCreateTableHeaderAction(),
+        ];
+    }
+
+    protected function getAddTableHeaderAction(): Action
+    {
+        return Action::make('add')
+            ->visible(fn () => $this->subscriber)
+            ->link()
+            ->translateLabel()
+            ->fillForm(function (): array {
+                if (! $this->subscriber) {
+                    return [];
+                }
+
+                return [
+                    'subscriber_type' => $this->subscriber::class,
+                    'subscriber_id' => $this->subscriber->getKey(),
+                ];
+            })
+            ->form([
+                Select::make('plan_id')
                     ->translateLabel()
-                    ->fillForm(function (): array {
-                        if (! $this->subscriber) {
-                            return [];
-                        }
-
-                        return [
-                            'subscriber_type' => $this->subscriber::class,
-                            'subscriber_id' => $this->subscriber->getKey(),
-                        ];
-                    })
-                    ->form([
-                        Select::make('plan_id')
-                            ->translateLabel()
-                            ->relationship(name: 'plan', titleAttribute: 'name')
-                            ->searchable(['name'])
-                            ->preload()
-                            ->required(),
-                    ])
-                    ->action(function ($data) {
-                        (new CreateSubscription())->execute(
-                            plan: Plan::find($data['plan_id']),
-                            subscriber: $this->subscriber,
-                        );
-
-                        Notification::make()
-                            ->title(__('Subscription created'))
-                            ->success()
-                            ->send();
-                    }),
-
-                CreateAction::make('create')
-                    ->visible(fn () => $this->subscriber)
-                    ->translateLabel()
-                    ->model(config('subscriptions.models.subscription'))
-                    ->fillForm(function (): array {
-                        if (! $this->subscriber) {
-                            return [];
-                        }
-
-                        return [
-                            'subscriber_type' => $this->subscriber::class,
-                            'subscriber_id' => $this->subscriber->getKey(),
-                        ];
-                    })
-                    ->form($this->getFormSchema())
-                    ->modalSubmitActionLabel(__('Add')),
+                    ->relationship(name: 'plan', titleAttribute: 'name')
+                    ->searchable(['name'])
+                    ->preload()
+                    ->required(),
             ])
-            ->actions([
-                EditAction::make()
-                    ->label('')
-                    ->form($this->getFormSchema()),
+            ->action(function ($data) {
+                (new CreateSubscription())->execute(
+                    plan: Plan::find($data['plan_id']),
+                    subscriber: $this->subscriber,
+                );
 
-                DeleteAction::make()
-                    ->label(''),
-            ]);
+                Notification::make()
+                    ->title(__('Subscription created'))
+                    ->success()
+                    ->send();
+            });
+    }
+
+    protected function getCreateTableHeaderAction(): Action
+    {
+        return CreateAction::make('create')
+            ->visible(fn () => $this->subscriber)
+            ->translateLabel()
+            ->model(config('subscriptions.models.subscription'))
+            ->fillForm(function (): array {
+                if (! $this->subscriber) {
+                    return [];
+                }
+
+                return [
+                    'subscriber_type' => $this->subscriber::class,
+                    'subscriber_id' => $this->subscriber->getKey(),
+                ];
+            })
+            ->form($this->getFormSchema())
+            ->modalSubmitActionLabel(__('Add'));
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            $this->getEditTableAction(),
+
+            $this->getDeleteTableAction(),
+        ];
+    }
+
+    protected function getEditTableAction(): EditAction
+    {
+        return EditAction::make()
+            ->label('')
+            ->form($this->getFormSchema());
+    }
+
+    protected function getDeleteTableAction(): DeleteAction
+    {
+        return DeleteAction::make()
+            ->label('');
     }
 
     protected function getFormSchema(): array
