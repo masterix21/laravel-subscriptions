@@ -9,7 +9,5 @@ class SubscriptionCreated
 {
     use Dispatchable;
 
-    public function __construct(public Subscription $subscription)
-    {
-    }
+    public function __construct(public Subscription $subscription) {}
 }
