@@ -52,7 +52,7 @@ class CreateSubscription
         }
 
         return tap(
-            value: Subscription::create([
+            value: app(config('subscriptions.models.subscription'))::create([
                 'subscriber_id' => $subscriber->getKey(),
                 'subscriber_type' => $subscriber::class,
                 'plan_id' => $plan->getKey(),
