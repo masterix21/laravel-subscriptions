@@ -68,10 +68,10 @@ class Subscriptions extends Component implements HasForms, HasTable
                 ->translateLabel()
                 ->description(function (Subscription $record): string {
                     return '€ '.$record->price.' '.trans_choice('subscriptions::subscriptions.cycle', $record->plan->invoice_period, [
-                            'value' => $record->plan->invoice_period,
-                            'single_interval' => $record->plan->invoice_interval->labelSingular(),
-                            'many_interval' => $record->plan->invoice_interval->label(),
-                        ]);
+                        'value' => $record->plan->invoice_period,
+                        'single_interval' => $record->plan->invoice_interval->labelSingular(),
+                        'many_interval' => $record->plan->invoice_interval->label(),
+                    ]);
                 }),
 
             TextColumn::make('subscriber.label')
