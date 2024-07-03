@@ -23,6 +23,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Guava\FilamentClusters\Forms\Cluster;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use LucaLongo\Subscriptions\Enums\DurationInterval;
@@ -39,49 +40,58 @@ class Plans extends Component implements HasForms, HasTable
         return view('subscriptions::livewire.manage.plans');
     }
 
-    public function table(Table $table): Table
+    protected function getTableQuery(): Builder
     {
-        return $table
-            ->query(
-                resolve(config('subscriptions.models.plan'))
-                    ->query()
-                    ->when($this->subscribable, fn ($q) => $q
-                        ->where('subscribable_type', $this->subscribable::class)
-                        ->where('subscribable_id', $this->subscribable->getKey()))
-            )
-            ->columns([
-                TextColumn::make('name')
-                    ->translateLabel()
-                    ->description(fn ($record) => $record->code),
+        return app(config('subscriptions.models.plan'))
+            ->query()
+            ->when($this->subscribable, fn ($q) => $q
+                ->where('subscribable_type', $this->subscribable::class)
+                ->where('subscribable_id', $this->subscribable->getKey()));
+    }
 
-                TextColumn::make('price')
-                    ->translateLabel()
-                    ->money('EUR')
-                    ->description(fn ($record) => trans_choice('subscriptions::subscriptions.cycle', $record->invoice_period, [
-                        'value' => $record->invoice_period,
-                        'single_interval' => $record->invoice_interval->labelSingular(),
-                        'many_interval' => $record->invoice_interval->label(),
-                    ])),
+    protected function getTableColumns(): array
+    {
+        return [
+            TextColumn::make('name')
+                ->translateLabel()
+                ->description(fn ($record) => $record->code),
 
-                IconColumn::make('enabled')->translateLabel()->boolean(),
+            TextColumn::make('price')
+                ->translateLabel()
+                ->money('EUR')
+                ->description(fn ($record) => trans_choice('subscriptions::subscriptions.cycle', $record->invoice_period, [
+                    'value' => $record->invoice_period,
+                    'single_interval' => $record->invoice_interval->labelSingular(),
+                    'many_interval' => $record->invoice_interval->label(),
+                ])),
 
-                IconColumn::make('hidden')->translateLabel()->boolean(),
-            ])
-            ->actions([
-                EditAction::make()
-                    ->label('')
-                    ->form($this->getFormSchema()),
+            IconColumn::make('enabled')->translateLabel()->boolean(),
 
-                DeleteAction::make()
-                    ->label(''),
-            ])
-            ->headerActions([
-                CreateAction::make('create')
-                    ->label(__('Create'))
-                    ->model(config('subscriptions.models.plan'))
-                    ->form($this->getFormSchema())
-                    ->modalSubmitActionLabel(__('Create')),
-            ]);
+            IconColumn::make('hidden')->translateLabel()->boolean(),
+        ];
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            EditAction::make()
+                ->label('')
+                ->form($this->getFormSchema()),
+
+            DeleteAction::make()
+                ->label(''),
+        ];
+    }
+
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            CreateAction::make('create')
+                ->label(__('Create'))
+                ->model(config('subscriptions.models.plan'))
+                ->form($this->getFormSchema())
+                ->modalSubmitActionLabel(__('Create')),
+        ];
     }
 
     protected function getFormSchema(): array

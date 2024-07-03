@@ -13,6 +13,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 
 class Features extends Component implements HasForms, HasTable
@@ -25,29 +26,40 @@ class Features extends Component implements HasForms, HasTable
         return view('subscriptions::livewire.manage.features');
     }
 
-    public function table(Table $table): Table
+    protected function getTableQuery(): Builder
     {
-        return $table
-            ->query(resolve(config('subscriptions.models.feature'))->query())
-            ->columns([
-                TextColumn::make('name')
-                    ->label(__('Name'))
-                    ->description(fn ($record) => $record->code),
-            ])
-            ->actions([
-                EditAction::make()
-                    ->label('')
-                    ->form($this->getFormSchema()),
+        return app(config('subscriptions.models.feature'))->query();
+    }
 
-                DeleteAction::make()->label(''),
-            ])
-            ->headerActions([
-                CreateAction::make('create')
-                    ->label(__('Create'))
-                    ->model(config('subscriptions.models.feature'))
-                    ->form($this->getFormSchema())
-                    ->modalSubmitActionLabel(__('Create')),
-            ]);
+    protected function getTableColumns(): array
+    {
+        return [
+            TextColumn::make('name')
+                ->label(__('Name'))
+                ->description(fn ($record) => $record->code),
+        ];
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            EditAction::make()
+                ->label('')
+                ->form($this->getFormSchema()),
+
+            DeleteAction::make()->label(''),
+        ];
+    }
+
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            CreateAction::make('create')
+                ->label(__('Create'))
+                ->model(config('subscriptions.models.feature'))
+                ->form($this->getFormSchema())
+                ->modalSubmitActionLabel(__('Create')),
+        ];
     }
 
     protected function getFormSchema(): array

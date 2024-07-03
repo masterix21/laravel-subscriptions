@@ -25,6 +25,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Guava\FilamentClusters\Forms\Cluster;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use LucaLongo\Subscriptions\Actions\CreateSubscription;
 use LucaLongo\Subscriptions\Contracts\Subscriber;
@@ -43,53 +44,52 @@ class Subscriptions extends Component implements HasForms, HasTable
         return view('subscriptions::livewire.manage.subscriptions');
     }
 
-    public function table(Table $table): Table
+    protected function getTableQuery(): Builder
     {
-        return $table
-            ->query(
-                resolve(config('subscriptions.models.subscription'))
-                    ->query()
-                    ->with(['plan'])
-                    ->when(! $this->subscriber, fn ($query) => $query->with('subscriber'))
-                    ->when($this->subscriber, fn ($query) => $query
-                        ->where('subscriber_type', $this->subscriber::class)
-                        ->where('subscriber_id', $this->subscriber->getKey())
-                    )
-            )
-            ->columns([
-                IconColumn::make('is_active')
-                    ->label('Active')->translateLabel()
-                    ->translateLabel()
-                    ->boolean(),
+        return app(config('subscriptions.models.subscription'))
+            ->query()
+            ->with(['plan'])
+            ->when(! $this->subscriber, fn ($query) => $query->with('subscriber'))
+            ->when($this->subscriber, fn ($query) => $query
+                ->where('subscriber_type', $this->subscriber::class)
+                ->where('subscriber_id', $this->subscriber->getKey())
+            );
+    }
 
-                TextColumn::make('plan.name')
-                    ->translateLabel()
-                    ->description(function (Subscription $record) {
-                        return '€ '.$record->price.' '.trans_choice('subscriptions::subscriptions.cycle', $record->plan->invoice_period, [
+    protected function getTableColumns(): array
+    {
+        return [
+            IconColumn::make('is_active')
+                ->label('Active')->translateLabel()
+                ->translateLabel()
+                ->boolean(),
+
+            TextColumn::make('plan.name')
+                ->translateLabel()
+                ->description(function (Subscription $record): string {
+                    return '€ '.$record->price.' '.trans_choice('subscriptions::subscriptions.cycle', $record->plan->invoice_period, [
                             'value' => $record->plan->invoice_period,
                             'single_interval' => $record->plan->invoice_interval->labelSingular(),
                             'many_interval' => $record->plan->invoice_interval->label(),
                         ]);
-                    }),
+                }),
 
-                TextColumn::make('subscriber.label')
-                    ->visible(fn () => ! $this->subscriber)
-                    ->translateLabel(),
+            TextColumn::make('subscriber.label')
+                ->visible(fn () => ! $this->subscriber)
+                ->translateLabel(),
 
-                TextColumn::make('starts_at')
-                    ->label('Validity period')
-                    ->date()
-                    ->translateLabel()
-                    ->description(function (Subscription $record) {
-                        if (! $record->ends_at) {
-                            return __('-');
-                        }
+            TextColumn::make('starts_at')
+                ->label('Validity period')
+                ->date()
+                ->translateLabel()
+                ->description(function (Subscription $record) {
+                    if (! $record->ends_at) {
+                        return __('-');
+                    }
 
-                        return $record->ends_at->translatedFormat(Table::$defaultDateDisplayFormat);
-                    }),
-            ])
-            ->headerActions($this->getTableHeaderActions())
-            ->actions($this->getTableActions());
+                    return $record->ends_at->translatedFormat(Table::$defaultDateDisplayFormat);
+                }),
+        ];
     }
 
     protected function getTableHeaderActions(): array
