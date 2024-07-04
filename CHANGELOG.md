@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-subscriptions` will be documented in this file.
 
+## 0.0.7 - 2024-07-04
+
+### 0.0.7 - 2024-07-04
+
+- Add dateTime format to the Next Billing At column
+
 ## 0.0.6 - 2024-07-04
 
 ### 0.0.6 - 2024-07-04
