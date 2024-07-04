@@ -89,6 +89,12 @@ class Subscriptions extends Component implements HasForms, HasTable
 
                     return $record->ends_at->translatedFormat(Table::$defaultDateDisplayFormat);
                 }),
+
+            TextColumn::make('next_billing_at')
+                ->label('Next billing at')
+                ->default('-')
+                ->date()
+                ->translateLabel()
         ];
     }
 
