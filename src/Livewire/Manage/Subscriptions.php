@@ -93,7 +93,7 @@ class Subscriptions extends Component implements HasForms, HasTable
             TextColumn::make('next_billing_at')
                 ->label('Next billing at')
                 ->date()
-                ->translateLabel()
+                ->translateLabel(),
         ];
     }
 
