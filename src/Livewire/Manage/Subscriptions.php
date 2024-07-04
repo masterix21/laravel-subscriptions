@@ -94,7 +94,7 @@ class Subscriptions extends Component implements HasForms, HasTable
                 ->label('Next billing at')
                 ->default('-')
                 ->date()
-                ->translateLabel()
+                ->translateLabel(),
         ];
     }
 
