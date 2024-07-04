@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-subscriptions` will be documented in this file.
 
+## 0.0.6 - 2024-07-04
+
+### 0.0.6 - 2024-07-04
+
+- Add the next billing column to the subscriptions table
+
 ## 0.0.5 - 2024-07-03
 
 ### 0.0.5 - 2024-07-03
