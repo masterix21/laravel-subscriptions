@@ -60,8 +60,8 @@ class Plans extends Component implements HasForms, HasTable
                 ->money('EUR')
                 ->description(fn ($record) => trans_choice('subscriptions::subscriptions.cycle', $record->invoice_period, [
                     'value' => $record->invoice_period,
-                    'single_interval' => $record->invoice_interval->labelSingular(),
-                    'many_interval' => $record->invoice_interval->label(),
+                    'single_interval' => $record->invoice_interval?->labelSingular(),
+                    'many_interval' => $record->invoice_interval?->label(),
                 ])),
 
             IconColumn::make('enabled')->translateLabel()->boolean(),

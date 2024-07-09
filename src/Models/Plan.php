@@ -45,8 +45,8 @@ class Plan extends Model
     {
         return Attribute::get(fn () => trans_choice('subscriptions::subscriptions.cycle', $this->invoice_period, [
             'value' => $this->invoice_period,
-            'single_interval' => $this->invoice_interval->labelSingular(),
-            'many_interval' => $this->invoice_interval->label(),
+            'single_interval' => $this->invoice_interval?->labelSingular(),
+            'many_interval' => $this->invoice_interval?->label(),
         ]));
     }
 
