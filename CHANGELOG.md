@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-subscriptions` will be documented in this file.
 
+## 0.0.8 - 2024-07-09
+
+### 0.0.8 - 2024-07-09
+
+- Bug fixing
+
 ## 0.0.7 - 2024-07-04
 
 ### 0.0.7 - 2024-07-04
