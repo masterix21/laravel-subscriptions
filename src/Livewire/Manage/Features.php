@@ -2,6 +2,8 @@
 
 namespace LucaLongo\Subscriptions\Livewire\Manage;
 
+use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -67,6 +69,14 @@ class Features extends Component implements HasForms, HasTable
             TextInput::make('name')
                 ->label(__('Name'))
                 ->required(),
+
+            Tabs::make('Tabs')
+                ->tabs([
+                    Tabs\Tab::make('Meta')->translateLabel()
+                        ->schema([
+                            KeyValue::make('meta')->default([])->label(''),
+                        ]),
+                ]),
         ];
     }
 }
