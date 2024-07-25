@@ -131,7 +131,7 @@ class Subscriptions extends Component implements HasForms, HasTable
                     ->required(),
             ])
             ->action(function ($data) {
-                (new CreateSubscription())->execute(
+                (new CreateSubscription)->execute(
                     plan: Plan::find($data['plan_id']),
                     subscriber: $this->subscriber,
                 );
