@@ -178,7 +178,6 @@ class Plans extends Component implements HasForms, HasTable
 
                     Tabs\Tab::make('Features')
                         ->translateLabel()
-                        ->visible(fn ($record) => $record?->exists)
                         ->schema([
                             Repeater::make('planFeatures')
                                 ->label('')
