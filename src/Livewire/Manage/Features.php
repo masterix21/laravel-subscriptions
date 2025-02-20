@@ -2,20 +2,16 @@
 
 namespace LucaLongo\Subscriptions\Livewire\Manage;
 
-use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Actions\CreateAction;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Form;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
+use LucaLongo\Subscriptions\Filament\Forms\PlanFeatureForm;
+use LucaLongo\Subscriptions\Filament\Tables\PlanFeatureTable;
 
 class Features extends Component implements HasForms, HasTable
 {
@@ -27,56 +23,13 @@ class Features extends Component implements HasForms, HasTable
         return view('subscriptions::livewire.manage.features');
     }
 
-    protected function getTableQuery(): Builder
+    public function table(Table $table): Table
     {
-        return app(config('subscriptions.models.feature'))->query();
+        return PlanFeatureTable::make($table);
     }
 
-    protected function getTableColumns(): array
+    public function form(Form $form): Form
     {
-        return [
-            TextColumn::make('name')
-                ->label(__('Name'))
-                ->description(fn ($record) => $record->code),
-        ];
-    }
-
-    protected function getTableActions(): array
-    {
-        return [
-            EditAction::make()
-                ->label('')
-                ->form($this->getFormSchema()),
-
-            DeleteAction::make()->label(''),
-        ];
-    }
-
-    protected function getTableHeaderActions(): array
-    {
-        return [
-            CreateAction::make('create')
-                ->label(__('Create'))
-                ->model(config('subscriptions.models.feature'))
-                ->form($this->getFormSchema())
-                ->modalSubmitActionLabel(__('Create')),
-        ];
-    }
-
-    protected function getFormSchema(): array
-    {
-        return [
-            TextInput::make('name')
-                ->label(__('Name'))
-                ->required(),
-
-            Tabs::make('Tabs')
-                ->tabs([
-                    Tabs\Tab::make('Meta')->translateLabel()
-                        ->schema([
-                            KeyValue::make('meta')->default([])->label(''),
-                        ]),
-                ]),
-        ];
+        return PlanFeatureForm::make($form);
     }
 }
