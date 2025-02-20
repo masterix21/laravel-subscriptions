@@ -15,7 +15,6 @@ use Filament\Support\RawJs;
 use Guava\FilamentClusters\Forms\Cluster;
 use Illuminate\Database\Eloquent\Model;
 use LucaLongo\Subscriptions\Enums\DurationInterval;
-use LucaLongo\Subscriptions\Models\Feature;
 
 class PlanForm implements FormContract
 {

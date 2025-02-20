@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Support\Str;
 use LucaLongo\Subscriptions\Enums\DurationInterval;
 use LucaLongo\Subscriptions\Models\Concerns\HasCode;
 
@@ -62,8 +61,6 @@ class Plan extends Model
 
     /**
      * It's required by Filament to store features using a Repeater
-     *
-     * @return HasMany
      */
     public function planFeatures(): HasMany
     {
