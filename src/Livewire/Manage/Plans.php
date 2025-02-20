@@ -11,8 +11,8 @@ use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
-use LucaLongo\Subscriptions\Filament\Forms\PlanResourceForm;
-use LucaLongo\Subscriptions\Filament\Tables\PlanResourceTable;
+use LucaLongo\Subscriptions\Filament\Forms\PlanForm;
+use LucaLongo\Subscriptions\Filament\Tables\PlanTable;
 
 class Plans extends Component implements HasForms, HasTable
 {
@@ -28,12 +28,12 @@ class Plans extends Component implements HasForms, HasTable
 
     public function form(Form $form): Form
     {
-        return PlanResourceForm::make($form);
+        return PlanForm::make($form);
     }
 
     public function table(Table $table): Table
     {
-        return PlanResourceTable::make($table)
+        return PlanTable::make($table)
             ->query(fn ($query) => $query
                 ->when($this->subscribable, fn ($query) => $query
                     ->where('subscribable_type', $this->subscribable::class)

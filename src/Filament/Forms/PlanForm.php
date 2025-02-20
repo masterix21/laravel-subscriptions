@@ -16,7 +16,7 @@ use Guava\FilamentClusters\Forms\Cluster;
 use Illuminate\Database\Eloquent\Model;
 use LucaLongo\Subscriptions\Enums\DurationInterval;
 
-class PlanResourceForm implements FormContract
+class PlanForm implements FormContract
 {
     public static function make(Form $form, ?Model $ownerRecord = null): Form
     {

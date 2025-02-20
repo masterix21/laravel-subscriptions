@@ -10,9 +10,9 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use LucaLongo\Subscriptions\Filament\Forms\PlanResourceForm;
+use LucaLongo\Subscriptions\Filament\Forms\PlanForm;
 
-class PlanResourceTable implements TableContract
+class PlanTable implements TableContract
 {
     public static function make(Table $table, ?Model $ownerRecord = null): Table
     {
@@ -22,13 +22,13 @@ class PlanResourceTable implements TableContract
                 CreateAction::make('create')
                     ->label(__('Create'))
                     ->model(config('subscriptions.models.plan'))
-                    ->form(fn (Form $form) => PlanResourceForm::make($form))
+                    ->form(fn (Form $form) => PlanForm::make($form))
                     ->modalSubmitActionLabel(__('Create')),
             ])
             ->actions([
                 EditAction::make()
                     ->iconButton()
-                    ->form(fn (Form $form) => PlanResourceForm::make($form)),
+                    ->form(fn (Form $form) => PlanForm::make($form)),
 
                 DeleteAction::make()
                     ->iconButton(),
