@@ -43,10 +43,10 @@ class SubscriptionTable implements TableContract
                     ->translateLabel()
                     ->description(function (Subscription $record): string {
                         return '€ '.$record->price.' '.trans_choice('subscriptions::subscriptions.cycle', $record->plan->invoice_period, [
-                                'value' => $record->plan->invoice_period,
-                                'single_interval' => $record->plan->invoice_interval?->labelSingular(),
-                                'many_interval' => $record->plan->invoice_interval?->label(),
-                            ]);
+                            'value' => $record->plan->invoice_period,
+                            'single_interval' => $record->plan->invoice_interval?->labelSingular(),
+                            'many_interval' => $record->plan->invoice_interval?->label(),
+                        ]);
                     }),
 
                 TextColumn::make('subscriber.label')
@@ -82,7 +82,7 @@ class SubscriptionTable implements TableContract
                 Action::make('add')
                     ->visible(filled($ownerRecord))
                     ->translateLabel()
-                    ->fillForm(function () use ($ownerRecord) : array {
+                    ->fillForm(function () use ($ownerRecord): array {
                         if (! $ownerRecord) {
                             return [];
                         }
@@ -117,7 +117,7 @@ class SubscriptionTable implements TableContract
                     ->visible(filled($ownerRecord))
                     ->translateLabel()
                     ->model(config('subscriptions.models.subscription'))
-                    ->fillForm(function () use ($ownerRecord) : array {
+                    ->fillForm(function () use ($ownerRecord): array {
                         if (! $ownerRecord) {
                             return [];
                         }
@@ -127,7 +127,7 @@ class SubscriptionTable implements TableContract
                             'subscriber_id' => $ownerRecord->getKey(),
                         ];
                     })
-                    ->modalSubmitActionLabel(__('Add'))
+                    ->modalSubmitActionLabel(__('Add')),
             ]);
     }
 }
