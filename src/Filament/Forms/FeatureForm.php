@@ -8,19 +8,21 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Illuminate\Database\Eloquent\Model;
 
-class PlanFeatureForm implements FormContract
+class FeatureForm implements FormContract
 {
     public static function make(Form $form, ?Model $ownerRecord = null): Form
     {
         return $form
+            ->columns(1)
             ->schema([
                 TextInput::make('name')
-                    ->label(__('Name'))
+                    ->translateLabel()
                     ->required(),
 
                 Tabs::make('Tabs')
                     ->tabs([
-                        Tabs\Tab::make('Meta')->translateLabel()
+                        Tabs\Tab::make('Meta')
+                            ->translateLabel()
                             ->schema([
                                 KeyValue::make('meta')->default([])->label(''),
                             ]),

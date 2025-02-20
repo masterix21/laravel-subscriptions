@@ -17,14 +17,6 @@ class PlanTable implements TableContract
     public static function make(Table $table, ?Model $ownerRecord = null): Table
     {
         return $table
-            ->query(app(config('subscriptions.models.plan'))->query())
-            ->headerActions([
-                CreateAction::make('create')
-                    ->label(__('Create'))
-                    ->model(config('subscriptions.models.plan'))
-                    ->form(fn (Form $form) => PlanForm::make($form))
-                    ->modalSubmitActionLabel(__('Create')),
-            ])
             ->actions([
                 EditAction::make()
                     ->iconButton()
@@ -36,15 +28,15 @@ class PlanTable implements TableContract
             ->columns([
                 TextColumn::make('name')
                     ->translateLabel()
-                    ->description(fn ($record) => $ownerRecord->code),
+                    ->description(fn ($record) => $record->code),
 
                 TextColumn::make('price')
                     ->translateLabel()
                     ->money('EUR')
-                    ->description(fn ($record) => trans_choice('subscriptions::subscriptions.cycle', $ownerRecord->invoice_period, [
-                        'value' => $ownerRecord->invoice_period,
-                        'single_interval' => $ownerRecord->invoice_interval?->labelSingular(),
-                        'many_interval' => $ownerRecord->invoice_interval?->label(),
+                    ->description(fn ($record) => trans_choice('subscriptions::subscriptions.cycle', $record->invoice_period, [
+                        'value' => $record->invoice_period,
+                        'single_interval' => $record->invoice_interval?->labelSingular(),
+                        'many_interval' => $record->invoice_interval?->label(),
                     ])),
 
                 IconColumn::make('enabled')->translateLabel()->boolean(),

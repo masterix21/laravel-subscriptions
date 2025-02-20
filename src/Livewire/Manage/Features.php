@@ -10,8 +10,8 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
-use LucaLongo\Subscriptions\Filament\Forms\PlanFeatureForm;
-use LucaLongo\Subscriptions\Filament\Tables\PlanFeatureTable;
+use LucaLongo\Subscriptions\Filament\Forms\FeatureForm;
+use LucaLongo\Subscriptions\Filament\Tables\FeatureTable;
 
 class Features extends Component implements HasForms, HasTable
 {
@@ -25,11 +25,11 @@ class Features extends Component implements HasForms, HasTable
 
     public function table(Table $table): Table
     {
-        return PlanFeatureTable::make($table);
+        return FeatureTable::make($table);
     }
 
     public function form(Form $form): Form
     {
-        return PlanFeatureForm::make($form);
+        return FeatureForm::make($form);
     }
 }

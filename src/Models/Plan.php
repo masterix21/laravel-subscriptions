@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Str;
 use LucaLongo\Subscriptions\Enums\DurationInterval;
 use LucaLongo\Subscriptions\Models\Concerns\HasCode;
 
@@ -19,6 +20,10 @@ class Plan extends Model
 
     public $appends = [
         'invoice_label',
+        'has_trial',
+        'has_duration',
+        'has_grace',
+        'has_invoice_cycle',
     ];
 
     protected function casts(): array
@@ -55,14 +60,23 @@ class Plan extends Model
         return $this->morphTo();
     }
 
+    /**
+     * It's required by Filament to store features using a Repeater
+     *
+     * @return HasMany
+     */
     public function planFeatures(): HasMany
     {
-        return $this->hasMany(PlanFeature::class, 'plan_id');
+        return $this->hasMany(PlanFeature::class);
     }
 
     public function features(): BelongsToMany
     {
-        return $this->belongsToMany(config('subscriptions.models.feature'), 'plan_feature')
+        return $this
+            ->belongsToMany(
+                related: config('subscriptions.models.feature'),
+                table: 'plan_feature',
+            )
             ->using(config('subscriptions.models.plan_feature'))
             ->withTimestamps();
     }
