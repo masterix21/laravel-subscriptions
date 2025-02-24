@@ -18,6 +18,7 @@ return new class extends Migration {
 
             $table->string('code')->index();
             $table->string('name');
+            $table->text('description')->nullable();
 
             $table->dateTime('starts_at')->nullable();
             $table->dateTime('ends_at')->nullable();
