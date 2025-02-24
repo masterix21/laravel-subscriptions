@@ -2,6 +2,7 @@
 
 namespace LucaLongo\Subscriptions\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -96,5 +97,25 @@ class Plan extends Model
     public function hasInvoiceCycle(): Attribute
     {
         return Attribute::get(fn () => filled($this->invoice_period) && filled($this->invoice_interval));
+    }
+
+    public function activeScope(Builder $builder): Builder
+    {
+        return $builder->where('enabled', true);
+    }
+
+    public function inactiveScope(Builder $builder): Builder
+    {
+        return $builder->where('enabled', false);
+    }
+
+    public function visibleScope(Builder $builder): Builder
+    {
+        return $builder->where('visible', true);
+    }
+
+    public function invisibleScope(Builder $builder): Builder
+    {
+        return $builder->where('visible', false);
     }
 }

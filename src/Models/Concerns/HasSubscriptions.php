@@ -21,7 +21,7 @@ trait HasSubscriptions
         return $this->subscriptions()->active();
     }
 
-    public function hasPlan(Plan|string $plan): bool
+    public function subscribedTo(Plan|string $plan): bool
     {
         return once(function () use ($plan) {
             return $this
