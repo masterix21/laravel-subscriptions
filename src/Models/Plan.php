@@ -99,22 +99,22 @@ class Plan extends Model
         return Attribute::get(fn () => filled($this->invoice_period) && filled($this->invoice_interval));
     }
 
-    public function activeScope(Builder $builder): Builder
+    public function scopeActive(Builder $builder): Builder
     {
         return $builder->where('enabled', true);
     }
 
-    public function inactiveScope(Builder $builder): Builder
+    public function scopeInactive(Builder $builder): Builder
     {
         return $builder->where('enabled', false);
     }
 
-    public function visibleScope(Builder $builder): Builder
+    public function scopeVisible(Builder $builder): Builder
     {
         return $builder->where('visible', true);
     }
 
-    public function invisibleScope(Builder $builder): Builder
+    public function scopeInvisible(Builder $builder): Builder
     {
         return $builder->where('visible', false);
     }
