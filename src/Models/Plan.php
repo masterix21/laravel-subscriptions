@@ -111,11 +111,11 @@ class Plan extends Model
 
     public function scopeVisible(Builder $builder): Builder
     {
-        return $builder->where('visible', true);
+        return $builder->where('hidden', false);
     }
 
     public function scopeInvisible(Builder $builder): Builder
     {
-        return $builder->where('visible', false);
+        return $builder->where('hidden', true);
     }
 }
