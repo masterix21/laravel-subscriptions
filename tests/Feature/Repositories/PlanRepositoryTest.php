@@ -6,7 +6,7 @@ use LucaLongo\Subscriptions\Repositories\PlanRepository;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 
-beforeEach(fn () => $this->planRepository = new PlanRepository());
+beforeEach(fn () => $this->planRepository = new PlanRepository);
 
 it('can create a plan', function () {
     $planData = [
