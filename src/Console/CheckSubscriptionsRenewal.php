@@ -9,6 +9,7 @@ use LucaLongo\Subscriptions\Events\SubscriptionRenewed;
 class CheckSubscriptionsRenewal extends Command
 {
     protected $signature = 'subscriptions:check-renewal';
+
     protected $description = 'Automatically renew renewable subscriptions with auto-renew enabled.';
 
     public function handle(): void
@@ -30,7 +31,6 @@ class CheckSubscriptionsRenewal extends Command
             event(new SubscriptionRenewed($subscription));
         }
 
-        $this->info($renewableSubscriptions->count() . ' renewable subscriptions processed.');
+        $this->info($renewableSubscriptions->count().' renewable subscriptions processed.');
     }
 }
-

@@ -2,7 +2,7 @@
 
 namespace LucaLongo\Subscriptions\Enums;
 
-enum Duration : string
+enum Duration: string
 {
     case MONTHLY = 'monthly';
     case QUARTERLY = 'quarterly';
