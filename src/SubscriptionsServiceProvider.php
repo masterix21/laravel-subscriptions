@@ -2,9 +2,10 @@
 
 namespace LucaLongo\Subscriptions;
 
-use Livewire\Livewire;
-use LucaLongo\Subscriptions\Livewire\Manage\Features;
-use LucaLongo\Subscriptions\Livewire\Manage\Plans;
+use LucaLongo\Subscriptions\Contracts\PlanContract;
+use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
+use LucaLongo\Subscriptions\Repositories\Contracts\PlanRepositoryInterface;
+use LucaLongo\Subscriptions\Repositories\Contracts\SubscriptionRepositoryInterface;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -14,31 +15,23 @@ class SubscriptionsServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('laravel-subscriptions')
-            ->hasConfigFile()
+            ->hasConfigFile('subscriptions')
             ->hasViews('subscriptions')
             ->hasTranslations()
             ->hasMigrations([
-                'create_plans_table',
-                'create_features_table',
-                'create_plan_feature_table',
+                'create_plans_tables',
                 'create_subscriptions_table',
             ]);
     }
 
-    public function packageBooted(): void
+    public function packageRegistered(): void
     {
-        $this
-            ->registerComponents();
+        $this->app->bind(PlanContract::class, config('subscriptions.models.plan'));
+        $this->app->bind(SubscriptionContract::class, config('subscriptions.models.subscription'));
+
+        $this->app->bind(PlanRepositoryInterface::class, config('subscriptions.repositories.plan'));
+        $this->app->bind(SubscriptionRepositoryInterface::class, config('subscriptions.repositories.subscription'));
     }
 
-    protected function registerComponents(): self
-    {
-        if (class_exists('Livewire\\Livewire')) {
-            Livewire::component('subscriptions::manage-features', Features::class);
-            Livewire::component('subscriptions::manage-plans', Plans::class);
-            Livewire::component('subscriptions::manage-subscriptions', \LucaLongo\Subscriptions\Livewire\Manage\Subscriptions::class);
-        }
-
-        return $this;
-    }
+    public function packageBooted(): void {}
 }

@@ -20,6 +20,11 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <env name="APP_KEY" value="base64:p4jSa4InF70pH+99cXORzD5uRhZ4Ar2gWMa25wSk9xM="/>
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
+    </php>
     <coverage>
         <report>
             <html outputDirectory="build/coverage"/>

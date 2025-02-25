@@ -5,54 +5,25 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up()
+    public function up(): void
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-
-            $table->uuid()->index();
-
-            $table
-                ->string('payment_provider')
-                ->nullable();
-
-            $table
-                ->string('payment_provider_reference')
-                ->nullable()
-                ->index();
-
             $table->morphs('subscriber');
-
-            $table->foreignIdFor(config('subscriptions.models.plan'))
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
-
-            $table->dateTime('starts_at');
-            $table->dateTime('ends_at')->nullable();
-            $table->dateTime('next_billing_at')->nullable();
-
-            $table->decimal('price')->nullable();
-
-            $table->dateTime('trial_starts_at')->nullable();
-            $table->dateTime('trial_ends_at')->nullable();
-
-            $table->dateTime('grace_starts_at')->nullable();
-            $table->dateTime('grace_ends_at')->nullable();
-
-            $table->dateTime('revoked_at')->nullable();
-
-            $table->string('note')->nullable();
-
+            $table->foreignId('plan_id')->constrained('subscription_plans')->onDelete('cascade');
+            $table->timestamp('starts_at')->nullable();
+            $table->timestamp('ends_at')->nullable();
+            $table->timestamp('trial_ends_at')->nullable();
+            $table->timestamp('grace_ends_at')->nullable();
+            $table->json('custom_features')->nullable();
             $table->json('meta')->nullable();
-
-            $table->softDeletes();
             $table->timestamps();
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('subscriptions');
     }
 };
+

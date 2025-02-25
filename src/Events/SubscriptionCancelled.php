@@ -6,7 +6,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
 
-class SubscriptionCreated
+class SubscriptionCancelled
 {
     use Dispatchable, SerializesModels;
 

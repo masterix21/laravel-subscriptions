@@ -3,11 +3,15 @@
 namespace LucaLongo\Subscriptions\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
-use LucaLongo\Subscriptions\Models\Subscription;
+use Illuminate\Queue\SerializesModels;
+use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
 
 class SubscriptionRevoked
 {
-    use Dispatchable;
+    use Dispatchable, SerializesModels;
 
-    public function __construct(public Subscription $subscription) {}
+    public function __construct(public SubscriptionContract $subscription)
+    {
+        // ...
+    }
 }
