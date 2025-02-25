@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
-use LucaLongo\Subscriptions\Models\Contracts\ImplementsSubscription;
+use LucaLongo\Subscriptions\Models\Concerns\ImplementsSubscription;
 
 class Subscription extends Model implements SubscriptionContract
 {

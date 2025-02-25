@@ -11,6 +11,12 @@ interface SubscriptionContract
 
     public function plan(): BelongsTo;
 
+    public function isOnTrial(): bool;
+
+    public function isOnGracePeriod(): bool;
+
+    public function hasExpired(): bool;
+
     public function upgradeTo(PlanContract $newPlan): bool;
 
     public function downgradeTo(PlanContract $newPlan): bool;

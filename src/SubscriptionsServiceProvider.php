@@ -2,6 +2,7 @@
 
 namespace LucaLongo\Subscriptions;
 
+use LucaLongo\Subscriptions\Console\CheckSubscriptionsStatus;
 use LucaLongo\Subscriptions\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Repositories\Contracts\PlanRepositoryInterface;
@@ -18,6 +19,9 @@ class SubscriptionsServiceProvider extends PackageServiceProvider
             ->hasConfigFile('subscriptions')
             ->hasViews('subscriptions')
             ->hasTranslations()
+            ->hasCommands([
+                CheckSubscriptionsStatus::class,
+            ])
             ->hasMigrations([
                 'create_plans_tables',
                 'create_subscriptions_table',
