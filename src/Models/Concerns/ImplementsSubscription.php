@@ -19,7 +19,7 @@ trait ImplementsSubscription
 
     public function hasExpired(): bool
     {
-        return !$this->isOnTrial() && !$this->isOnGracePeriod() && now()->gt($this->ends_at);
+        return ! $this->isOnTrial() && ! $this->isOnGracePeriod() && now()->gt($this->ends_at);
     }
 
     public function upgradeTo(PlanContract $newPlan): bool

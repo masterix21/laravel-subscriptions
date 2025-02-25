@@ -4,12 +4,13 @@ namespace LucaLongo\Subscriptions\Console;
 
 use Illuminate\Console\Command;
 use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
-use LucaLongo\Subscriptions\Events\TrialExpired;
 use LucaLongo\Subscriptions\Events\SubscriptionExpired;
+use LucaLongo\Subscriptions\Events\TrialExpired;
 
 class CheckSubscriptionsStatus extends Command
 {
     protected $signature = 'subscriptions:check-status';
+
     protected $description = 'Check the status of subscriptions expiring within the current minute and trigger events if necessary.';
 
     public function handle(): void
