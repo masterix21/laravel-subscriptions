@@ -20,4 +20,12 @@ interface SubscriptionContract
     public function upgradeTo(PlanContract $newPlan): bool;
 
     public function downgradeTo(PlanContract $newPlan): bool;
+
+    public function isRenewable(): bool;
+
+    public function renew(): bool;
+
+    public function enableAutoRenew(): bool;
+
+    public function disableAutoRenew(): bool;
 }

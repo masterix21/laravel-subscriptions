@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use LucaLongo\Subscriptions\Contracts\PlanContract;
+use LucaLongo\Subscriptions\Enums\Duration;
 use LucaLongo\Subscriptions\Enums\PlanRelationType;
 
 class Plan extends Model implements PlanContract
@@ -18,6 +19,7 @@ class Plan extends Model implements PlanContract
         'code',
         'name',
         'description',
+        'renewable',
         'pricing',
         'features',
         'trial_days',
@@ -28,6 +30,7 @@ class Plan extends Model implements PlanContract
     ];
 
     protected $casts = [
+        'renewable' => 'boolean',
         'pricing' => AsArrayObject::class,
         'features' => AsArrayObject::class,
         'is_stackable' => 'boolean',
@@ -57,5 +60,14 @@ class Plan extends Model implements PlanContract
             'plan_id',
             'related_plan_id'
         )->wherePivot('relation_type', PlanRelationType::DOWNGRADE->value);
+    }
+
+    public function getPrice(Duration $duration, ?string $country = null): int
+    {
+        $country ??= 'worldwide';
+
+        return $pricing[$duration->value][$country]
+            ?? $pricing[$duration->value]['worldwide']
+            ?? 0;
     }
 }

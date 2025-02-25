@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
+use LucaLongo\Subscriptions\Enums\Duration;
 use LucaLongo\Subscriptions\Models\Concerns\ImplementsSubscription;
 
 class Subscription extends Model implements SubscriptionContract
@@ -23,6 +24,8 @@ class Subscription extends Model implements SubscriptionContract
         'ends_at',
         'trial_ends_at',
         'grace_ends_at',
+        'autorenew',
+        'billing_cycle',
         'custom_features',
     ];
 
@@ -31,6 +34,8 @@ class Subscription extends Model implements SubscriptionContract
         'ends_at' => 'datetime',
         'trial_ends_at' => 'datetime',
         'grace_ends_at' => 'datetime',
+        'autorenew' => 'boolean',
+        'billing_cycle' => Duration::class,
         'custom_features' => AsArrayObject::class,
     ];
 

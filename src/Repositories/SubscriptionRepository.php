@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use LucaLongo\Subscriptions\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Contracts\SubscriberContract;
 use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
+use LucaLongo\Subscriptions\Enums\Duration;
 use LucaLongo\Subscriptions\Events\SubscriptionCancelled;
 use LucaLongo\Subscriptions\Events\SubscriptionCreated;
 use LucaLongo\Subscriptions\Events\SubscriptionDowngraded;
@@ -34,16 +35,19 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
 
     public function subscribe(SubscriberContract $subscriber, PlanContract $plan, array $data): SubscriptionContract
     {
-        $subscription = app(SubscriptionContract::class)::query()->create([
+        $billingCycle = Duration::tryFrom($data['billing_cycle'] ?? Duration::MONTHLY->value) ?? Duration::MONTHLY;
+
+        $price = $plan->getPrice($billingCycle, $data['country'] ?? null);
+
+        $subscription = app(SubscriptionContract::class)::create([
             'subscriber_id' => $subscriber->getKey(),
-            'subscriber_type' => $subscriber::class,
+            'subscriber_type' => get_class($subscriber),
             'plan_id' => $plan->getKey(),
+            'billing_cycle' => $billingCycle,
             'starts_at' => now(),
-            'ends_at' => now()->addMonths($data['duration'] ?? 1),
-            'trial_ends_at' => isset($data['trial_days']) ? now()->addDays($data['trial_days']) : null,
-            'grace_ends_at' => isset($data['grace_days']) ? now()->addDays($data['grace_days']) : null,
-            'custom_features' => $data['custom_features'] ?? null,
-            'meta' => $data['meta'] ?? null,
+            'ends_at' => now()->addMonths($billingCycle->toMonths()),
+            'autorenew' => $data['autorenew'] ?? true,
+            'price' => $price, // Prezzo in centesimi
         ]);
 
         event(new SubscriptionCreated($subscription));
@@ -102,5 +106,47 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         event(new SubscriptionDowngraded($subscription, $newPlan));
 
         return true;
+    }
+
+    public function isRenewable(SubscriptionContract $subscription): bool
+    {
+        return $subscription->plan->renewable
+            && $subscription->hasExpired()
+            && ! $subscription->subscriber->subscriptions()
+                ->where('plan_id', $subscription->plan_id)
+                ->where('ends_at', '>', now())
+                ->exists();
+    }
+
+    public function renew(SubscriptionContract $subscription, ?Carbon $newEndDate = null): bool
+    {
+        if (! $this->isRenewable($subscription)) {
+            return false;
+        }
+
+        return $subscription->update([
+            'starts_at' => now(),
+            'ends_at' => $subscription->ends_at->addMonths($subscription->billing_cycle->toMonths()),
+            'trial_ends_at' => null,
+            'grace_ends_at' => null,
+        ]);
+    }
+
+    public function enableAutoRenew(SubscriptionContract $subscription): bool
+    {
+        if ($subscription->autorenew) {
+            return true;
+        }
+
+        return $subscription->update(['autorenew' => true]);
+    }
+
+    public function disableAutoRenew(SubscriptionContract $subscription): bool
+    {
+        if (! $subscription->autorenew) {
+            return true;
+        }
+
+        return $subscription->update(['autorenew' => false]);
     }
 }

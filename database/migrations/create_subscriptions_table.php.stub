@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use LucaLongo\Subscriptions\Enums\Duration;
 
 return new class extends Migration {
     public function up(): void
@@ -15,6 +16,8 @@ return new class extends Migration {
             $table->timestamp('ends_at')->nullable();
             $table->timestamp('trial_ends_at')->nullable();
             $table->timestamp('grace_ends_at')->nullable();
+            $table->boolean('autorenew')->default(true);
+            $table->string('billing_cycle')->default(Duration::MONTHLY->value);
             $table->json('custom_features')->nullable();
             $table->json('meta')->nullable();
             $table->timestamps();

@@ -25,4 +25,12 @@ interface SubscriptionRepositoryInterface
     public function canDowngrade(SubscriptionContract $subscription, PlanContract $newPlan): bool;
 
     public function downgrade(SubscriptionContract $subscription, PlanContract $newPlan, ?Carbon $newEndDate = null): bool;
+
+    public function isRenewable(SubscriptionContract $subscription): bool;
+
+    public function renew(SubscriptionContract $subscription, ?Carbon $newEndDate = null): bool;
+
+    public function enableAutoRenew(SubscriptionContract $subscription): bool;
+
+    public function disableAutoRenew(SubscriptionContract $subscription): bool;
 }

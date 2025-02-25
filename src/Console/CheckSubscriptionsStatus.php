@@ -35,6 +35,6 @@ class CheckSubscriptionsStatus extends Command
             }
         }
 
-        $this->info('Subscription status updated.');
+        $this->info($subscriptions->count() .' subscription status updated.');
     }
 }
