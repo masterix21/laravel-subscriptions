@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
-use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Contracts\PlanContract;
+use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Events\SubscriptionRenewed;
 use LucaLongo\Subscriptions\Tests\TestClasses\User;
+
 use function Pest\Laravel\assertDatabaseHas;
 
 beforeEach(function () {
