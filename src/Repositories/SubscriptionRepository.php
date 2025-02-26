@@ -9,8 +9,9 @@ use LucaLongo\Subscriptions\Contracts\SubscriberContract;
 use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Enums\Duration;
 use LucaLongo\Subscriptions\Events\SubscriptionCancelled;
-use LucaLongo\Subscriptions\Events\SubscriptionCreated;
 use LucaLongo\Subscriptions\Events\SubscriptionDowngraded;
+use LucaLongo\Subscriptions\Events\SubscriptionPendingDowngrade;
+use LucaLongo\Subscriptions\Events\SubscriptionReactivated;
 use LucaLongo\Subscriptions\Events\SubscriptionUpgraded;
 use LucaLongo\Subscriptions\Repositories\Contracts\SubscriptionRepositoryInterface;
 
@@ -33,77 +34,88 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
             ->first();
     }
 
-    public function subscribe(SubscriberContract $subscriber, PlanContract $plan, array $data): SubscriptionContract
-    {
-        $billingCycle = Duration::tryFrom($data['billing_cycle'] ?? Duration::MONTHLY->value) ?? Duration::MONTHLY;
-
-        $price = $plan->getPrice($billingCycle, $data['country'] ?? null);
-
-        $subscription = app(SubscriptionContract::class)::create([
-            'subscriber_id' => $subscriber->getKey(),
-            'subscriber_type' => get_class($subscriber),
-            'plan_id' => $plan->getKey(),
-            'billing_cycle' => $billingCycle,
-            'starts_at' => now(),
-            'ends_at' => now()->addMonths($billingCycle->toMonths()),
-            'autorenew' => $data['autorenew'] ?? true,
-            'price' => $price, // Prezzo in centesimi
-        ]);
-
-        event(new SubscriptionCreated($subscription));
-
-        return $subscription;
-    }
-
     public function cancel(SubscriptionContract $subscription): bool
     {
-        $updated = $subscription->update(['ends_at' => now()]);
-
-        if ($updated) {
-            event(new SubscriptionCancelled($subscription));
-        }
-
-        return $updated;
-    }
-
-    public function canUpgrade(SubscriptionContract $subscription, PlanContract $newPlan): bool
-    {
-        return true;
-    }
-
-    public function upgrade(SubscriptionContract $subscription, PlanContract $newPlan, ?Carbon $newEndDate = null): bool
-    {
-        if (! $this->canUpgrade($subscription, $newPlan)) {
+        if (! $subscription->update(['ends_at' => now()])) {
             return false;
         }
 
-        $subscription->update([
-            'plan_id' => $newPlan->getKey(),
-            'ends_at' => $newEndDate ?: $subscription->ends_at,
-        ]);
-
-        event(new SubscriptionUpgraded($subscription, $newPlan));
+        event(new SubscriptionCancelled($subscription));
 
         return true;
     }
 
-    public function canDowngrade(SubscriptionContract $subscription, PlanContract $newPlan): bool
+    public function reactivate(SubscriptionContract $subscription): bool
     {
-        return true;
-    }
+        if ($subscription->ends_at > now()) {
+            return false; // Già attiva
+        }
 
-    public function downgrade(SubscriptionContract $subscription, PlanContract $newPlan, ?Carbon $newEndDate = null): bool
-    {
-        if (! $this->canDowngrade($subscription, $newPlan)) {
+        if (! $subscription->update(['ends_at' => now()->addMonths($subscription->billing_cycle->toMonths())])) {
             return false;
         }
 
+        event(new SubscriptionReactivated($subscription));
+
+        return true;
+    }
+
+    public function canUpgrade(SubscriptionContract $subscription, PlanContract $newPlan, Duration $newBillingCycle): bool
+    {
+        if ($subscription->plan_id === $newPlan->getKey() && $subscription->billing_cycle === $newBillingCycle) {
+            return false;
+        }
+
+        return $newBillingCycle->toDays() > $subscription->billing_cycle->toDays();
+    }
+
+    public function upgrade(SubscriptionContract $subscription, PlanContract $newPlan, Duration $newBillingCycle, ?Carbon $newEndDate = null): bool
+    {
+        if (! $this->canUpgrade($subscription, $newPlan, $newBillingCycle)) {
+            return false;
+        }
+
+        $newPrice = $newPlan->getPrice($newBillingCycle, $this->subscriber->country ?? null);
+
+        $newEndDate ??= $subscription->ends_at->clone()
+            ->addDays($newBillingCycle->toDays() - $subscription->billing_cycle->toDays());
+
         $subscription->update([
             'plan_id' => $newPlan->getKey(),
-            'ends_at' => $newEndDate ?: $subscription->ends_at,
+            'billing_cycle' => $newBillingCycle ?? $subscription->billing_cycle,
+            'ends_at' => $newEndDate ?? $subscription->ends_at,
+            'price' => $newPrice ?? $subscription->price,
         ]);
 
-        event(new SubscriptionDowngraded($subscription, $newPlan));
+        event(new SubscriptionUpgraded($subscription, $newPlan, $newBillingCycle));
+
+        return true;
+    }
+
+    public function canDowngrade(SubscriptionContract $subscription, PlanContract $newPlan, Duration $newBillingCycle): bool
+    {
+        if ($subscription->plan_id === $newPlan->getKey() && $subscription->billing_cycle === $newBillingCycle) {
+            return false;
+        }
+
+        return $newBillingCycle->toDays() < $subscription->billing_cycle->toDays();
+    }
+
+    public function downgrade(SubscriptionContract $subscription, PlanContract $newPlan, Duration $newBillingCycle, ?Carbon $newEndDate = null): bool
+    {
+        if (! $this->canDowngrade($subscription, $newPlan, $newBillingCycle)) {
+            return false;
+        }
+
+        return $subscription->update([
+            'pending_downgrade' => [
+                'plan_id' => $newPlan->getKey(),
+                'billing_cycle' => $newBillingCycle->value,
+                'price' => $newPlan->getPrice($newBillingCycle, $subscription->subscriber->country ?? null),
+            ],
+        ]);
+
+        event(new SubscriptionPendingDowngrade($subscription, $newPlan, $newBillingCycle));
 
         return true;
     }
@@ -118,15 +130,24 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
                 ->exists();
     }
 
-    public function renew(SubscriptionContract $subscription, ?Carbon $newEndDate = null): bool
+    public function renew(SubscriptionContract $subscription, ?Duration $newBillingCycle = null, ?Carbon $newEndDate = null): bool
     {
         if (! $this->isRenewable($subscription)) {
             return false;
         }
 
+        $newPrice = null;
+
+        if ($newBillingCycle && $newBillingCycle !== $subscription->billing_cycle) {
+            $newPrice = $subscription->plan->getPrice($newBillingCycle, $this->subscriber->country ?? null);
+
+            $newEndDate ??= now()->addMonths($newBillingCycle->toMonths());
+        }
+
         return $subscription->update([
             'starts_at' => now(),
-            'ends_at' => $subscription->ends_at->addMonths($subscription->billing_cycle->toMonths()),
+            'price' => $newPrice ?: $subscription->price,
+            'ends_at' => $newEndDate ?: $subscription->ends_at->addMonths($subscription->billing_cycle->toMonths()),
             'trial_ends_at' => null,
             'grace_ends_at' => null,
         ]);
@@ -148,5 +169,44 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         }
 
         return $subscription->update(['autorenew' => false]);
+    }
+
+    public function canConsumeFeature(SubscriptionContract $subscription, string $key): bool
+    {
+        $limit = $subscription->plan->getFeature($key);
+        $consumed = $subscription->getConsumedFeature($key);
+
+        return $limit === null || $consumed < $limit;
+    }
+
+    public function consumeFeature(SubscriptionContract $subscription, string $key, int $amount = 1): bool
+    {
+        if (! $subscription->canConsumeFeature($key)) {
+            return false;
+        }
+
+        $consumed = $subscription->consumed_features ?: [];
+
+        data_set($consumed, $key, $subscription->getConsumedFeature($key) + $amount);
+
+        return $subscription->update([
+            'consumed_features' => $consumed
+        ]);
+    }
+
+    public function canStackPlan(SubscriptionContract $subscription): bool
+    {
+        if (! $subscription->plan->is_stackable) {
+            return false;
+        }
+
+        $limit = $subscription->plan->stackable_limit;
+
+        $currentCount = $subscription->subscriber->subscriptions()
+            ->where('plan_id', $subscription->plan->id)
+            ->where('ends_at', '>', now())
+            ->count();
+
+        return $limit === null || $currentCount < $limit;
     }
 }

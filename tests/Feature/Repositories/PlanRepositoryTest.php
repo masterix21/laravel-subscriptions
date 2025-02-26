@@ -1,55 +1,93 @@
 <?php
 
+use Illuminate\Support\Facades\Event;
 use LucaLongo\Subscriptions\Contracts\PlanContract;
+use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
+use LucaLongo\Subscriptions\Enums\Duration;
+use LucaLongo\Subscriptions\Events\SubscriptionCreated;
+use LucaLongo\Subscriptions\Exceptions\NotStackablePlanException;
+use LucaLongo\Subscriptions\Exceptions\ReachedMaxStackedPlan;
 use LucaLongo\Subscriptions\Repositories\PlanRepository;
-
 use function Pest\Laravel\assertDatabaseHas;
-use function Pest\Laravel\assertDatabaseMissing;
 
-beforeEach(fn () => $this->planRepository = new PlanRepository);
+beforeEach(function () {
+    Event::fake();
 
-it('can create a plan', function () {
-    $planData = [
-        'code' => 'basic',
-        'name' => 'Basic Plan',
-        'pricing' => json_encode(['worldwide' => 10, 'US' => 8]),
-        'features' => json_encode(['max_users' => 5]),
-        'trial_days' => 7,
-        'grace_days' => 3,
-    ];
+    $this->planRepository = app(PlanRepository::class);
+    $this->planModel = app(PlanContract::class);
+    $this->subscriptionModel = app(SubscriptionContract::class);
 
-    $plan = $this->planRepository->create($planData);
+    $this->subscriber = \LucaLongo\Subscriptions\Tests\TestClasses\User::create([
+        'name' => 'Test User',
+        'password' => bcrypt('password'),
+        'email' => 'test@example.com',
+        'email_verified_at' => now(),
+    ]);
 
-    expect($plan)
-        ->toBeInstanceOf(PlanContract::class)
-        ->and($plan->code)
-        ->toBe('basic');
+    $this->stackablePlan = $this->planModel::create([
+        'code' => 'stackable_plan',
+        'name' => 'Stackable Plan',
+        'is_stackable' => true,
+        'stackable_limit' => 3,
+        'pricing' => ['monthly' => ['worldwide' => 1000]],
+    ]);
 
-    assertDatabaseHas('plans', ['code' => 'basic']);
+    $this->nonStackablePlan = $this->planModel::create([
+        'code' => 'non_stackable_plan',
+        'name' => 'Non-Stackable Plan',
+        'is_stackable' => false,
+        'pricing' => ['monthly' => ['worldwide' => 1000]],
+    ]);
 });
 
-it('can retrieve all plans', function () {
-    $this->planRepository->create(['code' => 'basic', 'name' => 'Basic']);
-    $this->planRepository->create(['code' => 'premium', 'name' => 'Premium']);
+it('allows subscribing to a stackable plan within the limit', function () {
+    $subscription = $this->planRepository->subscribe($this->stackablePlan, $this->subscriber, [
+        'billing_cycle' => Duration::MONTHLY->value
+    ]);
 
-    $plans = $this->planRepository->all();
+    expect($subscription)->toBeInstanceOf(SubscriptionContract::class);
+    assertDatabaseHas('subscriptions', [
+        'subscriber_id' => $this->subscriber->getKey(),
+        'plan_id' => $this->stackablePlan->getKey(),
+    ]);
 
-    expect($plans)->toHaveCount(2);
+    Event::assertDispatched(SubscriptionCreated::class);
 });
 
-it('can find a plan by code', function () {
-    $this->planRepository->create(['code' => 'basic', 'name' => 'Basic']);
+it('throws an exception if trying to subscribe to a non-stackable plan twice', function () {
+    $this->planRepository->subscribe($this->nonStackablePlan, $this->subscriber, [
+        'billing_cycle' => Duration::MONTHLY->value
+    ]);
 
-    $plan = $this->planRepository->findByCode('basic');
+    $this->expectException(NotStackablePlanException::class);
 
-    expect($plan)->not->toBeNull()
-        ->and($plan->name)->toBe('Basic');
+    $this->planRepository->subscribe($this->nonStackablePlan, $this->subscriber, [
+        'billing_cycle' => Duration::MONTHLY->value
+    ]);
 });
 
-it('can delete a plan', function () {
-    $plan = $this->planRepository->create(['code' => 'basic', 'name' => 'Basic']);
+it('throws an exception if exceeding the stackable plan limit', function () {
+    for ($i = 0; $i < 3; $i++) {
+        $this->planRepository->subscribe($this->stackablePlan, $this->subscriber, [
+            'billing_cycle' => Duration::MONTHLY->value
+        ]);
+    }
 
-    $this->planRepository->delete($plan);
+    $this->expectException(ReachedMaxStackedPlan::class);
 
-    assertDatabaseMissing('plans', ['code' => 'basic']);
+    $this->planRepository->subscribe($this->stackablePlan, $this->subscriber, [
+        'billing_cycle' => Duration::MONTHLY->value
+    ]);
+});
+
+it('assigns the correct billing cycle and price', function () {
+    $subscription = $this->planRepository->subscribe($this->stackablePlan, $this->subscriber, [
+        'billing_cycle' => Duration::YEARLY->value,
+        'country' => 'IT',
+    ]);
+
+    expect($subscription->billing_cycle)->toBe(Duration::YEARLY);
+
+    expect($subscription->price)
+        ->toBe($this->stackablePlan->getPrice(Duration::YEARLY, 'IT'));
 });

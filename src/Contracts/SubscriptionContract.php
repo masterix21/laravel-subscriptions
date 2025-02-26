@@ -36,4 +36,12 @@ interface SubscriptionContract
     public function canConsumeFeature(string $featureKey): bool;
 
     public function consumeFeature(string $featureKey, int $amount = 1): bool;
+
+    public function canStackPlan(): bool;
+
+    public function reactivate(): bool;
+
+    public function getRemainingDays(): int;
+
+    public function getRemainingValue(): int;
 }

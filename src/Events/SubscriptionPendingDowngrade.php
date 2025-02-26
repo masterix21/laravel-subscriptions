@@ -8,7 +8,7 @@ use LucaLongo\Subscriptions\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Enums\Duration;
 
-class SubscriptionUpgraded
+class SubscriptionPendingDowngrade
 {
     use Dispatchable, SerializesModels;
 

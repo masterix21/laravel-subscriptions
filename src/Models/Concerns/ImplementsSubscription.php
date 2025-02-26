@@ -66,24 +66,31 @@ trait ImplementsSubscription
 
     public function canConsumeFeature(string $key): bool
     {
-        $limit = $this->plan->getFeature($key);
-        $consumed = $this->getConsumedFeature($key);
-
-        return $limit === null || $consumed < $limit;
+        return app(SubscriptionRepositoryInterface::class)->canConsumeFeature($this, $key);
     }
 
     public function consumeFeature(string $key, int $amount = 1): bool
     {
-        if (!$this->canConsumeFeature($key)) {
-            return false;
-        }
+        return app(SubscriptionRepositoryInterface::class)->consumeFeature($this, $key, $amount);
+    }
 
-        $consumed = $this->consumed_features ?: [];
+    public function canStackPlan(): bool
+    {
+        return app(SubscriptionRepositoryInterface::class)->canStackPlan($this);
+    }
 
-        data_set($consumed, $key, $this->getConsumedFeature($key) + $amount);
+    public function reactivate(): bool
+    {
+        return app(SubscriptionRepositoryInterface::class)->reactivate($this);
+    }
 
-        return $this->update([
-            'consumed_features' => $consumed
-        ]);
+    public function getRemainingDays(): int
+    {
+        return now()->diffInDays($this->ends_at);
+    }
+
+    public function getRemainingValue(): int
+    {
+        return round($this->price / $this->billing_cycle->toDays() * $this->getRemainingDays());
     }
 }

@@ -36,6 +36,7 @@ class Plan extends Model implements PlanContract
         'pricing' => AsArrayObject::class,
         'features' => AsArrayObject::class,
         'is_stackable' => 'boolean',
+        'stackable_limit' => 'integer',
         'meta' => AsArrayObject::class,
     ];
 

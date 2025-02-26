@@ -20,6 +20,7 @@ class Subscription extends Model implements SubscriptionContract
         'subscriber_id',
         'subscriber_type',
         'plan_id',
+        'price',
         'starts_at',
         'ends_at',
         'trial_ends_at',
@@ -28,9 +29,11 @@ class Subscription extends Model implements SubscriptionContract
         'billing_cycle',
         'consumed_features',
         'custom_features',
+        'pending_downgrade',
     ];
 
     protected $casts = [
+        'price' => 'int',
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',
         'trial_ends_at' => 'datetime',
@@ -39,6 +42,7 @@ class Subscription extends Model implements SubscriptionContract
         'billing_cycle' => Duration::class,
         'consumed_features' => AsArrayObject::class,
         'custom_features' => AsArrayObject::class,
+        'pending_downgrade' => AsArrayObject::class,
     ];
 
     public function subscriber(): MorphTo
