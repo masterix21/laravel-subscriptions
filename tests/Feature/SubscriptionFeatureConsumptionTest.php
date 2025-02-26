@@ -1,7 +1,8 @@
 <?php
 
-use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Contracts\PlanContract;
+use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
+
 use function Pest\Laravel\assertDatabaseHas;
 
 beforeEach(function () {
@@ -12,11 +13,11 @@ beforeEach(function () {
         'code' => 'premium',
         'name' => 'Premium Plan',
         'pricing' => [
-            'monthly' => ['worldwide' => 1000]
+            'monthly' => ['worldwide' => 1000],
         ],
         'features' => [
             'max_users' => 10,
-            'max_vehicles' => 5
+            'max_vehicles' => 5,
         ],
     ]);
 
@@ -69,13 +70,13 @@ it('correctly consumes features', function () {
         'consumed_features' => json_encode([
             'max_users' => 1,
             'max_vehicles' => 2,
-        ])
+        ]),
     ]);
 });
 
 it('prevents consumption when feature limit is reached', function () {
     $this->subscription->update([
-        'consumed_features' => ['max_users' => 10]
+        'consumed_features' => ['max_users' => 10],
     ]);
 
     expect($this->subscription->consumeFeature('max_users'))->toBeFalse()

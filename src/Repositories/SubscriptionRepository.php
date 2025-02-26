@@ -9,7 +9,6 @@ use LucaLongo\Subscriptions\Contracts\SubscriberContract;
 use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Enums\Duration;
 use LucaLongo\Subscriptions\Events\SubscriptionCancelled;
-use LucaLongo\Subscriptions\Events\SubscriptionDowngraded;
 use LucaLongo\Subscriptions\Events\SubscriptionPendingDowngrade;
 use LucaLongo\Subscriptions\Events\SubscriptionReactivated;
 use LucaLongo\Subscriptions\Events\SubscriptionUpgraded;
@@ -190,7 +189,7 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         data_set($consumed, $key, $subscription->getConsumedFeature($key) + $amount);
 
         return $subscription->update([
-            'consumed_features' => $consumed
+            'consumed_features' => $consumed,
         ]);
     }
 

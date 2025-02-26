@@ -9,6 +9,6 @@ class NotStackablePlanException extends \Exception
 {
     public function __construct(PlanContract $plan, SubscriberContract $subscriber, array $data)
     {
-        parent::__construct("Plan not stackable for the specified subscriber");
+        parent::__construct('Plan not stackable for the specified subscriber');
     }
 }

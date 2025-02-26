@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use LucaLongo\Subscriptions\Contracts\PlanContract;
-use LucaLongo\Subscriptions\Enums\Duration;
 use LucaLongo\Subscriptions\Enums\PlanRelationType;
 use LucaLongo\Subscriptions\Models\Concerns\ImplementsPlan;
 

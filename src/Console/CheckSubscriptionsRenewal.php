@@ -3,7 +3,6 @@
 namespace LucaLongo\Subscriptions\Console;
 
 use Illuminate\Console\Command;
-use LucaLongo\Subscriptions\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Enums\Duration;
 use LucaLongo\Subscriptions\Events\SubscriptionDowngraded;
@@ -28,11 +27,13 @@ class CheckSubscriptionsRenewal extends Command
         foreach ($subscriptions as $subscription) {
             if ($subscription->pending_downgrade) {
                 $this->applyPendingDowngrade($subscription);
+
                 continue;
             }
 
             if (! $subscription->isRenewable()) {
                 $subscription->disableAutoRenew();
+
                 continue;
             }
 
@@ -43,7 +44,7 @@ class CheckSubscriptionsRenewal extends Command
             event(new SubscriptionRenewed($subscription));
         }
 
-        $this->info($subscriptions->count() . ' subscriptions processed.');
+        $this->info($subscriptions->count().' subscriptions processed.');
     }
 
     protected function applyPendingDowngrade(SubscriptionContract $subscription): void
@@ -52,6 +53,7 @@ class CheckSubscriptionsRenewal extends Command
 
         if (! $newPlan) {
             $subscription->disableAutoRenew();
+
             return;
         }
 

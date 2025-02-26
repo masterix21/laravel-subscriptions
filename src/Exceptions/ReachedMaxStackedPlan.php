@@ -9,6 +9,6 @@ class ReachedMaxStackedPlan extends \Exception
         \LucaLongo\Subscriptions\Contracts\SubscriberContract $subscriber,
         array $data
     ) {
-        parent::__construct("Maximum number of stacked plans reached for the specified subscriber");
+        parent::__construct('Maximum number of stacked plans reached for the specified subscriber');
     }
 }

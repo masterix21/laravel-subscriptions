@@ -55,7 +55,7 @@ class PlanRepository implements PlanRepositoryInterface
 
         if (! $plan->is_stackable && $currentCount > 0) {
             throw new NotStackablePlanException($plan, $subscriber, $data);
-        } else if ($plan->is_stackable && $currentCount >= $plan->stackable_limit) {
+        } elseif ($plan->is_stackable && $currentCount >= $plan->stackable_limit) {
             throw new ReachedMaxStackedPlan($plan, $subscriber, $data);
         }
 

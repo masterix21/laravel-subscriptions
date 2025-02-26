@@ -80,7 +80,8 @@ it('allows upgrade and emits event', function () {
 });
 
 it('denies upgrade if not allowed', function () {
-    $repository = new class extends SubscriptionRepository {
+    $repository = new class extends SubscriptionRepository
+    {
         public function canUpgrade(SubscriptionContract $subscription, PlanContract $newPlan, Duration $newBillingCycle): bool
         {
             return false;
@@ -106,7 +107,8 @@ it('allows downgrade and emits event', function () {
 });
 
 it('denies downgrade if not allowed', function () {
-    $repository = new class extends SubscriptionRepository {
+    $repository = new class extends SubscriptionRepository
+    {
         public function canDowngrade(SubscriptionContract $subscription, PlanContract $newPlan, Duration $newBillingCycle): bool
         {
             return false;

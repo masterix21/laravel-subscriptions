@@ -8,6 +8,7 @@ use LucaLongo\Subscriptions\Events\SubscriptionCreated;
 use LucaLongo\Subscriptions\Exceptions\NotStackablePlanException;
 use LucaLongo\Subscriptions\Exceptions\ReachedMaxStackedPlan;
 use LucaLongo\Subscriptions\Repositories\PlanRepository;
+
 use function Pest\Laravel\assertDatabaseHas;
 
 beforeEach(function () {
@@ -42,7 +43,7 @@ beforeEach(function () {
 
 it('allows subscribing to a stackable plan within the limit', function () {
     $subscription = $this->planRepository->subscribe($this->stackablePlan, $this->subscriber, [
-        'billing_cycle' => Duration::MONTHLY->value
+        'billing_cycle' => Duration::MONTHLY->value,
     ]);
 
     expect($subscription)->toBeInstanceOf(SubscriptionContract::class);
@@ -56,27 +57,27 @@ it('allows subscribing to a stackable plan within the limit', function () {
 
 it('throws an exception if trying to subscribe to a non-stackable plan twice', function () {
     $this->planRepository->subscribe($this->nonStackablePlan, $this->subscriber, [
-        'billing_cycle' => Duration::MONTHLY->value
+        'billing_cycle' => Duration::MONTHLY->value,
     ]);
 
     $this->expectException(NotStackablePlanException::class);
 
     $this->planRepository->subscribe($this->nonStackablePlan, $this->subscriber, [
-        'billing_cycle' => Duration::MONTHLY->value
+        'billing_cycle' => Duration::MONTHLY->value,
     ]);
 });
 
 it('throws an exception if exceeding the stackable plan limit', function () {
     for ($i = 0; $i < 3; $i++) {
         $this->planRepository->subscribe($this->stackablePlan, $this->subscriber, [
-            'billing_cycle' => Duration::MONTHLY->value
+            'billing_cycle' => Duration::MONTHLY->value,
         ]);
     }
 
     $this->expectException(ReachedMaxStackedPlan::class);
 
     $this->planRepository->subscribe($this->stackablePlan, $this->subscriber, [
-        'billing_cycle' => Duration::MONTHLY->value
+        'billing_cycle' => Duration::MONTHLY->value,
     ]);
 });
 

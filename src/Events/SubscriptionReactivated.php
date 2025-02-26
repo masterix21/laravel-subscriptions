@@ -12,4 +12,3 @@ class SubscriptionReactivated
 
     public function __construct(public SubscriptionContract $subscription) {}
 }
-
