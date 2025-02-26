@@ -15,4 +15,6 @@ interface PlanContract
     public function downgrades(): BelongsToMany;
 
     public function getPrice(Duration $duration, ?string $country = null): int;
+
+    public function getFeature(string $key, mixed $default = null): mixed;
 }

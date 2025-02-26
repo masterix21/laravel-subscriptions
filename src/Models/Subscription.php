@@ -26,6 +26,7 @@ class Subscription extends Model implements SubscriptionContract
         'grace_ends_at',
         'autorenew',
         'billing_cycle',
+        'consumed_features',
         'custom_features',
     ];
 
@@ -34,8 +35,9 @@ class Subscription extends Model implements SubscriptionContract
         'ends_at' => 'datetime',
         'trial_ends_at' => 'datetime',
         'grace_ends_at' => 'datetime',
-        'autorenew' => 'boolean',
+        'autorenew' => 'bool',
         'billing_cycle' => Duration::class,
+        'consumed_features' => AsArrayObject::class,
         'custom_features' => AsArrayObject::class,
     ];
 

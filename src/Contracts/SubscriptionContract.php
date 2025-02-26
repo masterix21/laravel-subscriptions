@@ -28,4 +28,12 @@ interface SubscriptionContract
     public function enableAutoRenew(): bool;
 
     public function disableAutoRenew(): bool;
+
+    public function getFeature(string $key): mixed;
+
+    public function getConsumedFeature(string $key): int;
+
+    public function canConsumeFeature(string $featureKey): bool;
+
+    public function consumeFeature(string $featureKey, int $amount = 1): bool;
 }
