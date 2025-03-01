@@ -24,6 +24,8 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
+            $table->integer('max_usage')->nullable();
+
             $table->timestamps();
 
             $table->unique(['plan_id', 'feature_id']);

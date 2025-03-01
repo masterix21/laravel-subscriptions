@@ -75,6 +75,9 @@ class Plan extends Model
                 related: config('subscriptions.models.feature'),
                 table: 'plan_feature',
             )
+            ->withPivot([
+                'max_usage',
+            ])
             ->using(config('subscriptions.models.plan_feature'))
             ->withTimestamps();
     }
