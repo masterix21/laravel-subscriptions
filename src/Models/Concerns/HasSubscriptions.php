@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use LucaLongo\Subscriptions\Models\Plan;
-use LucaLongo\Subscriptions\Models\Subscription;
 
 /** @mixin Model */
 trait HasSubscriptions

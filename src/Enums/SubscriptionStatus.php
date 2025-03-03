@@ -2,7 +2,7 @@
 
 namespace LucaLongo\Subscriptions\Enums;
 
-enum SubscriptionStatus : string
+enum SubscriptionStatus: string
 {
     case INCOMPLETE = 'incomplete';
     case INCOMPLETE_EXPIRED = 'incomplete_expired';
