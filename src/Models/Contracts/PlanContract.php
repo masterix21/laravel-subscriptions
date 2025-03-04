@@ -9,10 +9,10 @@ use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
 interface PlanContract
 {
     public function invoiceLabel(): Attribute;
-    public function hasTrial(): Attribute;
-    public function hasDuration(): Attribute;
-    public function hasGrace(): Attribute;
-    public function hasInvoiceCycle(): Attribute;
+    public function hasTrial(): bool;
+    public function hasDuration(): bool;
+    public function hasGrace(): bool;
+    public function hasInvoiceCycle(): bool;
 
     public function subscribe(
         SubscriberContract $subscriber,

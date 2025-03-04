@@ -18,12 +18,6 @@ class CustomerSubscriptionCancellationRequested implements StripeEventHandle
             ->where('payment_provider_reference', $stripeSubscription->id)
             ->firstOrFail();
 
-        return $subscription
-            ->update([
-                'ends_at' => Carbon::createFromTimestampUTC($stripeSubscription->cancel_at),
-                'next_billing_at' => null,
-                'grace_starts_at' => null,
-                'grace_ends_at' => null,
-            ]);
+        $subscription->cancel(Carbon::createFromTimestampUTC($stripeSubscription->cancel_at));
     }
 }

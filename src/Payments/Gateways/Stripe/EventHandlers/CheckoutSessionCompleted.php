@@ -2,7 +2,10 @@
 
 namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe\EventHandlers;
 
+use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
+use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
+use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Payments\Gateways\StripeGateway;
 use Illuminate\Support\Carbon;
 use LucaLongo\Subscriptions\Models\Plan;
@@ -34,7 +37,7 @@ class CheckoutSessionCompleted implements StripeEventHandle
             throw new \Exception("Missing ". $subscriberKeyName);
         }
 
-        $plan = Plan::findOrFail($planId);
+        $plan = app(PlanContract::class)::findOrFail($planId);
         $subscriber = app(SubscriberContract::class)->findOrFail($subscriberId);
 
         /** @var StripeSubscription $stripeSubscription */
@@ -44,54 +47,14 @@ class CheckoutSessionCompleted implements StripeEventHandle
             return false;
         }
 
-        $subscription = Subscription::query()
-            ->where('payment_provider', 'stripe')
-            ->where('payment_provider_reference', $subscriptionId)
-            ->firstOrNew();
+        $subscription = $subscriber->subscribe($plan, data: [
+            'payment_provider' => 'stripe',
+            'payment_provider_reference' => $subscriptionId,
+            'price' => $session->amount_total / 100,
+            'trial_ends_at' => Carbon::make($stripeSubscription->trial_end),
+            'next_billing_at' => Carbon::make($stripeSubscription->current_period_end),
+        ]);
 
-        $subscription->payment_provider = 'stripe';
-        $subscription->payment_provider_reference = $subscriptionId;
-        $subscription->price = $plan->price;
-
-        $subscription->plan()->associate($plan);
-        $subscription->subscriber()->associate($subscriber);
-
-        $this->evaluateTrialPeriod($stripeSubscription, $subscription);
-        $this->evaluteValidityPeriod($stripeSubscription, $subscription);
-
-        return $subscription->save();
-    }
-
-    protected function evaluateTrialPeriod(StripeSubscription $stripeSubscription, Subscription $subscription): void
-    {
-        if (! $stripeSubscription->trial_end && ! $subscription->trial_starts_at) {
-            return;
-        }
-
-        $trialStartsAt = Carbon::createFromTimestampUTC($stripeSubscription->trial_start)->toImmutable();
-        $trialEndsAt = Carbon::createFromTimestampUTC($stripeSubscription->trial_end)->toImmutable();
-
-        $subscription->trial_starts_at = $trialStartsAt;
-        $subscription->trial_ends_at = $trialEndsAt;
-    }
-
-    protected function evaluteValidityPeriod(
-        StripeSubscription $stripeSubscription,
-        Subscription $subscription
-    ): void
-    {
-        $startsAt = Carbon::createFromTimestampUTC($stripeSubscription->start_date)->toImmutable();
-
-        $subscription->starts_at = $startsAt;
-
-        if ($stripeSubscription->ended_at) {
-            $subscription->ends_at = Carbon::createFromTimestampUTC($stripeSubscription->ended_at)->toImmutable();
-        }
-
-        $nextBillingAt = Carbon::createFromTimestampUTC($stripeSubscription->current_period_end)->toImmutable();
-
-        $subscription->next_billing_at = $nextBillingAt;
-        $subscription->grace_starts_at = $nextBillingAt;
-        $subscription->grace_ends_at = $nextBillingAt->addDays(3);
+        return $subscription instanceof SubscriptionContract;
     }
 }

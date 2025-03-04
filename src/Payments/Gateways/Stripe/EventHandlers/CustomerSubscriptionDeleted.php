@@ -18,11 +18,6 @@ class CustomerSubscriptionDeleted implements StripeEventHandle
             ->where('payment_provider_reference', $stripeSubscription->id)
             ->firstOrFail();
 
-        return $subscription
-            ->update([
-                'ends_at' => Carbon::createFromTimestampUTC($stripeSubscription->ended_at),
-                'grace_ends_at' => Carbon::createFromTimestampUTC($stripeSubscription->canceled_at),
-                'revoked_at' => Carbon::createFromTimestampUTC($stripeSubscription->canceled_at),
-            ]);
+        return $subscription->cancel(Carbon::createFromTimestampUTC($stripeSubscription->ended_at));
     }
 }

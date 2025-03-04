@@ -142,9 +142,11 @@ class Subscription extends Model implements SubscriptionContract
             ->whereNull('revoked_at')
             ->where(function (Builder $query) {
                 $query
-                    ->orWhere('trial_ends_at', '>=', now())
-                    ->orWhere('grace_ends_at', '>=', now())
                     ->where(fn (Builder $query) => $query
+                        ->whereNull('grace_ends_at')
+                        ->where('grace_ends_at', '>=', now())
+                    )
+                    ->orWhere(fn (Builder $query) => $query
                         ->whereNull('ends_at')
                         ->orWhere('ends_at', '>=', now())
                     );

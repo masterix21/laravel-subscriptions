@@ -25,10 +25,6 @@ class Plan extends Model implements PlanContract
 
     public $appends = [
         'invoice_label',
-        'has_trial',
-        'has_duration',
-        'has_grace',
-        'has_invoice_cycle',
     ];
 
     protected function casts(): array
@@ -52,9 +48,9 @@ class Plan extends Model implements PlanContract
     public function invoiceLabel(): Attribute
     {
         return Attribute::get(fn () => trans_choice('subscriptions::subscriptions.cycle', $this->invoice_period, [
-            'value' => $this->invoice_period,
-            'single_interval' => $this->invoice_interval?->labelSingular(),
-            'many_interval' => $this->invoice_interval?->label(),
+            'value' => $this->duration_period,
+            'single_interval' => $this->duration_interval?->labelSingular(),
+            'many_interval' => $this->duration_interval?->label(),
         ]));
     }
 
@@ -85,30 +81,24 @@ class Plan extends Model implements PlanContract
             ->withTimestamps();
     }
 
-    public function hasTrial(): Attribute
+    public function hasTrial(): bool
     {
-        return Attribute::get(fn () => filled($this->trial_period) && filled($this->trial_interval));
+        return filled($this->trial_period) && filled($this->trial_interval);
     }
 
-    public function hasDuration(): Attribute
+    public function hasDuration(): bool
     {
-        return Attribute::get(fn () => filled($this->duration_period) && filled($this->duration_interval));
+        return filled($this->duration_period) && filled($this->duration_interval);
     }
 
-    public function hasGrace(): Attribute
+    public function hasGrace(): bool
     {
-        return Attribute::get(fn () => filled($this->grace_period) && filled($this->grace_interval));
+        return filled($this->grace_period) && filled($this->grace_interval);
     }
 
-    public function hasInvoiceCycle(): Attribute
+    public function hasInvoiceCycle(): bool
     {
-        return Attribute::get(function () {
-            if (! $this->hasDuration()) {
-                return __('One-time');
-            }
-
-            return filled($this->duration_period) && filled($this->duration_interval);
-        });
+        return filled($this->duration_period) && filled($this->duration_interval);
     }
 
     public function scopeActive(Builder $builder): Builder

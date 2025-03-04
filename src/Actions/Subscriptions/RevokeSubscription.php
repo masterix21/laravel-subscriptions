@@ -12,10 +12,14 @@ class RevokeSubscription
     {
         $revokedAt ??= now();
 
-        $subscription->ends_at = $revokedAt;
-        $subscription->auto_renew = false;
         $subscription->status = SubscriptionStatus::REVOKED;
+
+        $subscription->auto_renew = false;
+
+        $subscription->ends_at = $revokedAt;
         $subscription->revoked_at = $revokedAt;
+        $subscription->canceled_at = null;
+        $subscription->next_billing_at = null;
 
         return $subscription->save();
     }

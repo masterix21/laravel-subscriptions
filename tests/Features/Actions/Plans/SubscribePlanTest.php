@@ -71,8 +71,8 @@ test('it calculates proper trial and grace period based on plan configuration', 
 
     expect($subscription)
         ->toBeInstanceOf(Subscription::class)
-        ->and($subscription->trial_ends_at->toDateString())
-        ->toBe($expectedTrialEnd->toDateString())
-        ->and($subscription->grace_ends_at->toDateString())
-        ->toBe($expectedGraceEnd->toDateString());
+        ->and($subscription->trial_ends_at->format('U'))
+        ->toBe($expectedTrialEnd->format('U'))
+        ->and($subscription->grace_ends_at->format('U'))
+        ->toBe($expectedGraceEnd->format('U'));
 });
