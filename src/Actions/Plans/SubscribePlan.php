@@ -17,8 +17,7 @@ class SubscribePlan
         SubscriptionStatus $status = SubscriptionStatus::ACTIVE,
         bool $autoRenew = true,
         array $data = []
-    ): SubscriptionContract
-    {
+    ): SubscriptionContract {
         $nextBillingAt = Carbon::make($data['next_billing_at'] ?? null)
             ?: now()->add($plan->duration_period, $plan->duration_interval->value);
 
@@ -48,15 +47,15 @@ class SubscribePlan
         }
 
         $subscription->fill([
-                ...$data,
-                $plan->getForeignKey() => $plan->getKey(),
-                'ends_at' => $endsAt,
-                'trial_ends_at' => $trialEndsAt,
-                'grace_ends_at' => $graceEndsAt,
-                'next_billing_at' => $nextBillingAt,
-                'status' => $status,
-                'auto_renew' => $autoRenew,
-            ]);
+            ...$data,
+            $plan->getForeignKey() => $plan->getKey(),
+            'ends_at' => $endsAt,
+            'trial_ends_at' => $trialEndsAt,
+            'grace_ends_at' => $graceEndsAt,
+            'next_billing_at' => $nextBillingAt,
+            'status' => $status,
+            'auto_renew' => $autoRenew,
+        ]);
 
         $subscription->subscriber()->associate($subscriber);
 

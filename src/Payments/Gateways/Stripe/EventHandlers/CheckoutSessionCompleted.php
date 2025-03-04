@@ -2,10 +2,10 @@
 
 namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe\EventHandlers;
 
+use Illuminate\Support\Carbon;
 use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
 use LucaLongo\Subscriptions\Payments\Gateways\StripeGateway;
-use Illuminate\Support\Carbon;
 use Stripe\Checkout\Session;
 use Stripe\Event;
 use Stripe\Subscription as StripeSubscription;

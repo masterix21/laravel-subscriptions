@@ -4,13 +4,10 @@ namespace LucaLongo\Subscriptions\Tests\Features\Actions\Subscriptions;
 
 use Carbon\Carbon;
 use LucaLongo\Subscriptions\Actions\Subscriptions\CancelSubscription;
-use LucaLongo\Subscriptions\Actions\Subscriptions\DisableAutoRenewSubscription;
-use LucaLongo\Subscriptions\Actions\Subscriptions\EnableAutoRenewSubscription;
 use LucaLongo\Subscriptions\Enums\DurationInterval;
 use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
 use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
-use LucaLongo\Subscriptions\Models\Subscription;
 use LucaLongo\Subscriptions\Tests\TestClasses\User;
 
 beforeEach(function () {
@@ -22,7 +19,7 @@ beforeEach(function () {
         'trial_period' => 7,
         'trial_interval' => DurationInterval::DAY,
         'grace_period' => 3,
-        'grace_interval' => DurationInterval::DAY
+        'grace_interval' => DurationInterval::DAY,
     ]);
 
     $this->user = User::create([

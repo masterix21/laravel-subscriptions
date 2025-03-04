@@ -17,7 +17,7 @@ beforeEach(function () {
         'trial_period' => 7,
         'trial_interval' => DurationInterval::DAY,
         'grace_period' => 3,
-        'grace_interval' => DurationInterval::DAY
+        'grace_interval' => DurationInterval::DAY,
     ]);
 
     $this->user = User::create([
