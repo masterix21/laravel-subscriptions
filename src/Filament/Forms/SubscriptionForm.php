@@ -2,7 +2,6 @@
 
 namespace LucaLongo\Subscriptions\Filament\Forms;
 
-use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
@@ -14,7 +13,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Support\RawJs;
-use Guava\FilamentClusters\Forms\Cluster;
 use Illuminate\Database\Eloquent\Model;
 
 class SubscriptionForm implements FormContract

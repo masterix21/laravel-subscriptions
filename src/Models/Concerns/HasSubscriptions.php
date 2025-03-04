@@ -77,8 +77,7 @@ trait HasSubscriptions
         SubscriptionStatus $status = SubscriptionStatus::ACTIVE,
         bool $autoRenew = true,
         array $data = []
-    ): SubscriptionContract
-    {
+    ): SubscriptionContract {
         return app(SubscribePlan::class)->subscribe($plan, $this, $status, $autoRenew, $data);
     }
 }

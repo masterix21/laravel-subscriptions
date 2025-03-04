@@ -2,11 +2,11 @@
 
 namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe\EventHandlers;
 
-use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
-use LucaLongo\Subscriptions\Payments\Gateways\StripeGateway;
 use Illuminate\Support\Carbon;
+use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
 use LucaLongo\Subscriptions\Models\Plan;
 use LucaLongo\Subscriptions\Models\Subscription;
+use LucaLongo\Subscriptions\Payments\Gateways\StripeGateway;
 use Stripe\Checkout\Session;
 use Stripe\Event;
 use Stripe\Subscription as StripeSubscription;
@@ -31,7 +31,7 @@ class CheckoutSessionCompleted implements StripeEventHandle
         }
 
         if (! $subscriberId) {
-            throw new \Exception("Missing ". $subscriberKeyName);
+            throw new \Exception('Missing '.$subscriberKeyName);
         }
 
         $plan = Plan::findOrFail($planId);
@@ -78,8 +78,7 @@ class CheckoutSessionCompleted implements StripeEventHandle
     protected function evaluteValidityPeriod(
         StripeSubscription $stripeSubscription,
         Subscription $subscription
-    ): void
-    {
+    ): void {
         $startsAt = Carbon::createFromTimestampUTC($stripeSubscription->start_date)->toImmutable();
 
         $subscription->starts_at = $startsAt;

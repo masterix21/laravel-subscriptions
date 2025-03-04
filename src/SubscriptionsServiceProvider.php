@@ -9,7 +9,6 @@ use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Payments\Contracts\GatewayContract;
-use LucaLongo\Subscriptions\Payments\Gateways\StripeGateway;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 

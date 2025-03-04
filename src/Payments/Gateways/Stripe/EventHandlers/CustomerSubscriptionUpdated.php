@@ -12,7 +12,7 @@ class CustomerSubscriptionUpdated implements StripeEventHandle
         $stripeSubscription = $event->data->object;
 
         if ($stripeSubscription->cancellation_details?->reason === 'cancellation_requested') {
-            return (new CustomerSubscriptionCancellationRequested())->handle($event);
+            return (new CustomerSubscriptionCancellationRequested)->handle($event);
         }
 
         return true;

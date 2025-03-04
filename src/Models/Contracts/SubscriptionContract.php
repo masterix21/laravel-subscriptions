@@ -12,12 +12,19 @@ interface SubscriptionContract
     public function plan(): BelongsTo;
 
     public function isRevokable(): Attribute;
+
     public function isRevoked(): Attribute;
+
     public function isTrialPeriod(): Attribute;
+
     public function isGracePeriod(): Attribute;
+
     public function isActive(): Attribute;
+
     public function hasFeature(string $feature): bool;
+
     public function hasAnyFeature(Collection $features): bool;
+
     public function hasAllFeature(Collection $features): bool;
 
     public function renew(?Carbon $endsAt = null): bool;

@@ -22,17 +22,17 @@ test('it subscribes a plan with active status and auto-renew', function () {
     );
 
     $subscriber = mock(SubscriberContract::class)->expect(
-        subscriber: fn() => $this->expectNotToPerformAssertions()
+        subscriber: fn () => $this->expectNotToPerformAssertions()
     );
 
     $subscription = mock(SubscriptionContract::class)->expect(
-        save: fn() => true,
-        fill: fn() => $subscription
+        save: fn () => true,
+        fill: fn () => $subscription
     );
 
     app()->instance(SubscriptionContract::class, $subscription);
 
-    $action = new SubscribePlan();
+    $action = new SubscribePlan;
 
     $result = $action->subscribe($plan, $subscriber);
 
@@ -57,17 +57,17 @@ test('it subscribes a plan without auto-renew', function () {
     );
 
     $subscriber = mock(SubscriberContract::class)->expect(
-        subscriber: fn() => $this->expectNotToPerformAssertions()
+        subscriber: fn () => $this->expectNotToPerformAssertions()
     );
 
     $subscription = mock(SubscriptionContract::class)->expect(
-        save: fn() => true,
-        fill: fn() => $subscription
+        save: fn () => true,
+        fill: fn () => $subscription
     );
 
     app()->instance(SubscriptionContract::class, $subscription);
 
-    $action = new SubscribePlan();
+    $action = new SubscribePlan;
 
     $result = $action->subscribe($plan, $subscriber, SubscriptionStatus::CANCELED, false);
 
@@ -94,17 +94,17 @@ test('it calculates proper trial and grace period based on plan configuration', 
     );
 
     $subscriber = mock(SubscriberContract::class)->expect(
-        subscriber: fn() => $this->expectNotToPerformAssertions()
+        subscriber: fn () => $this->expectNotToPerformAssertions()
     );
 
     $subscription = mock(SubscriptionContract::class)->expect(
-        save: fn() => true,
-        fill: fn() => $subscription
+        save: fn () => true,
+        fill: fn () => $subscription
     );
 
     app()->instance(SubscriptionContract::class, $subscription);
 
-    $action = new SubscribePlan();
+    $action = new SubscribePlan;
 
     $result = $action->subscribe($plan, $subscriber);
 

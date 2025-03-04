@@ -17,8 +17,7 @@ class SubscribePlan
         SubscriptionStatus $status = SubscriptionStatus::ACTIVE,
         bool $autoRenew = true,
         array $data = []
-    ): SubscriptionContract
-    {
+    ): SubscriptionContract {
         $endsAt = Carbon::make($data['ends_at'] ?? null);
         $trialEndsAt = Carbon::make($data['trial_ends_at'] ?? null);
         $graceEndsAt = Carbon::make($data['grace_ends_at'] ?? null);

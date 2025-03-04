@@ -4,7 +4,6 @@ namespace LucaLongo\Subscriptions\Http\Controllers\Hooks\Payments;
 
 use Illuminate\Http\Request;
 use Stripe\StripeClient;
-use Stripe\Webhook;
 
 class StripeController
 {
