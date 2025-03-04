@@ -8,6 +8,7 @@ use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -47,6 +48,11 @@ class PlanForm implements FormContract
                             ->numeric()
                             ->required()
                             ->default(0),
+
+                        TextArea::make('description')
+                            ->translateLabel()
+                            ->columnSpan(3)
+                            ->autosize(),
                     ]),
 
                 Tabs::make('Tabs')
