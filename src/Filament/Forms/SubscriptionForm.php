@@ -2,6 +2,7 @@
 
 namespace LucaLongo\Subscriptions\Filament\Forms;
 
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
@@ -10,6 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Support\RawJs;
 use Guava\FilamentClusters\Forms\Cluster;
@@ -42,17 +44,13 @@ class SubscriptionForm implements FormContract
                         Tabs\Tab::make('Details')
                             ->translateLabel()
                             ->schema([
-                                Cluster::make([
-                                    DateTimePicker::make('starts_at')
-                                        ->native(false)
-                                        ->translateLabel()
-                                        ->required(),
+                                DateTimePicker::make('ends_at')
+                                    ->native(false)
+                                    ->translateLabel()
+                                    ->nullable(),
 
-                                    DateTimePicker::make('ends_at')
-                                        ->native(false)
-                                        ->translateLabel()
-                                        ->nullable(),
-                                ])->label('Validity period')->translateLabel(),
+                                Toggle::make('auto_renew')
+                                    ->translateLabel(),
 
                                 Grid::make()->columns()->schema([
                                     TextInput::make('price')
@@ -69,31 +67,22 @@ class SubscriptionForm implements FormContract
                                         ->translateLabel(),
                                 ]),
 
-                                Cluster::make([
-                                    DateTimePicker::make('trial_starts_at')
-                                        ->native(false)
-                                        ->nullable()
-                                        ->translateLabel(),
+                                DateTimePicker::make('trial_ends_at')
+                                    ->native(false)
+                                    ->nullable()
+                                    ->translateLabel(),
 
-                                    DateTimePicker::make('trial_ends_at')
-                                        ->native(false)
-                                        ->nullable()
-                                        ->translateLabel(),
-                                ])->label('Trial period')->translateLabel(),
-
-                                Cluster::make([
-                                    DateTimePicker::make('grace_starts_at')
-                                        ->native(false)
-                                        ->nullable()
-                                        ->translateLabel(),
-
-                                    DateTimePicker::make('grace_ends_at')
-                                        ->native(false)
-                                        ->nullable()
-                                        ->translateLabel(),
-                                ])->label('Grace period')->translateLabel(),
+                                DateTimePicker::make('grace_ends_at')
+                                    ->native(false)
+                                    ->nullable()
+                                    ->translateLabel(),
 
                                 Grid::make()->columns()->schema([
+                                    DateTimePicker::make('canceled_at')
+                                        ->native(false)
+                                        ->nullable()
+                                        ->translateLabel(),
+
                                     DateTimePicker::make('revoked_at')
                                         ->native(false)
                                         ->nullable()

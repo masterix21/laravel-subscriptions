@@ -3,6 +3,8 @@
 namespace LucaLongo\Subscriptions\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Livewire\Livewire;
+use Livewire\LivewireServiceProvider;
 use LucaLongo\Subscriptions\SubscriptionsServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -20,6 +22,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            LivewireServiceProvider::class,
             SubscriptionsServiceProvider::class,
         ];
     }
@@ -28,9 +31,11 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_laravel-subscriptions_table.php.stub';
-        $migration->up();
-        */
+        (include __DIR__.'/database/migrations/2014_10_12_000000_create_users_table.php')->up();
+        (include __DIR__.'/../database/migrations/create_plans_table.php.stub')->up();
+        (include __DIR__.'/../database/migrations/create_features_table.php.stub')->up();
+        (include __DIR__.'/../database/migrations/create_plan_feature_table.php.stub')->up();
+        (include __DIR__.'/../database/migrations/create_subscriptions_table.php.stub')->up();
+        (include __DIR__.'/../database/migrations/create_subscription_payments_table.php.stub')->up();
     }
 }

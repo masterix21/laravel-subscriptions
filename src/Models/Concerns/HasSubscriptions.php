@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
+use LucaLongo\Subscriptions\Actions\Plans\SubscribePlan;
+use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
+use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
+use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Models\Plan;
 
 /** @mixin Model */
@@ -66,5 +70,15 @@ trait HasSubscriptions
             ->flatten()
             ->unique()
             ->containsAll($features);
+    }
+
+    public function subscribe(
+        PlanContract $plan,
+        SubscriptionStatus $status = SubscriptionStatus::ACTIVE,
+        bool $autoRenew = true,
+        array $data = []
+    ): SubscriptionContract
+    {
+        return app(SubscribePlan::class)->subscribe($plan, $this, $status, $autoRenew, $data);
     }
 }

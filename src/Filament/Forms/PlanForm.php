@@ -92,14 +92,6 @@ class PlanForm implements FormContract
                                                 ->options(DurationInterval::toOptions())
                                                 ->requiredWith('grace_period'),
                                         ])->label('Grace period')->translateLabel(),
-
-                                        Cluster::make([
-                                            TextInput::make('invoice_period')->translateLabel()
-                                                ->numeric()->integer()->nullable(),
-                                            Select::make('invoice_interval')->translateLabel()
-                                                ->options(DurationInterval::toOptions())
-                                                ->requiredWith('invoice_period'),
-                                        ])->label('Invoice cycle')->translateLabel(),
                                     ]),
                             ]),
 

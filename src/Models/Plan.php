@@ -9,10 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use LucaLongo\Subscriptions\Actions\Plans\SubscribePlan;
 use LucaLongo\Subscriptions\Enums\DurationInterval;
+use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
 use LucaLongo\Subscriptions\Models\Concerns\HasCode;
+use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
+use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
+use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
 
-class Plan extends Model
+class Plan extends Model implements PlanContract
 {
     use HasCode;
 
@@ -38,8 +43,6 @@ class Plan extends Model
             'price' => 'decimal:2',
             'trial_period' => 'int',
             'trial_interval' => DurationInterval::class,
-            'invoice_period' => 'int',
-            'invoice_interval' => DurationInterval::class,
             'grace_period' => 'int',
             'grace_interval' => DurationInterval::class,
             'meta' => AsArrayObject::class,
@@ -99,7 +102,13 @@ class Plan extends Model
 
     public function hasInvoiceCycle(): Attribute
     {
-        return Attribute::get(fn () => filled($this->invoice_period) && filled($this->invoice_interval));
+        return Attribute::get(function () {
+            if (! $this->hasDuration()) {
+                return __('One-time');
+            }
+
+            return filled($this->duration_period) && filled($this->duration_interval);
+        });
     }
 
     public function scopeActive(Builder $builder): Builder
@@ -120,5 +129,15 @@ class Plan extends Model
     public function scopeInvisible(Builder $builder): Builder
     {
         return $builder->where('hidden', true);
+    }
+
+    public function subscribe(
+        SubscriberContract $subscriber,
+        SubscriptionStatus $status = SubscriptionStatus::ACTIVE,
+        bool $autoRenew = true,
+        array $data = []
+    ): SubscriptionContract
+    {
+        return app(SubscribePlan::class)->subscribe($this, $subscriber, $status, $autoRenew, $data);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace LucaLongo\Subscriptions\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -13,9 +14,13 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use LucaLongo\Subscriptions\Actions\Subscriptions\CancelSubscription;
+use LucaLongo\Subscriptions\Actions\Subscriptions\RenewSubscription;
+use LucaLongo\Subscriptions\Actions\Subscriptions\RevokeSubscription;
 use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
+use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
 
-class Subscription extends Model
+class Subscription extends Model implements SubscriptionContract
 {
     use HasUuids;
     use SoftDeletes;
@@ -30,6 +35,7 @@ class Subscription extends Model
     protected function casts(): array
     {
         return [
+            'auto_renew' => 'bool',
             'status' => SubscriptionStatus::class,
             'ends_at' => 'datetime',
             'next_billing_at' => 'datetime',
@@ -37,6 +43,7 @@ class Subscription extends Model
             'trial_ends_at' => 'datetime',
             'grace_ends_at' => 'datetime',
             'revoked_at' => 'datetime',
+            'canceled_at' => 'datetime',
             'meta' => AsArrayObject::class,
         ];
     }
@@ -158,5 +165,20 @@ class Subscription extends Model
     public function hasAllFeature(Collection $features): bool
     {
         return $this->features->pluck('code')->containsAll($features);
+    }
+
+    public function renew(?Carbon $endsAt = null): bool
+    {
+        return app(RenewSubscription::class)->execute($this, $endsAt);
+    }
+
+    public function cancel(?Carbon $endsAt = null): bool
+    {
+        return app(CancelSubscription::class)->execute($this, $endsAt);
+    }
+
+    public function revoke(?Carbon $revokesAt = null): bool
+    {
+        return app(RevokeSubscription::class)->execute($this, $revokesAt);
     }
 }
