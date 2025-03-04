@@ -6,4 +6,3 @@ interface GatewayContract
 {
     public function client(): mixed;
 }
-

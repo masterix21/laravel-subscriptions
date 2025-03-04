@@ -3,12 +3,12 @@
 namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe;
 
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\RedirectResponse;
 use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
 use LucaLongo\Subscriptions\Payments\Contracts\CreateSubscriptionContract;
 use LucaLongo\Subscriptions\Payments\Exceptions\PaymentGatewayUnsupportedByPlan;
 use LucaLongo\Subscriptions\Payments\Gateways\StripeGateway;
-use Illuminate\Http\RedirectResponse;
 
 class CreateSubscription implements CreateSubscriptionContract
 {
@@ -21,7 +21,7 @@ class CreateSubscription implements CreateSubscriptionContract
         array $options = []
     ): RedirectResponse {
         if (! ($plan->meta['stripe_id'] ?? null)) {
-            throw new PaymentGatewayUnsupportedByPlan($plan->name .' does not support Stripe');
+            throw new PaymentGatewayUnsupportedByPlan($plan->name.' does not support Stripe');
         }
 
         $stripeCustomer = app(Customer::class)->customerFindOrNew($customer);

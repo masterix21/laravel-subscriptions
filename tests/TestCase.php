@@ -3,7 +3,6 @@
 namespace LucaLongo\Subscriptions\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Livewire\Livewire;
 use Livewire\LivewireServiceProvider;
 use LucaLongo\Subscriptions\SubscriptionsServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;

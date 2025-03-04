@@ -3,6 +3,8 @@
 namespace LucaLongo\Subscriptions\Payments\Gateways;
 
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
 use LucaLongo\Subscriptions\Payments\Contracts\CreateSubscriptionContract;
@@ -12,16 +14,9 @@ use LucaLongo\Subscriptions\Payments\Contracts\WebHookHandlerContract;
 use LucaLongo\Subscriptions\Payments\Gateways\Stripe\CreateSubscription;
 use LucaLongo\Subscriptions\Payments\Gateways\Stripe\Customer;
 use LucaLongo\Subscriptions\Payments\Gateways\Stripe\WebHookHandler;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use LucaLongo\Subscriptions\Models\Plan;
 use Stripe\StripeClient;
 
-class StripeGateway implements
-    GatewayContract,
-    CustomerContract,
-    CreateSubscriptionContract,
-    WebHookHandlerContract
+class StripeGateway implements CreateSubscriptionContract, CustomerContract, GatewayContract, WebHookHandlerContract
 {
     protected StripeClient $stripe;
 
@@ -45,8 +40,7 @@ class StripeGateway implements
         string $successUrl,
         string $cancelUrl,
         array $options = []
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         return app(CreateSubscription::class)->subscribe($customer, $plan, $subscriber, $successUrl, $cancelUrl, $options);
     }
 

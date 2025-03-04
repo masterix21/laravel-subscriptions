@@ -14,8 +14,6 @@ class Customer implements CustomerContract
     }
 
     /**
-     * @param  User  $user
-     *
      * @return \Stripe\Customer
      */
     public function customerFindOrNew(User $user): mixed
@@ -51,7 +49,7 @@ class Customer implements CustomerContract
     {
         return $this->evaluateCustomer(
             rescue(fn () => $this->gateway->client()->customers->search([
-                'query' => "email:'$user->email'"
+                'query' => "email:'$user->email'",
             ])->first(), report: false)
         );
     }
@@ -63,7 +61,7 @@ class Customer implements CustomerContract
             'name' => $user->display_label
                 ?: $user->label
                     ?: $user->name
-                        ?: ($user->first_name .' '. $user->last_name),
+                        ?: ($user->first_name.' '.$user->last_name),
             'email' => $user->email,
         ]);
 
