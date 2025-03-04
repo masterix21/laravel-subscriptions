@@ -9,10 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use LucaLongo\Subscriptions\Actions\Plans\SubscribePlan;
 use LucaLongo\Subscriptions\Enums\DurationInterval;
+use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
 use LucaLongo\Subscriptions\Models\Concerns\HasCode;
+use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
+use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
+use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
 
-class Plan extends Model
+class Plan extends Model implements PlanContract
 {
     use HasCode;
 
@@ -20,10 +25,6 @@ class Plan extends Model
 
     public $appends = [
         'invoice_label',
-        'has_trial',
-        'has_duration',
-        'has_grace',
-        'has_invoice_cycle',
     ];
 
     protected function casts(): array
@@ -38,8 +39,6 @@ class Plan extends Model
             'price' => 'decimal:2',
             'trial_period' => 'int',
             'trial_interval' => DurationInterval::class,
-            'invoice_period' => 'int',
-            'invoice_interval' => DurationInterval::class,
             'grace_period' => 'int',
             'grace_interval' => DurationInterval::class,
             'meta' => AsArrayObject::class,
@@ -49,9 +48,9 @@ class Plan extends Model
     public function invoiceLabel(): Attribute
     {
         return Attribute::get(fn () => trans_choice('subscriptions::subscriptions.cycle', $this->invoice_period, [
-            'value' => $this->invoice_period,
-            'single_interval' => $this->invoice_interval?->labelSingular(),
-            'many_interval' => $this->invoice_interval?->label(),
+            'value' => $this->duration_period,
+            'single_interval' => $this->duration_interval?->labelSingular(),
+            'many_interval' => $this->duration_interval?->label(),
         ]));
     }
 
@@ -82,24 +81,24 @@ class Plan extends Model
             ->withTimestamps();
     }
 
-    public function hasTrial(): Attribute
+    public function hasTrial(): bool
     {
-        return Attribute::get(fn () => filled($this->trial_period) && filled($this->trial_interval));
+        return filled($this->trial_period) && filled($this->trial_interval);
     }
 
-    public function hasDuration(): Attribute
+    public function hasDuration(): bool
     {
-        return Attribute::get(fn () => filled($this->duration_period) && filled($this->duration_interval));
+        return filled($this->duration_period) && filled($this->duration_interval);
     }
 
-    public function hasGrace(): Attribute
+    public function hasGrace(): bool
     {
-        return Attribute::get(fn () => filled($this->grace_period) && filled($this->grace_interval));
+        return filled($this->grace_period) && filled($this->grace_interval);
     }
 
-    public function hasInvoiceCycle(): Attribute
+    public function hasInvoiceCycle(): bool
     {
-        return Attribute::get(fn () => filled($this->invoice_period) && filled($this->invoice_interval));
+        return filled($this->duration_period) && filled($this->duration_interval);
     }
 
     public function scopeActive(Builder $builder): Builder
@@ -120,5 +119,14 @@ class Plan extends Model
     public function scopeInvisible(Builder $builder): Builder
     {
         return $builder->where('hidden', true);
+    }
+
+    public function subscribe(
+        SubscriberContract $subscriber,
+        SubscriptionStatus $status = SubscriptionStatus::ACTIVE,
+        bool $autoRenew = true,
+        array $data = []
+    ): SubscriptionContract {
+        return app(SubscribePlan::class)->subscribe($this, $subscriber, $status, $autoRenew, $data);
     }
 }

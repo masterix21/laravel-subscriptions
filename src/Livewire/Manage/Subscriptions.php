@@ -11,15 +11,16 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
-use LucaLongo\Subscriptions\Contracts\Subscriber;
+use LucaLongo\Subscriptions\Filament\Forms\SubscriptionForm;
 use LucaLongo\Subscriptions\Filament\Tables\SubscriptionTable;
+use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
 
 class Subscriptions extends Component implements HasForms, HasTable
 {
     use InteractsWithForms;
     use InteractsWithTable;
 
-    public ?Subscriber $subscriber = null;
+    public ?SubscriberContract $subscriber = null;
 
     public function render(): View
     {
@@ -47,7 +48,7 @@ class Subscriptions extends Component implements HasForms, HasTable
                     'subscriber_id' => $this->subscriber->getKey(),
                 ];
             })
-            ->form($this->getFormSchema())
+            ->form(fn ($form) => SubscriptionForm::make($form))
             ->modalSubmitActionLabel(__('Add'));
     }
 }
