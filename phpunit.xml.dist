@@ -20,6 +20,10 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <env name="CACHE_DRIVER" value="file"/>
+        <env name="APP_KEY" value="base64:m+pDa0MKS1KpMlxzzdVEaqFHysv3IPhrx/3TFSWBqJA="/>
+    </php>
     <coverage>
         <report>
             <html outputDirectory="build/coverage"/>

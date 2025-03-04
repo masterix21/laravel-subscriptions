@@ -5,9 +5,7 @@
     "Enabled": "Attivo",
     "Ends at": "Finisce il",
     "Features": "Funzionalità",
-    "Grace period": "Periodo di tolleranza",
     "Hidden": "Nascosto",
-    "Invoice cycle": "Ciclo di fatturazione",
     "Next billing at": "Prossima fattura il",
     "Plan": "Piano di abbonamento",
     "Price": "Prezzo",
@@ -15,8 +13,7 @@
     "Starts at": "Inizia il",
     "Subscriber": "Sottoscrittore",
     "Subscription created": "Abbonamento creato",
-    "Trial period": "Periodo di prova",
-    "Validity period": "Periodo di validità",
+    "Auto renew": "Rinnovo automatico",
     "day": "giorno",
     "days": "giorni",
     "month": "mese",
@@ -26,5 +23,6 @@
     "week": "settimana",
     "weeks": "settimane",
     "year": "anno",
-    "years": "anni"
+    "years": "anni",
+    "One-time": "Una tantum"
 }
