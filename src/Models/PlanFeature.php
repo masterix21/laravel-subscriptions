@@ -11,6 +11,10 @@ class PlanFeature extends Pivot
 
     public $guarded = [];
 
+    protected $casts = [
+        'max_usage' => 'integer',
+    ];
+
     public function plan(): BelongsTo
     {
         return $this->belongsTo(config('subscriptions.models.plan'));
