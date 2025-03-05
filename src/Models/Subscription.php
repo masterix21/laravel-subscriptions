@@ -134,7 +134,7 @@ class Subscription extends Model implements SubscriptionContract
         $query->where(fn (Builder $query) => $query
             ->whereIn('status', [
                 SubscriptionStatus::ACTIVE,
-                SubscriptionStatus::TRIALING
+                SubscriptionStatus::TRIALING,
             ])
             ->whereNull('revoked_at')
             ->where(function (Builder $query) {
