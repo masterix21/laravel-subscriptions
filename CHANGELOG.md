@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-subscriptions` will be documented in this file.
 
+## 1.0.1 - 2025-03-05
+
+- Improve Stripe webhooks to keep in sync a subscription
+
+**Full Changelog**: https://github.com/masterix21/laravel-subscriptions/compare/1.0.0...1.0.1
+
 ## 1.0.0 - 2025-03-04
 
 ### What's Changed
