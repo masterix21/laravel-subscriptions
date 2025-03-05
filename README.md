@@ -23,7 +23,7 @@ protected $fillable = [
 protected function casts(): array
 {
     return [
-        'meta' => AsarrayObject::class,
+        'meta' => AsArrayObject::class,
     ];
 }
 ```
