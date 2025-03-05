@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-subscriptions` will be documented in this file.
 
+## 1.0.3 - 2025-03-05
+
+- FIX: trial subscriptions are now active
+
+**Full Changelog**: https://github.com/masterix21/laravel-subscriptions/compare/1.0.2...1.0.3
+
 ## 1.0.2 - 2025-03-05
 
 - Add check to active subscription status
