@@ -49,7 +49,7 @@ class Customer implements CustomerContract
     {
         return $this->evaluateCustomer(
             rescue(fn () => $this->gateway->client()->customers->search([
-                'query' => $subscriber->customerUniqueIdentifierKey() .":'". $subscriber->customerUniqueIdentifier() ."'",
+                'query' => $subscriber->customerUniqueIdentifierKey().":'".$subscriber->customerUniqueIdentifier()."'",
             ])->first(), report: false)
         );
     }

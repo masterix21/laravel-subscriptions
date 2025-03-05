@@ -58,7 +58,7 @@ class CustomerSubscriptionUpdated implements StripeEventHandle
                 : Carbon::createFromTimestamp($stripeSubscription->current_period_end);
 
             $subscription->next_billing_at = null;
-        } else if ($stripeSubscription->cancel_at || $stripeSubscription->canceled_at) {
+        } elseif ($stripeSubscription->cancel_at || $stripeSubscription->canceled_at) {
             $subscription->ends_at = Carbon::createFromTimestamp(
                 $stripeSubscription->cancel_at ?: $stripeSubscription->canceled_at
             );
