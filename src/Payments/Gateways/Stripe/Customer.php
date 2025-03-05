@@ -2,7 +2,7 @@
 
 namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe;
 
-use Illuminate\Foundation\Auth\User;
+use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
 use LucaLongo\Subscriptions\Payments\Contracts\CustomerContract;
 use LucaLongo\Subscriptions\Payments\Gateways\StripeGateway;
 
@@ -16,11 +16,11 @@ class Customer implements CustomerContract
     /**
      * @return \Stripe\Customer
      */
-    public function customerFindOrNew(User $user): mixed
+    public function customerFindOrNew(SubscriberContract $subscriber): mixed
     {
-        return $this->findByCustomerId($user)
-            ?: $this->findByEmail($user)
-            ?: $this->create($user);
+        return $this->findByCustomerId($subscriber)
+            ?: $this->findByUniqueIdentifier($subscriber)
+            ?: $this->create($subscriber);
     }
 
     protected function evaluateCustomer(?\Stripe\Customer $customer): ?\Stripe\Customer
@@ -32,9 +32,9 @@ class Customer implements CustomerContract
         return null;
     }
 
-    protected function findByCustomerId(User $user): ?\Stripe\Customer
+    protected function findByCustomerId(SubscriberContract $subscriber): ?\Stripe\Customer
     {
-        $customerId = $user->meta['stripe_id'] ?? null;
+        $customerId = $subscriber->meta['stripe_id'] ?? null;
 
         if (blank($customerId)) {
             return null;
@@ -45,30 +45,39 @@ class Customer implements CustomerContract
         );
     }
 
-    protected function findByEmail(User $user): ?\Stripe\Customer
+    protected function findByUniqueIdentifier(SubscriberContract $subscriber): ?\Stripe\Customer
     {
         return $this->evaluateCustomer(
             rescue(fn () => $this->gateway->client()->customers->search([
-                'query' => "email:'$user->email'",
+                'query' => $subscriber->customerUniqueIdentifierKey() .":'". $subscriber->customerUniqueIdentifier() ."'",
             ])->first(), report: false)
         );
     }
 
-    protected function create(User $user): \Stripe\Customer
+    protected function create(SubscriberContract $subscriber): \Stripe\Customer
     {
         /** @var \Stripe\Customer $customer */
         $customer = $this->gateway->client()->customers->create([
-            'name' => $user->display_label
-                ?: $user->label
-                    ?: $user->name
-                        ?: ($user->first_name.' '.$user->last_name),
-            'email' => $user->email,
+            'name' => $subscriber->customerName(),
+            'email' => $subscriber->customerEmail(),
+            'metadata' => [
+                $subscriber->customerUniqueIdentifierKey() => $subscriber->customerUniqueIdentifier(),
+            ],
         ]);
 
-        $user->meta ??= [];
-        $user->meta['stripe_id'] = $customer->id;
-        $user->save();
+        $subscriber->meta ??= [];
+        $subscriber->meta['stripe_id'] = $customer->id;
+        $subscriber->save();
 
         return $customer;
+    }
+
+    public function findSubscriberByCustomer(\Stripe\Customer|string $customer): SubscriberContract
+    {
+        if ($customer instanceof \Stripe\Customer) {
+            $customer = $customer->id;
+        }
+
+        return app(SubscriberContract::class)->where('meta->stripe_id', $customer)->firstOrFail();
     }
 }

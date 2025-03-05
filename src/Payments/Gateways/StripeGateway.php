@@ -2,7 +2,6 @@
 
 namespace LucaLongo\Subscriptions\Payments\Gateways;
 
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
@@ -34,19 +33,18 @@ class StripeGateway implements CreateSubscriptionContract, CustomerContract, Gat
     }
 
     public function subscribe(
-        User $customer,
         PlanContract $plan,
         SubscriberContract $subscriber,
         string $successUrl,
         string $cancelUrl,
         array $options = []
     ): RedirectResponse {
-        return app(CreateSubscription::class)->subscribe($customer, $plan, $subscriber, $successUrl, $cancelUrl, $options);
+        return app(CreateSubscription::class)->subscribe($plan, $subscriber, $successUrl, $cancelUrl, $options);
     }
 
-    public function customerFindOrNew(User $user): mixed
+    public function customerFindOrNew(SubscriberContract $subscriber): mixed
     {
-        return app(Customer::class)->customerFindOrNew($user);
+        return app(Customer::class)->customerFindOrNew($subscriber);
     }
 
     public function webHookHandler(Request $request): bool

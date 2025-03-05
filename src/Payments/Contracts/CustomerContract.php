@@ -2,9 +2,9 @@
 
 namespace LucaLongo\Subscriptions\Payments\Contracts;
 
-use Illuminate\Foundation\Auth\User;
+use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
 
 interface CustomerContract
 {
-    public function customerFindOrNew(User $user): mixed;
+    public function customerFindOrNew(SubscriberContract $subscriber): mixed;
 }

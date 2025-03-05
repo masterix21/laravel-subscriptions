@@ -7,6 +7,27 @@
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
+## Prepare your Subscriber model
+
+Add a json field called `meta` if is not present:
+```php
+$table->json('meta')->nullable();
+```
+
+```php
+protected $fillable = [
+    // ...
+    'meta',
+];
+
+protected function casts(): array
+{
+    return [
+        'meta' => AsarrayObject::class,
+    ];
+}
+```
+
 ## Support us
 
 [<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-subscriptions.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-subscriptions)

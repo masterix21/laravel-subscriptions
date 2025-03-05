@@ -11,15 +11,15 @@ interface SubscriptionContract
 {
     public function plan(): BelongsTo;
 
-    public function isRevokable(): Attribute;
+    public function isRevokable(): bool;
 
-    public function isRevoked(): Attribute;
+    public function isRevoked(): bool;
 
-    public function isTrialPeriod(): Attribute;
+    public function onTrial(): bool;
 
-    public function isGracePeriod(): Attribute;
+    public function onGrace(): bool;
 
-    public function isActive(): Attribute;
+    public function isActive(): bool;
 
     public function hasFeature(string $feature): bool;
 

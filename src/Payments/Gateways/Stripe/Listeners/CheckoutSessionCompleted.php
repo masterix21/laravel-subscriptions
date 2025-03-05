@@ -1,6 +1,6 @@
 <?php
 
-namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe\EventHandlers;
+namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners;
 
 use Illuminate\Support\Carbon;
 use LucaLongo\Subscriptions\Models\Contracts\PlanContract;

@@ -2,12 +2,17 @@
 
 namespace LucaLongo\Subscriptions\Models\Contracts;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
 
 interface SubscriberContract
 {
-    public function displayLabel(): Attribute;
+    public function customerName(): string;
+
+    public function customerEmail(): string;
+
+    public function customerUniqueIdentifierKey(): string;
+
+    public function customerUniqueIdentifier(): string;
 
     public function subscribe(
         PlanContract $plan,

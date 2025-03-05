@@ -4,9 +4,11 @@ namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe;
 
 use Illuminate\Http\Request;
 use LucaLongo\Subscriptions\Payments\Contracts\WebHookHandlerContract;
-use LucaLongo\Subscriptions\Payments\Gateways\Stripe\EventHandlers\CheckoutSessionCompleted;
-use LucaLongo\Subscriptions\Payments\Gateways\Stripe\EventHandlers\CustomerSubscriptionDeleted;
-use LucaLongo\Subscriptions\Payments\Gateways\Stripe\EventHandlers\CustomerSubscriptionUpdated;
+use LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners\CustomerDeleted;
+use LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners\CustomerSubscriptionCreated;
+use LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners\CustomerSubscriptionDeleted;
+use LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners\CustomerSubscriptionUpdated;
+use LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners\InvoicePaymentSucceeded;
 use Stripe\Webhook;
 
 class WebHookHandler implements WebHookHandlerContract
@@ -21,9 +23,11 @@ class WebHookHandler implements WebHookHandlerContract
             );
 
             return match ($event->type) {
-                'checkout.session.completed' => (new CheckoutSessionCompleted)->handle($event),
-                'customer.subscription.deleted' => (new CustomerSubscriptionDeleted)->handle($event),
+                'customer.subscription.created' => (new CustomerSubscriptionCreated)->handle($event),
                 'customer.subscription.updated' => (new CustomerSubscriptionUpdated)->handle($event),
+                'customer.subscription.deleted' => (new CustomerSubscriptionDeleted)->handle($event),
+                'customer.deleted' => (new CustomerDeleted)->handle($event),
+                // 'invoice.payment.action.required' => throw new \Exception('Not implemented'),
                 default => true,
             };
         } catch (\Exception $e) {

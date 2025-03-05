@@ -13,7 +13,6 @@ use LucaLongo\Subscriptions\Payments\Gateways\StripeGateway;
 class CreateSubscription implements CreateSubscriptionContract
 {
     public function subscribe(
-        User $customer,
         PlanContract $plan,
         SubscriberContract $subscriber,
         string $successUrl,
@@ -24,7 +23,7 @@ class CreateSubscription implements CreateSubscriptionContract
             throw new PaymentGatewayUnsupportedByPlan($plan->name.' does not support Stripe');
         }
 
-        $stripeCustomer = app(Customer::class)->customerFindOrNew($customer);
+        $stripeCustomer = app(Customer::class)->customerFindOrNew($subscriber);
 
         return redirect()->away(
             app(StripeGateway::class)->client()->checkout->sessions->create([
@@ -37,7 +36,7 @@ class CreateSubscription implements CreateSubscriptionContract
                     ],
                 ],
                 'metadata' => [
-                    $subscriber->getForeignKey() => $subscriber->getKey(),
+                    $subscriber->customerUniqueIdentifierKey() => $subscriber->customerUniqueIdentifier(),
                     'plan_id' => $plan->getKey(),
                 ],
                 'success_url' => $successUrl,

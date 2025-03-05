@@ -1,12 +1,12 @@
 <?php
 
-namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe\EventHandlers;
+namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners;
 
 use Carbon\Carbon;
 use LucaLongo\Subscriptions\Models\Subscription;
 use Stripe\Event;
 
-class CustomerSubscriptionCancellationRequested implements StripeEventHandle
+class CustomerSubscriptionDeleted implements StripeEventHandle
 {
     public function handle(Event $event): bool
     {
@@ -18,6 +18,6 @@ class CustomerSubscriptionCancellationRequested implements StripeEventHandle
             ->where('payment_provider_reference', $stripeSubscription->id)
             ->firstOrFail();
 
-        $subscription->cancel(Carbon::createFromTimestampUTC($stripeSubscription->cancel_at));
+        return $subscription->cancel(Carbon::createFromTimestampUTC($stripeSubscription->ended_at));
     }
 }

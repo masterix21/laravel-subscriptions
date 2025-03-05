@@ -10,7 +10,6 @@ use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
 interface CreateSubscriptionContract
 {
     public function subscribe(
-        User $customer,
         PlanContract $plan,
         SubscriberContract $subscriber,
         string $successUrl,

@@ -5,7 +5,6 @@ namespace LucaLongo\Subscriptions\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -81,59 +80,53 @@ class Subscription extends Model implements SubscriptionContract
         );
     }
 
-    public function isRevokable(): Attribute
+    public function isRevokable(): bool
     {
-        return Attribute::get(fn () => $this->is_active);
+        return $this->is_active === true;
     }
 
-    public function isRevoked(): Attribute
+    public function isRevoked(): bool
     {
-        return Attribute::get(fn (): bool => filled($this->revoked_at));
+        return filled($this->revoked_at);
     }
 
-    public function isTrialPeriod(): Attribute
+    public function onTrial(): bool
     {
-        return Attribute::get(function () {
-            if ($this->is_revoked) {
-                return false;
-            }
-
-            if ($this->trial_ends_at) {
-                return now()->isBefore($this->trial_ends_at);
-            }
-
+        if ($this->is_revoked) {
             return false;
-        });
+        }
+
+        if ($this->trial_ends_at) {
+            return now()->isBefore($this->trial_ends_at);
+        }
+
+        return false;
     }
 
-    public function isGracePeriod(): Attribute
+    public function onGrace(): bool
     {
-        return Attribute::get(function () {
-            if ($this->is_revoked) {
-                return false;
-            }
-
-            if ($this->grace_ends_at) {
-                return now()->isBefore($this->grace_ends_at);
-            }
-
+        if ($this->is_revoked) {
             return false;
-        });
+        }
+
+        if ($this->grace_ends_at) {
+            return now()->isBefore($this->grace_ends_at);
+        }
+
+        return false;
     }
 
-    public function isActive(): Attribute
+    public function isActive(): bool
     {
-        return Attribute::get(function () {
-            if ($this->is_revoked) {
-                return false;
-            }
+        if ($this->is_revoked) {
+            return false;
+        }
 
-            if ($this->ends_at && now()->isAfter($this->ends_at)) {
-                return $this->is_grace_period;
-            }
+        if ($this->ends_at && now()->isAfter($this->ends_at)) {
+            return $this->is_grace_period;
+        }
 
-            return true;
-        });
+        return true;
     }
 
     public function scopeActive(Builder $query): void
