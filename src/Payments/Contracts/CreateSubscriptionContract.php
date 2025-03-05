@@ -2,7 +2,6 @@
 
 namespace LucaLongo\Subscriptions\Payments\Contracts;
 
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\RedirectResponse;
 use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;

@@ -3,7 +3,6 @@
 namespace LucaLongo\Subscriptions\Models\Contracts;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
 

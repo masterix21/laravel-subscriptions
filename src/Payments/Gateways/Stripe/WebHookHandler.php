@@ -8,7 +8,6 @@ use LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners\CustomerDeleted;
 use LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners\CustomerSubscriptionCreated;
 use LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners\CustomerSubscriptionDeleted;
 use LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners\CustomerSubscriptionUpdated;
-use LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners\InvoicePaymentSucceeded;
 use Stripe\Webhook;
 
 class WebHookHandler implements WebHookHandlerContract
