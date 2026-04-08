@@ -11,6 +11,8 @@ use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Tests\TestClasses\User;
 
 beforeEach(function () {
+    $this->freezeTime();
+
     $this->monthlyPlan = app(PlanContract::class)::create([
         'code' => 'monthly',
         'name' => 'Monthly Plan',
