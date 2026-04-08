@@ -2,6 +2,7 @@
 
 namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe;
 
+use Illuminate\Database\Eloquent\Model;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
 use LucaLongo\Subscriptions\Payments\Contracts\CustomerContract;
 use LucaLongo\Subscriptions\Payments\Gateways\StripeGateway;
@@ -14,6 +15,8 @@ class Customer implements CustomerContract
     }
 
     /**
+     * @param  Model&SubscriberContract  $subscriber
+     *
      * @return \Stripe\Customer
      */
     public function customerFindOrNew(SubscriberContract $subscriber): mixed
@@ -32,6 +35,9 @@ class Customer implements CustomerContract
         return null;
     }
 
+    /**
+     * @param  Model&SubscriberContract  $subscriber
+     */
     protected function findByCustomerId(SubscriberContract $subscriber): ?\Stripe\Customer
     {
         $customerId = $subscriber->meta['stripe_id'] ?? null;
@@ -54,6 +60,9 @@ class Customer implements CustomerContract
         );
     }
 
+    /**
+     * @param  Model&SubscriberContract  $subscriber
+     */
     protected function create(SubscriberContract $subscriber): \Stripe\Customer
     {
         /** @var \Stripe\Customer $customer */
@@ -72,12 +81,16 @@ class Customer implements CustomerContract
         return $customer;
     }
 
+    /**
+     * @return Model&SubscriberContract
+     */
     public function findSubscriberByCustomer(\Stripe\Customer|string $customer): SubscriberContract
     {
         if ($customer instanceof \Stripe\Customer) {
             $customer = $customer->id;
         }
 
+        /** @var Model&SubscriberContract */
         return app(SubscriberContract::class)->where('meta->stripe_id', $customer)->firstOrFail();
     }
 }

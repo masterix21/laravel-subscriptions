@@ -3,11 +3,15 @@
 namespace LucaLongo\Subscriptions\Actions\Subscriptions;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
 
 class CancelSubscription
 {
+    /**
+     * @param  Model&SubscriptionContract  $subscription
+     */
     public function execute(SubscriptionContract $subscription, ?Carbon $endsAt = null): bool
     {
         $endsAt ??= $subscription->next_billing_at

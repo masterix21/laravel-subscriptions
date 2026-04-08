@@ -2,9 +2,11 @@
 
 namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
+use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Payments\Gateways\StripeGateway;
 use Stripe\Checkout\Session;
 use Stripe\Event;
@@ -19,7 +21,9 @@ class CheckoutSessionCompleted implements StripeEventHandle
 
         $planId = $session->metadata?->plan_id;
 
-        $subscriberKeyName = app(SubscriberContract::class)->getForeignKey();
+        /** @var Model&SubscriberContract $subscriberModel */
+        $subscriberModel = app(SubscriberContract::class);
+        $subscriberKeyName = $subscriberModel->getForeignKey();
         $subscriberId = $session->metadata?->$subscriberKeyName;
 
         // $customerId = $session->customer;
@@ -33,8 +37,11 @@ class CheckoutSessionCompleted implements StripeEventHandle
             throw new \Exception('Missing '.$subscriberKeyName);
         }
 
+        /** @var Model&PlanContract $plan */
         $plan = app(PlanContract::class)::findOrFail($planId);
-        $subscriber = app(SubscriberContract::class)->findOrFail($subscriberId);
+
+        /** @var Model&SubscriberContract $subscriber */
+        $subscriber = $subscriberModel::findOrFail($subscriberId);
 
         /** @var StripeSubscription $stripeSubscription */
         $stripeSubscription = app(StripeGateway::class)->client()->subscriptions->retrieve($subscriptionId);

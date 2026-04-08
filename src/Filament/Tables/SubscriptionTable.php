@@ -26,10 +26,13 @@ class SubscriptionTable implements TableContract
                 TextColumn::make('plan.name')
                     ->translateLabel()
                     ->description(function (Subscription $record): string {
-                        return '€ '.$record->price.' '.trans_choice('subscriptions::subscriptions.cycle', $record->plan->invoice_period, [
-                            'value' => $record->plan->invoice_period,
-                            'single_interval' => $record->plan->invoice_interval?->labelSingular(),
-                            'many_interval' => $record->plan->invoice_interval?->label(),
+                        /** @var \LucaLongo\Subscriptions\Models\Plan $plan */
+                        $plan = $record->plan;
+
+                        return '€ '.$record->price.' '.trans_choice('subscriptions::subscriptions.cycle', $plan->invoice_period, [
+                            'value' => $plan->invoice_period,
+                            'single_interval' => $plan->invoice_interval?->labelSingular(),
+                            'many_interval' => $plan->invoice_interval?->label(),
                         ]);
                     }),
 

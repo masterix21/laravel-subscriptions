@@ -2,6 +2,7 @@
 
 namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
@@ -11,6 +12,9 @@ use LucaLongo\Subscriptions\Payments\Gateways\StripeGateway;
 
 class CreateSubscription implements CreateSubscriptionContract
 {
+    /**
+     * @param  Model&PlanContract  $plan
+     */
     public function subscribe(
         PlanContract $plan,
         SubscriberContract $subscriber,

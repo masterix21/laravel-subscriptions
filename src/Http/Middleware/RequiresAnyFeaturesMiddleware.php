@@ -11,7 +11,10 @@ class RequiresAnyFeaturesMiddleware
     {
         $features = str($features)->split("/[\s,|]+/");
 
-        if (! $request->user()?->hasAnyActiveFeatures($features)) {
+        /** @var (\Illuminate\Database\Eloquent\Model&\LucaLongo\Subscriptions\Models\Concerns\HasSubscriptions)|null $user */
+        $user = $request->user();
+
+        if (! $user || ! $user->hasAnyActiveFeatures($features)) {
             abort(403);
         }
 

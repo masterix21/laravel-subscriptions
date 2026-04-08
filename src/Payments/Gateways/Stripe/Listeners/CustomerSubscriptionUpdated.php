@@ -16,8 +16,10 @@ class CustomerSubscriptionUpdated implements StripeEventHandle
         /** @var StripeSubscription $stripeSubscription */
         $stripeSubscription = $event->data->object;
 
+        /** @var \Illuminate\Database\Eloquent\Model&\LucaLongo\Subscriptions\Models\Contracts\SubscriberContract $subscriber */
         $subscriber = app(Customer::class)->findSubscriberByCustomer($stripeSubscription->customer);
 
+        /** @var \LucaLongo\Subscriptions\Models\Subscription $subscription */
         $subscription = $subscriber->subscriptions()
             ->where('payment_provider', 'stripe')
             ->where('payment_provider_reference', $stripeSubscription->id)

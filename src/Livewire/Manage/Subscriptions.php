@@ -10,6 +10,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use LucaLongo\Subscriptions\Filament\Forms\SubscriptionForm;
 use LucaLongo\Subscriptions\Filament\Tables\SubscriptionTable;
@@ -20,6 +21,7 @@ class Subscriptions extends Component implements HasForms, HasTable
     use InteractsWithForms;
     use InteractsWithTable;
 
+    /** @var (Model&SubscriberContract)|null */
     public ?SubscriberContract $subscriber = null;
 
     public function render(): View

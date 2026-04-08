@@ -1,0 +1,355 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property LucaLongo\\Subscriptions\\Models\\Contracts\\PlanContract\:\:\$duration_interval\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Plans/SubscribePlan.php
+
+		-
+			message: '#^Access to an undefined property LucaLongo\\Subscriptions\\Models\\Contracts\\PlanContract\:\:\$duration_period\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Plans/SubscribePlan.php
+
+		-
+			message: '#^Access to an undefined property LucaLongo\\Subscriptions\\Models\\Contracts\\PlanContract\:\:\$grace_interval\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Plans/SubscribePlan.php
+
+		-
+			message: '#^Access to an undefined property LucaLongo\\Subscriptions\\Models\\Contracts\\PlanContract\:\:\$grace_period\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Plans/SubscribePlan.php
+
+		-
+			message: '#^Access to an undefined property LucaLongo\\Subscriptions\\Models\\Contracts\\PlanContract\:\:\$trial_interval\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Plans/SubscribePlan.php
+
+		-
+			message: '#^Access to an undefined property LucaLongo\\Subscriptions\\Models\\Contracts\\PlanContract\:\:\$trial_period\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Plans/SubscribePlan.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:subscriber\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Actions/Plans/SubscribePlan.php
+
+		-
+			message: '#^Call to an undefined method LucaLongo\\Subscriptions\\Models\\Contracts\\PlanContract\:\:getForeignKey\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Actions/Plans/SubscribePlan.php
+
+		-
+			message: '#^Call to an undefined method LucaLongo\\Subscriptions\\Models\\Contracts\\PlanContract\:\:getKey\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Actions/Plans/SubscribePlan.php
+
+		-
+			message: '#^Method LucaLongo\\Subscriptions\\Actions\\Plans\\SubscribePlan\:\:subscribe\(\) should return LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Actions/Plans/SubscribePlan.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$auto_renew\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Subscriptions/CancelSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$canceled_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Actions/Subscriptions/CancelSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$ends_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Actions/Subscriptions/CancelSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$next_billing_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Actions/Subscriptions/CancelSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Subscriptions/CancelSubscription.php
+
+		-
+			message: '#^Access to an undefined property LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$auto_renew\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Subscriptions/DisableAutoRenewSubscription.php
+
+		-
+			message: '#^Call to an undefined method LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:save\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Actions/Subscriptions/DisableAutoRenewSubscription.php
+
+		-
+			message: '#^Access to an undefined property LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$auto_renew\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Subscriptions/EnableAutoRenewSubscription.php
+
+		-
+			message: '#^Call to an undefined method LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:save\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Actions/Subscriptions/EnableAutoRenewSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$canceled_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Subscriptions/RenewSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$ends_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Actions/Subscriptions/RenewSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$next_billing_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Actions/Subscriptions/RenewSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$plan\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Subscriptions/RenewSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Subscriptions/RenewSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$auto_renew\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Subscriptions/RevokeSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$canceled_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Subscriptions/RevokeSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$ends_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Subscriptions/RevokeSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$next_billing_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Subscriptions/RevokeSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$revoked_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Subscriptions/RevokeSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Actions/Subscriptions/RevokeSubscription.php
+
+		-
+			message: '#^Call to function method_exists\(\) with LucaLongo\\Subscriptions\\Enums\\DurationInterval\:\:DAY\|LucaLongo\\Subscriptions\\Enums\\DurationInterval\:\:MONTH\|LucaLongo\\Subscriptions\\Enums\\DurationInterval\:\:WEEK\|LucaLongo\\Subscriptions\\Enums\\DurationInterval\:\:YEAR and ''label'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Enums/DurationInterval.php
+
+		-
+			message: '#^Negated boolean expression is always true\.$#'
+			identifier: booleanNot.alwaysTrue
+			count: 1
+			path: src/Http/Middleware/RequiresAllFeaturesMiddleware.php
+
+		-
+			message: '#^Result of \|\| is always true\.$#'
+			identifier: booleanOr.alwaysTrue
+			count: 1
+			path: src/Http/Middleware/RequiresAllFeaturesMiddleware.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Http/Middleware/RequiresAllFeaturesMiddleware.php
+
+		-
+			message: '#^Negated boolean expression is always true\.$#'
+			identifier: booleanNot.alwaysTrue
+			count: 1
+			path: src/Http/Middleware/RequiresAnyFeaturesMiddleware.php
+
+		-
+			message: '#^Result of \|\| is always true\.$#'
+			identifier: booleanOr.alwaysTrue
+			count: 1
+			path: src/Http/Middleware/RequiresAnyFeaturesMiddleware.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Http/Middleware/RequiresAnyFeaturesMiddleware.php
+
+		-
+			message: '#^Negated boolean expression is always true\.$#'
+			identifier: booleanNot.alwaysTrue
+			count: 1
+			path: src/Http/Middleware/RequiresFeatureMiddleware.php
+
+		-
+			message: '#^Result of \|\| is always true\.$#'
+			identifier: booleanOr.alwaysTrue
+			count: 1
+			path: src/Http/Middleware/RequiresFeatureMiddleware.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Http/Middleware/RequiresFeatureMiddleware.php
+
+		-
+			message: '#^Trait LucaLongo\\Subscriptions\\Models\\Concerns\\HasSubscriptions is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/Models/Concerns/HasSubscriptions.php
+
+		-
+			message: '#^Property ''invoice_label'' does not exist in model\.$#'
+			identifier: rules.modelAppends
+			count: 1
+			path: src/Models/Plan.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\PlanContract\:\:\$meta\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/CreateSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\PlanContract\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/CreateSubscription.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriberContract\:\:\$meta\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/Customer.php
+
+		-
+			message: '#^Access to an undefined property Stripe\\StripeObject\:\:\$object\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CheckoutSessionCompleted.php
+
+		-
+			message: '#^Access to an undefined property Stripe\\StripeObject\:\:\$plan_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CheckoutSessionCompleted.php
+
+		-
+			message: '#^Instanceof between LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract and LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CheckoutSessionCompleted.php
+
+		-
+			message: '#^Access to an undefined property Stripe\\StripeObject\:\:\$object\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionCreated.php
+
+		-
+			message: '#^Access to an undefined property Stripe\\Subscription\:\:\$plan\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionCreated.php
+
+		-
+			message: '#^Access to an undefined property Stripe\\StripeObject\:\:\$object\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionDeleted.php
+
+		-
+			message: '#^Access to an undefined property Stripe\\StripeObject\:\:\$object\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionUpdated.php
+
+		-
+			message: '#^Access to an undefined property Stripe\\Subscription\:\:\$plan\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionUpdated.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriberContract\:\:subscriptions\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionUpdated.php
+
+		-
+			message: '#^Property LucaLongo\\Subscriptions\\Models\\Subscription\:\:\$ends_at \(Illuminate\\Support\\Carbon\|null\) does not accept Carbon\\Carbon\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionUpdated.php
+
+		-
+			message: '#^Property LucaLongo\\Subscriptions\\Models\\Subscription\:\:\$ends_at \(Illuminate\\Support\\Carbon\|null\) does not accept Carbon\\Carbon\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionUpdated.php
+
+		-
+			message: '#^Property LucaLongo\\Subscriptions\\Models\\Subscription\:\:\$next_billing_at \(Illuminate\\Support\\Carbon\|null\) does not accept Carbon\\Carbon\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionUpdated.php
+
+		-
+			message: '#^Property LucaLongo\\Subscriptions\\Models\\Subscription\:\:\$price \(string\|null\) does not accept \(float\|int\)\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionUpdated.php
+
+		-
+			message: '#^Property LucaLongo\\Subscriptions\\Models\\Subscription\:\:\$trial_ends_at \(Illuminate\\Support\\Carbon\|null\) does not accept Carbon\\Carbon\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionUpdated.php

@@ -2,8 +2,12 @@
 
 namespace LucaLongo\Subscriptions\Models\Contracts;
 
+use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
 
+/**
+ * @property ArrayObject|null $meta
+ */
 interface SubscriberContract
 {
     public function customerName(): string;

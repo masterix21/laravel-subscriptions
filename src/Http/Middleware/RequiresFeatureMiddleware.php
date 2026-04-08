@@ -9,7 +9,10 @@ class RequiresFeatureMiddleware
 {
     public function handle(Request $request, Closure $next, string $feature)
     {
-        if (! $request->user()?->hasActiveFeature($feature)) {
+        /** @var (\Illuminate\Database\Eloquent\Model&\LucaLongo\Subscriptions\Models\Concerns\HasSubscriptions)|null $user */
+        $user = $request->user();
+
+        if (! $user || ! $user->hasActiveFeature($feature)) {
             abort(403);
         }
 

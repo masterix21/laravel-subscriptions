@@ -3,12 +3,16 @@
 namespace LucaLongo\Subscriptions\Actions\Subscriptions;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
 use LucaLongo\Subscriptions\Models\Plan;
 
 class RenewSubscription
 {
+    /**
+     * @param  Model&SubscriptionContract  $subscription
+     */
     public function execute(SubscriptionContract $subscription, ?Carbon $nextBillingAt = null): bool
     {
         /** @var Plan $plan */

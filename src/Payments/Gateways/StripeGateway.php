@@ -32,6 +32,9 @@ class StripeGateway implements CreateSubscriptionContract, CustomerContract, Gat
         return $this->stripe;
     }
 
+    /**
+     * @param  \Illuminate\Database\Eloquent\Model&PlanContract  $plan
+     */
     public function subscribe(
         PlanContract $plan,
         SubscriberContract $subscriber,

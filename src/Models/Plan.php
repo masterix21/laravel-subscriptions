@@ -17,6 +17,31 @@ use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
 
+/**
+ * @property int $id
+ * @property bool $enabled
+ * @property bool $hidden
+ * @property string|null $subscribable_type
+ * @property int|null $subscribable_id
+ * @property string $code
+ * @property string $name
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon|null $starts_at
+ * @property \Illuminate\Support\Carbon|null $ends_at
+ * @property int|null $duration_period
+ * @property DurationInterval|null $duration_interval
+ * @property string $price
+ * @property int|null $trial_period
+ * @property DurationInterval|null $trial_interval
+ * @property int|null $grace_period
+ * @property DurationInterval|null $grace_interval
+ * @property \Illuminate\Database\Eloquent\Casts\ArrayObject|null $meta
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read int|null $invoice_period
+ * @property-read DurationInterval|null $invoice_interval
+ * @property-read string $invoice_label
+ */
 class Plan extends Model implements PlanContract
 {
     use HasCode;

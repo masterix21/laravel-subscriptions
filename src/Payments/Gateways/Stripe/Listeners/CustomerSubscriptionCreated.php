@@ -19,6 +19,7 @@ class CustomerSubscriptionCreated implements StripeEventHandle
 
         $subscriber = app(Customer::class)->findSubscriberByCustomer($stripeSubscription->customer);
 
+        /** @var \Illuminate\Database\Eloquent\Model&PlanContract $plan */
         $plan = app(PlanContract::class)::query()
             ->where('meta->stripe_id', $stripeSubscription->plan->id)
             ->firstOrFail();
