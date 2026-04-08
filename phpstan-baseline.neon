@@ -55,6 +55,12 @@ parameters:
 			path: src/Actions/Plans/SubscribePlan.php
 
 		-
+			message: '#^Call to an undefined static method LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract\:\:query\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Actions/Plans/SubscribePlan.php
+
+		-
 			message: '#^Method LucaLongo\\Subscriptions\\Actions\\Plans\\SubscribePlan\:\:subscribe\(\) should return LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract but returns Illuminate\\Database\\Eloquent\\Model\.$#'
 			identifier: return.type
 			count: 1
@@ -241,6 +247,24 @@ parameters:
 			path: src/Http/Middleware/RequiresFeatureMiddleware.php
 
 		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Livewire/Manage/Features.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Livewire/Manage/Plans.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Livewire/Manage/Subscriptions.php
+
+		-
 			message: '#^Trait LucaLongo\\Subscriptions\\Models\\Concerns\\HasSubscriptions is used zero times and is not analysed\.$#'
 			identifier: trait.unused
 			count: 1
@@ -265,20 +289,38 @@ parameters:
 			path: src/Payments/Gateways/Stripe/CreateSubscription.php
 
 		-
+			message: '#^Parameter \#1 \$subscriber of method LucaLongo\\Subscriptions\\Payments\\Gateways\\Stripe\\Customer\:\:customerFindOrNew\(\) expects Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriberContract, LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriberContract given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Payments/Gateways/Stripe/CreateSubscription.php
+
+		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriberContract\:\:\$meta\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/Payments/Gateways/Stripe/Customer.php
 
 		-
-			message: '#^Access to an undefined property Stripe\\StripeObject\:\:\$object\.$#'
+			message: '#^Call to an undefined method LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriberContract\:\:where\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/Customer.php
+
+		-
+			message: '#^Access to an undefined property Stripe\\StripeObject\:\:\$plan_id\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/Payments/Gateways/Stripe/Listeners/CheckoutSessionCompleted.php
 
 		-
-			message: '#^Access to an undefined property Stripe\\StripeObject\:\:\$plan_id\.$#'
+			message: '#^Access to an undefined property Stripe\\Subscription\:\:\$current_period_end\.$#'
 			identifier: property.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CheckoutSessionCompleted.php
+
+		-
+			message: '#^Call to an undefined static method LucaLongo\\Subscriptions\\Models\\Contracts\\PlanContract\:\:findOrFail\(\)\.$#'
+			identifier: staticMethod.notFound
 			count: 1
 			path: src/Payments/Gateways/Stripe/Listeners/CheckoutSessionCompleted.php
 
@@ -289,7 +331,13 @@ parameters:
 			path: src/Payments/Gateways/Stripe/Listeners/CheckoutSessionCompleted.php
 
 		-
-			message: '#^Access to an undefined property Stripe\\StripeObject\:\:\$object\.$#'
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriberContract\:\:activeSubscriptions\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerDeleted.php
+
+		-
+			message: '#^Access to an undefined property Stripe\\Subscription\:\:\$current_period_end\.$#'
 			identifier: property.notFound
 			count: 1
 			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionCreated.php
@@ -301,15 +349,21 @@ parameters:
 			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionCreated.php
 
 		-
-			message: '#^Access to an undefined property Stripe\\StripeObject\:\:\$object\.$#'
-			identifier: property.notFound
+			message: '#^Call to an undefined static method LucaLongo\\Subscriptions\\Models\\Contracts\\PlanContract\:\:query\(\)\.$#'
+			identifier: staticMethod.notFound
 			count: 1
-			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionDeleted.php
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionCreated.php
 
 		-
-			message: '#^Access to an undefined property Stripe\\StripeObject\:\:\$object\.$#'
-			identifier: property.notFound
+			message: '#^Instanceof between LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract and LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriptionContract will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
 			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionCreated.php
+
+		-
+			message: '#^Access to an undefined property Stripe\\Subscription\:\:\$current_period_end\.$#'
+			identifier: property.notFound
+			count: 2
 			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionUpdated.php
 
 		-
@@ -321,6 +375,12 @@ parameters:
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriberContract\:\:subscriptions\(\)\.$#'
 			identifier: method.notFound
+			count: 1
+			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionUpdated.php
+
+		-
+			message: '#^Call to an undefined static method LucaLongo\\Subscriptions\\Models\\Contracts\\PlanContract\:\:firstWhere\(\)\.$#'
+			identifier: staticMethod.notFound
 			count: 1
 			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionUpdated.php
 
@@ -353,3 +413,9 @@ parameters:
 			identifier: assign.propertyType
 			count: 1
 			path: src/Payments/Gateways/Stripe/Listeners/CustomerSubscriptionUpdated.php
+
+		-
+			message: '#^Parameter \#1 \$subscriber of method LucaLongo\\Subscriptions\\Payments\\Gateways\\Stripe\\Customer\:\:customerFindOrNew\(\) expects Illuminate\\Database\\Eloquent\\Model&LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriberContract, LucaLongo\\Subscriptions\\Models\\Contracts\\SubscriberContract given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Payments/Gateways/StripeGateway.php
