@@ -3,7 +3,6 @@
 namespace LucaLongo\Subscriptions\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Livewire\LivewireServiceProvider;
 use LucaLongo\Subscriptions\SubscriptionsServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -20,10 +19,15 @@ class TestCase extends Orchestra
 
     protected function getPackageProviders($app)
     {
-        return [
-            LivewireServiceProvider::class,
+        $providers = [
             SubscriptionsServiceProvider::class,
         ];
+
+        if (class_exists(\Livewire\LivewireServiceProvider::class)) {
+            $providers[] = \Livewire\LivewireServiceProvider::class;
+        }
+
+        return $providers;
     }
 
     public function getEnvironmentSetUp($app)
