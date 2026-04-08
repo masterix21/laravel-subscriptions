@@ -2,6 +2,26 @@
 
 All notable changes to `laravel-subscriptions` will be documented in this file.
 
+## 1.2.0 - 2026-04-08
+
+### Features
+- Add Laravel 13 support
+- Add Pest 4 support
+
+### Changes
+- Replace `guava/filament-clusters` with native Filament `FusedGroup` (requires Filament 4+)
+- Bump `filament/tables` to `^4.0|^5.0`
+- Bump `stripe/stripe-php` to `^20.0`
+- Rewrite README with comprehensive documentation
+
+### Fixes
+- Fix CI: remove coverage config from phpunit.xml.dist that caused failures without coverage driver
+- Fix CI: set fail-fast to false, fix install step, remove incompatible `--ci` flag for Pest 4
+- Fix PHPStan errors and regenerate baseline for updated dependencies
+- Load LivewireServiceProvider conditionally in tests
+
+**Full Changelog**: https://github.com/masterix21/laravel-subscriptions/compare/1.0.3...1.2.0
+
 ## 1.0.3 - 2025-03-05
 
 - FIX: trial subscriptions are now active
