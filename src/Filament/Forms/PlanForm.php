@@ -49,7 +49,7 @@ class PlanForm implements FormContract
                             ->required()
                             ->default(0),
 
-                        TextArea::make('description')
+                        Textarea::make('description')
                             ->translateLabel()
                             ->columnSpan(3)
                             ->autosize(),

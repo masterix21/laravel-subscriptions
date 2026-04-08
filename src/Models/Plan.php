@@ -3,12 +3,14 @@
 namespace LucaLongo\Subscriptions\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Carbon;
 use LucaLongo\Subscriptions\Actions\Plans\SubscribePlan;
 use LucaLongo\Subscriptions\Enums\DurationInterval;
 use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
@@ -26,8 +28,8 @@ use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
  * @property string $code
  * @property string $name
  * @property string|null $description
- * @property \Illuminate\Support\Carbon|null $starts_at
- * @property \Illuminate\Support\Carbon|null $ends_at
+ * @property Carbon|null $starts_at
+ * @property Carbon|null $ends_at
  * @property int|null $duration_period
  * @property DurationInterval|null $duration_interval
  * @property string $price
@@ -35,9 +37,9 @@ use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
  * @property DurationInterval|null $trial_interval
  * @property int|null $grace_period
  * @property DurationInterval|null $grace_interval
- * @property \Illuminate\Database\Eloquent\Casts\ArrayObject|null $meta
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property ArrayObject|null $meta
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read int|null $invoice_period
  * @property-read DurationInterval|null $invoice_interval
  * @property-read string $invoice_label

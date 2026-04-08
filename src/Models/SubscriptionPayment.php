@@ -2,9 +2,11 @@
 
 namespace LucaLongo\Subscriptions\Models;
 
+use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -15,18 +17,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $subscriber_type
  * @property int $subscriber_id
  * @property int $plan_id
- * @property \Illuminate\Support\Carbon|null $ends_at
- * @property \Illuminate\Support\Carbon|null $next_billing_at
+ * @property Carbon|null $ends_at
+ * @property Carbon|null $next_billing_at
  * @property string|null $price
- * @property \Illuminate\Support\Carbon|null $trial_ends_at
- * @property \Illuminate\Support\Carbon|null $grace_ends_at
- * @property \Illuminate\Support\Carbon|null $revoked_at
+ * @property Carbon|null $trial_ends_at
+ * @property Carbon|null $grace_ends_at
+ * @property Carbon|null $revoked_at
  * @property string|null $note
- * @property \Illuminate\Database\Eloquent\Casts\ArrayObject|null $meta
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $paid_at
+ * @property ArrayObject|null $meta
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $paid_at
  */
 class SubscriptionPayment extends Model
 {

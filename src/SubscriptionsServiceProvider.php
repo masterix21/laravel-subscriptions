@@ -5,6 +5,7 @@ namespace LucaLongo\Subscriptions;
 use Livewire\Livewire;
 use LucaLongo\Subscriptions\Livewire\Manage\Features;
 use LucaLongo\Subscriptions\Livewire\Manage\Plans;
+use LucaLongo\Subscriptions\Livewire\Manage\Subscriptions;
 use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
 use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
@@ -49,7 +50,7 @@ class SubscriptionsServiceProvider extends PackageServiceProvider
         if (class_exists('Livewire\\Livewire')) {
             Livewire::component('subscriptions::manage-features', Features::class);
             Livewire::component('subscriptions::manage-plans', Plans::class);
-            Livewire::component('subscriptions::manage-subscriptions', \LucaLongo\Subscriptions\Livewire\Manage\Subscriptions::class);
+            Livewire::component('subscriptions::manage-subscriptions', Subscriptions::class);
         }
 
         return $this;

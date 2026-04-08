@@ -4,6 +4,7 @@ namespace LucaLongo\Subscriptions\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -37,7 +38,7 @@ use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
  * @property \Illuminate\Support\Carbon|null $canceled_at
  * @property \Illuminate\Support\Carbon|null $revoked_at
  * @property string|null $note
- * @property \Illuminate\Database\Eloquent\Casts\ArrayObject|null $meta
+ * @property ArrayObject|null $meta
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at

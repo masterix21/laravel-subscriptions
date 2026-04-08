@@ -10,6 +10,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use LucaLongo\Subscriptions\Filament\Forms\SubscriptionForm;
+use LucaLongo\Subscriptions\Models\Plan;
 use LucaLongo\Subscriptions\Models\Subscription;
 
 class SubscriptionTable implements TableContract
@@ -26,7 +27,7 @@ class SubscriptionTable implements TableContract
                 TextColumn::make('plan.name')
                     ->translateLabel()
                     ->description(function (Subscription $record): string {
-                        /** @var \LucaLongo\Subscriptions\Models\Plan $plan */
+                        /** @var Plan $plan */
                         $plan = $record->plan;
 
                         return '€ '.$record->price.' '.trans_choice('subscriptions::subscriptions.cycle', $plan->invoice_period, [

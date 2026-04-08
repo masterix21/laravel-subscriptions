@@ -2,6 +2,7 @@
 
 namespace LucaLongo\Subscriptions\Payments\Gateways;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
@@ -33,7 +34,7 @@ class StripeGateway implements CreateSubscriptionContract, CustomerContract, Gat
     }
 
     /**
-     * @param  \Illuminate\Database\Eloquent\Model&PlanContract  $plan
+     * @param  Model&PlanContract  $plan
      */
     public function subscribe(
         PlanContract $plan,

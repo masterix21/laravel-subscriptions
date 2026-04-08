@@ -3,8 +3,11 @@
 namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
 use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
+use LucaLongo\Subscriptions\Models\Contracts\SubscriberContract;
+use LucaLongo\Subscriptions\Models\Subscription;
 use LucaLongo\Subscriptions\Payments\Gateways\Stripe\Customer;
 use Stripe\Event;
 use Stripe\Subscription as StripeSubscription;
@@ -16,10 +19,10 @@ class CustomerSubscriptionUpdated implements StripeEventHandle
         /** @var StripeSubscription $stripeSubscription */
         $stripeSubscription = $event->data->object;
 
-        /** @var \Illuminate\Database\Eloquent\Model&\LucaLongo\Subscriptions\Models\Contracts\SubscriberContract $subscriber */
+        /** @var Model&SubscriberContract $subscriber */
         $subscriber = app(Customer::class)->findSubscriberByCustomer($stripeSubscription->customer);
 
-        /** @var \LucaLongo\Subscriptions\Models\Subscription $subscription */
+        /** @var Subscription $subscription */
         $subscription = $subscriber->subscriptions()
             ->where('payment_provider', 'stripe')
             ->where('payment_provider_reference', $stripeSubscription->id)

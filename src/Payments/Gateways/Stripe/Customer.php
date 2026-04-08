@@ -16,7 +16,6 @@ class Customer implements CustomerContract
 
     /**
      * @param  Model&SubscriberContract  $subscriber
-     *
      * @return \Stripe\Customer
      */
     public function customerFindOrNew(SubscriberContract $subscriber): mixed

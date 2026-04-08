@@ -2,18 +2,20 @@
 
 namespace LucaLongo\Subscriptions\Models;
 
+use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 use LucaLongo\Subscriptions\Models\Concerns\HasCode;
 
 /**
  * @property int $id
  * @property string $code
  * @property string $name
- * @property \Illuminate\Database\Eloquent\Casts\ArrayObject|null $meta
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property ArrayObject|null $meta
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class Feature extends Model
 {

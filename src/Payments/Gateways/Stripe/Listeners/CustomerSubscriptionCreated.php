@@ -2,6 +2,7 @@
 
 namespace LucaLongo\Subscriptions\Payments\Gateways\Stripe\Listeners;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use LucaLongo\Subscriptions\Enums\SubscriptionStatus;
 use LucaLongo\Subscriptions\Models\Contracts\PlanContract;
@@ -19,7 +20,7 @@ class CustomerSubscriptionCreated implements StripeEventHandle
 
         $subscriber = app(Customer::class)->findSubscriberByCustomer($stripeSubscription->customer);
 
-        /** @var \Illuminate\Database\Eloquent\Model&PlanContract $plan */
+        /** @var Model&PlanContract $plan */
         $plan = app(PlanContract::class)::query()
             ->where('meta->stripe_id', $stripeSubscription->plan->id)
             ->firstOrFail();
