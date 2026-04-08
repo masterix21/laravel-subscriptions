@@ -193,6 +193,207 @@ parameters:
 			path: src/Enums/DurationInterval.php
 
 		-
+			message: '#^Call to method columns\(\) on an unknown class Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/FeatureForm.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Tabs\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/FeatureForm.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Tabs\\Tab\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/FeatureForm.php
+
+		-
+			message: '#^Method LucaLongo\\Subscriptions\\Filament\\Forms\\FeatureForm\:\:make\(\) has invalid return type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/FeatureForm.php
+
+		-
+			message: '#^Parameter \$form of method LucaLongo\\Subscriptions\\Filament\\Forms\\FeatureForm\:\:make\(\) has invalid type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/FeatureForm.php
+
+		-
+			message: '#^Method LucaLongo\\Subscriptions\\Filament\\Forms\\FormContract\:\:make\(\) has invalid return type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/FormContract.php
+
+		-
+			message: '#^Parameter \$form of method LucaLongo\\Subscriptions\\Filament\\Forms\\FormContract\:\:make\(\) has invalid type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/FormContract.php
+
+		-
+			message: '#^Call to method columns\(\) on an unknown class Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/PlanForm.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Grid\.$#'
+			identifier: class.notFound
+			count: 4
+			path: src/Filament/Forms/PlanForm.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Tabs\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/PlanForm.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Tabs\\Tab\.$#'
+			identifier: class.notFound
+			count: 3
+			path: src/Filament/Forms/PlanForm.php
+
+		-
+			message: '#^Method LucaLongo\\Subscriptions\\Filament\\Forms\\PlanForm\:\:make\(\) has invalid return type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/PlanForm.php
+
+		-
+			message: '#^Parameter \$form of method LucaLongo\\Subscriptions\\Filament\\Forms\\PlanForm\:\:make\(\) has invalid type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/PlanForm.php
+
+		-
+			message: '#^Call to method schema\(\) on an unknown class Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/SubscriptionForm.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Grid\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Filament/Forms/SubscriptionForm.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Tabs\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/SubscriptionForm.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Tabs\\Tab\.$#'
+			identifier: class.notFound
+			count: 3
+			path: src/Filament/Forms/SubscriptionForm.php
+
+		-
+			message: '#^Method LucaLongo\\Subscriptions\\Filament\\Forms\\SubscriptionForm\:\:make\(\) has invalid return type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/SubscriptionForm.php
+
+		-
+			message: '#^Parameter \$form of method LucaLongo\\Subscriptions\\Filament\\Forms\\SubscriptionForm\:\:make\(\) has invalid type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Forms/SubscriptionForm.php
+
+		-
+			message: '''
+				#^Call to deprecated method actions\(\) of class Filament\\Tables\\Table\:
+				Use `recordActions\(\)` instead\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: src/Filament/Tables/FeatureTable.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Tables/FeatureTable.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Tables/FeatureTable.php
+
+		-
+			message: '#^Parameter \$form of anonymous function has invalid type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Tables/FeatureTable.php
+
+		-
+			message: '''
+				#^Call to deprecated method actions\(\) of class Filament\\Tables\\Table\:
+				Use `recordActions\(\)` instead\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: src/Filament/Tables/PlanTable.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Tables/PlanTable.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Tables/PlanTable.php
+
+		-
+			message: '#^Parameter \$form of anonymous function has invalid type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Tables/PlanTable.php
+
+		-
+			message: '''
+				#^Call to deprecated method actions\(\) of class Filament\\Tables\\Table\:
+				Use `recordActions\(\)` instead\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: src/Filament/Tables/SubscriptionTable.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Tables/SubscriptionTable.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Tables/SubscriptionTable.php
+
+		-
+			message: '#^Parameter \$form of anonymous function has invalid type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Tables/SubscriptionTable.php
+
+		-
+			message: '#^Static access to instance property Filament\\Tables\\Table\:\:\$defaultDateDisplayFormat\.$#'
+			identifier: property.staticAccess
+			count: 1
+			path: src/Filament/Tables/SubscriptionTable.php
+
+		-
 			message: '#^Negated boolean expression is always true\.$#'
 			identifier: booleanNot.alwaysTrue
 			count: 1
@@ -245,6 +446,12 @@ parameters:
 			identifier: deadCode.unreachable
 			count: 1
 			path: src/Http/Middleware/RequiresFeatureMiddleware.php
+
+		-
+			message: '#^Method LucaLongo\\Subscriptions\\Livewire\\Manage\\Features\:\:form\(\) has invalid return type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Livewire/Manage/Features.php
 
 		-
 			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
@@ -253,10 +460,40 @@ parameters:
 			path: src/Livewire/Manage/Features.php
 
 		-
+			message: '#^Parameter \$form of method LucaLongo\\Subscriptions\\Livewire\\Manage\\Features\:\:form\(\) has invalid type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Livewire/Manage/Features.php
+
+		-
+			message: '#^Method LucaLongo\\Subscriptions\\Livewire\\Manage\\Plans\:\:form\(\) has invalid return type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Livewire/Manage/Plans.php
+
+		-
 			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Livewire/Manage/Plans.php
+
+		-
+			message: '#^Parameter \$form of method LucaLongo\\Subscriptions\\Livewire\\Manage\\Plans\:\:form\(\) has invalid type Filament\\Forms\\Form\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Livewire/Manage/Plans.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\CreateAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Livewire/Manage/Subscriptions.php
+
+		-
+			message: '#^Method LucaLongo\\Subscriptions\\Livewire\\Manage\\Subscriptions\:\:getCreateTableHeaderAction\(\) has invalid return type Filament\\Tables\\Actions\\Action\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Livewire/Manage/Subscriptions.php
 
 		-
 			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'

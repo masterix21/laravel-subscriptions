@@ -13,7 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Support\RawJs;
-use Guava\FilamentClusters\Forms\Cluster;
+use Filament\Schemas\Components\FusedGroup;
 use Illuminate\Database\Eloquent\Model;
 use LucaLongo\Subscriptions\Enums\DurationInterval;
 
@@ -74,7 +74,7 @@ class PlanForm implements FormContract
                                 Grid::make()
                                     ->columns()
                                     ->schema([
-                                        Cluster::make([
+                                        FusedGroup::make([
                                             TextInput::make('trial_period')->translateLabel()
                                                 ->numeric()->integer()->nullable(),
 
@@ -83,7 +83,7 @@ class PlanForm implements FormContract
                                                 ->requiredWith('trial_period'),
                                         ])->label('Trial period')->translateLabel(),
 
-                                        Cluster::make([
+                                        FusedGroup::make([
                                             TextInput::make('duration_period')->translateLabel()
                                                 ->numeric()->integer()->nullable(),
                                             Select::make('duration_interval')->translateLabel()
@@ -91,7 +91,7 @@ class PlanForm implements FormContract
                                                 ->requiredWith('duration_period'),
                                         ])->label('Duration')->translateLabel(),
 
-                                        Cluster::make([
+                                        FusedGroup::make([
                                             TextInput::make('grace_period')->translateLabel()
                                                 ->numeric()->integer()->nullable(),
                                             Select::make('grace_interval')->translateLabel()
