@@ -4,8 +4,8 @@ namespace LucaLongo\Subscriptions\Livewire\Manage;
 
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\CreateAction;
+use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
