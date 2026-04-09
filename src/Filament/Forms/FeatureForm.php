@@ -3,7 +3,7 @@
 namespace LucaLongo\Subscriptions\Filament\Forms;
 
 use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\Tabs;
+use Filament\Schemas\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
