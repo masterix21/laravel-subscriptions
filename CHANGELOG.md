@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-subscriptions` will be documented in this file.
 
+## 1.2.2 - 2026-04-09
+
+### Fixes
+- Move `Tabs` and `Grid` imports to `Filament\Schemas\Components` for Filament v5
+- Move table actions from `Filament\Tables\Actions` to `Filament\Actions` for Filament v5
+- Add missing Italian translations for all Filament form and table labels
+
+**Full Changelog**: https://github.com/masterix21/laravel-subscriptions/compare/1.2.1...1.2.2
+
 ## 1.2.1 - 2026-04-09
 
 ### Fixes
