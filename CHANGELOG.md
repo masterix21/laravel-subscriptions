@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-subscriptions` will be documented in this file.
 
+## 1.2.1 - 2026-04-09
+
+### Fixes
+- Replace `Filament\Forms\Form` with `Filament\Schemas\Schema` for Filament v5 compatibility
+- Fix orphan `invoice_period`/`invoice_interval` references to use `duration_period`/`duration_interval` in Plan model, PlanTable, and SubscriptionTable
+- Add PHP 8.5 support
+- Freeze time in CancelSubscriptionTest
+
+**Full Changelog**: https://github.com/masterix21/laravel-subscriptions/compare/1.2.0...1.2.1
+
 ## 1.2.0 - 2026-04-08
 
 ### Features
