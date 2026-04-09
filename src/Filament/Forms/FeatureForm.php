@@ -5,12 +5,12 @@ namespace LucaLongo\Subscriptions\Filament\Forms;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 
 class FeatureForm implements FormContract
 {
-    public static function make(Form $form, ?Model $ownerRecord = null): Form
+    public static function make(Schema $form, ?Model $ownerRecord = null): Schema
     {
         return $form
             ->columns(1)

@@ -11,15 +11,15 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
 use Filament\Schemas\Components\FusedGroup;
+use Filament\Schemas\Schema;
 use Filament\Support\RawJs;
 use Illuminate\Database\Eloquent\Model;
 use LucaLongo\Subscriptions\Enums\DurationInterval;
 
 class PlanForm implements FormContract
 {
-    public static function make(Form $form, ?Model $ownerRecord = null): Form
+    public static function make(Schema $form, ?Model $ownerRecord = null): Schema
     {
         return $form
             ->columns(1)

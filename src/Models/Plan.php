@@ -40,8 +40,6 @@ use LucaLongo\Subscriptions\Models\Contracts\SubscriptionContract;
  * @property ArrayObject|null $meta
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read int|null $invoice_period
- * @property-read DurationInterval|null $invoice_interval
  * @property-read string $invoice_label
  */
 class Plan extends Model implements PlanContract
@@ -74,7 +72,7 @@ class Plan extends Model implements PlanContract
 
     public function invoiceLabel(): Attribute
     {
-        return Attribute::get(fn () => trans_choice('subscriptions::subscriptions.cycle', $this->invoice_period, [
+        return Attribute::get(fn () => trans_choice('subscriptions::subscriptions.cycle', $this->duration_period, [
             'value' => $this->duration_period,
             'single_interval' => $this->duration_interval?->labelSingular(),
             'many_interval' => $this->duration_interval?->label(),

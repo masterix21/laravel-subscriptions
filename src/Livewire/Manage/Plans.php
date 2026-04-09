@@ -4,7 +4,7 @@ namespace LucaLongo\Subscriptions\Livewire\Manage;
 
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
@@ -26,7 +26,7 @@ class Plans extends Component implements HasForms, HasTable
         return view('subscriptions::livewire.manage.plans');
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
         return PlanForm::make($form);
     }

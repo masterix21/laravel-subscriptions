@@ -2,7 +2,7 @@
 
 namespace LucaLongo\Subscriptions\Filament\Tables;
 
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
@@ -30,10 +30,10 @@ class SubscriptionTable implements TableContract
                         /** @var Plan $plan */
                         $plan = $record->plan;
 
-                        return '€ '.$record->price.' '.trans_choice('subscriptions::subscriptions.cycle', $plan->invoice_period, [
-                            'value' => $plan->invoice_period,
-                            'single_interval' => $plan->invoice_interval?->labelSingular(),
-                            'many_interval' => $plan->invoice_interval?->label(),
+                        return '€ '.$record->price.' '.trans_choice('subscriptions::subscriptions.cycle', $plan->duration_period, [
+                            'value' => $plan->duration_period,
+                            'single_interval' => $plan->duration_interval?->labelSingular(),
+                            'many_interval' => $plan->duration_interval?->label(),
                         ]);
                     }),
 
@@ -61,7 +61,7 @@ class SubscriptionTable implements TableContract
             ->actions([
                 EditAction::make()
                     ->iconButton()
-                    ->form(fn (Form $form) => SubscriptionForm::make($form)),
+                    ->form(fn (Schema $form) => SubscriptionForm::make($form)),
 
                 DeleteAction::make()
                     ->iconButton(),

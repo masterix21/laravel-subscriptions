@@ -4,7 +4,7 @@ namespace LucaLongo\Subscriptions\Livewire\Manage;
 
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
@@ -28,7 +28,7 @@ class Features extends Component implements HasForms, HasTable
         return FeatureTable::make($table);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
         return FeatureForm::make($form);
     }

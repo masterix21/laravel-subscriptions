@@ -2,7 +2,7 @@
 
 namespace LucaLongo\Subscriptions\Filament\Tables;
 
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
@@ -19,7 +19,7 @@ class PlanTable implements TableContract
             ->actions([
                 EditAction::make()
                     ->iconButton()
-                    ->form(fn (Form $form) => PlanForm::make($form)),
+                    ->form(fn (Schema $form) => PlanForm::make($form)),
 
                 DeleteAction::make()
                     ->iconButton(),
@@ -32,10 +32,10 @@ class PlanTable implements TableContract
                 TextColumn::make('price')
                     ->translateLabel()
                     ->money('EUR')
-                    ->description(fn ($record) => trans_choice('subscriptions::subscriptions.cycle', $record->invoice_period, [
-                        'value' => $record->invoice_period,
-                        'single_interval' => $record->invoice_interval?->labelSingular(),
-                        'many_interval' => $record->invoice_interval?->label(),
+                    ->description(fn ($record) => trans_choice('subscriptions::subscriptions.cycle', $record->duration_period, [
+                        'value' => $record->duration_period,
+                        'single_interval' => $record->duration_interval?->labelSingular(),
+                        'many_interval' => $record->duration_interval?->label(),
                     ])),
 
                 IconColumn::make('enabled')->translateLabel()->boolean(),
