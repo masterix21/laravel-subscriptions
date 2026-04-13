@@ -159,22 +159,17 @@ class Subscription extends Model implements SubscriptionContract
     public function scopeActive(Builder $query): void
     {
         $query->where(fn (Builder $query) => $query
-            ->whereIn('status', [
-                SubscriptionStatus::ACTIVE,
-                SubscriptionStatus::TRIALING,
-            ])
-            ->whereNull('revoked_at')
-            ->where(function (Builder $query) {
-                $query
-                    ->where(fn (Builder $query) => $query
-                        ->whereNull('grace_ends_at')
-                        ->where('grace_ends_at', '>=', now())
-                    )
-                    ->orWhere(fn (Builder $query) => $query
-                        ->whereNull('ends_at')
-                        ->orWhere('ends_at', '>=', now())
-                    );
-            })
+            ->where(fn (Builder $query) => $query
+                ->whereNull('revoked_at')
+                ->orWhere('revoked_at', '>', now())
+            )
+            ->where(fn (Builder $query) => $query
+                ->where(fn (Builder $query) => $query
+                    ->whereNull('ends_at')
+                    ->orWhere('ends_at', '>=', now())
+                )
+                ->orWhere('grace_ends_at', '>=', now())
+            )
         );
     }
 
