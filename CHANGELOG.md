@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-subscriptions` will be documented in this file.
 
+## 1.2.3 - 2026-04-13
+
+### Fixes
+- Fix `active` scope on `Subscription` to rely on dates instead of status, so canceled subscriptions still within `ends_at` are correctly returned. `revoked_at` is now also treated as a date boundary (active if null or in the future).
+
+**Full Changelog**: https://github.com/masterix21/laravel-subscriptions/compare/1.2.2...1.2.3
+
 ## 1.2.2 - 2026-04-09
 
 ### Fixes
