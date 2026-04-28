@@ -63,6 +63,60 @@ test('it subscribes a plan and enable auto-renew', function () {
     expect($subscription->auto_renew)->toBeTrue();
 });
 
+test('it does not overwrite an existing subscription when payment provider data is missing', function () {
+    $planA = $this->monthlyPlan;
+
+    $userA = User::create([
+        'name' => 'User A',
+        'email' => 'a@example.com',
+        'password' => bcrypt('password'),
+    ]);
+
+    $existing = $planA->subscribe($userA);
+
+    $planB = app(PlanContract::class)::create([
+        'code' => 'monthly-b',
+        'name' => 'Monthly Plan B',
+        'duration_period' => 1,
+        'duration_interval' => DurationInterval::MONTH,
+    ]);
+
+    $userB = User::create([
+        'name' => 'User B',
+        'email' => 'b@example.com',
+        'password' => bcrypt('password'),
+    ]);
+
+    $newSubscription = $planB->subscribe($userB, data: [
+        'next_billing_at' => now()->addDay(),
+    ]);
+
+    expect(Subscription::count())->toBe(2);
+
+    $existing->refresh();
+
+    expect($existing->subscriber_id)->toBe($userA->getKey())
+        ->and($existing->plan_id)->toBe($planA->getKey())
+        ->and($newSubscription->subscriber_id)->toBe($userB->getKey())
+        ->and($newSubscription->plan_id)->toBe($planB->getKey())
+        ->and($userB->subscriptions()->count())->toBe(1);
+});
+
+test('it updates the existing subscription when payment provider data matches', function () {
+    $first = $this->monthlyPlan->subscribe($this->user, data: [
+        'payment_provider' => 'stripe',
+        'payment_provider_reference' => 'sub_123',
+    ]);
+
+    $second = $this->monthlyPlan->subscribe($this->user, data: [
+        'payment_provider' => 'stripe',
+        'payment_provider_reference' => 'sub_123',
+    ]);
+
+    expect(Subscription::count())->toBe(1)
+        ->and($second->getKey())->toBe($first->getKey());
+});
+
 test('it calculates proper trial and grace period based on plan configuration', function () {
     $subscription = $this->monthlyPlan->subscribe($this->user);
 

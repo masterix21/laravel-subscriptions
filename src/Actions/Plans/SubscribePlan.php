@@ -33,14 +33,18 @@ class SubscribePlan
             $graceEndsAt ??= $nextBillingAt->toImmutable()->add($plan->grace_period, $plan->grace_interval->value);
         }
 
+        $hasPaymentReference = filled($data['payment_provider'] ?? null)
+            && filled($data['payment_provider_reference'] ?? null);
+
         /** @var Model $subscription */
-        $subscription = app(SubscriptionContract::class)::query()
-            ->when(
-                value: filled($data['payment_provider'] ?? null) && filled($data['payment_provider_reference'] ?? null),
-                callback: fn ($query) => $query
-                    ->where('payment_provider', $data['payment_provider'])
-                    ->where('payment_provider_reference', $data['payment_provider_reference'])
-            )->firstOrNew();
+        $subscription = $hasPaymentReference
+            ? app(SubscriptionContract::class)::firstOrNew([
+                'subscriber_type' => $subscriber->getMorphClass(),
+                'subscriber_id' => $subscriber->getKey(),
+                'payment_provider' => $data['payment_provider'],
+                'payment_provider_reference' => $data['payment_provider_reference'],
+            ])
+            : app(SubscriptionContract::class)::query()->newModelInstance();
 
         if (! $autoRenew) {
             $endsAt ??= $nextBillingAt;

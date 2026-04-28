@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-subscriptions` will be documented in this file.
 
+## Unreleased
+
+### Fixed
+- Fix `SubscribePlan` action overwriting an arbitrary existing subscription when `payment_provider` and `payment_provider_reference` are not provided. The query is now constrained to the current subscriber and provider reference, otherwise a fresh model instance is created.
+
 ## 1.2.3 - 2026-04-13
 
 ### Fixes
