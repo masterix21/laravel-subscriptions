@@ -2,10 +2,18 @@
 
 All notable changes to `laravel-subscriptions` will be documented in this file.
 
-## Unreleased
+## 1.2.4 - 2026-04-28
 
-### Fixed
+### Fixes
 - Fix `SubscribePlan` action overwriting an arbitrary existing subscription when `payment_provider` and `payment_provider_reference` are not provided. The query is now constrained to the current subscriber and provider reference, otherwise a fresh model instance is created.
+
+### Tests
+- Add regression tests covering `SubscribePlan` with and without payment provider data.
+
+### Dependencies
+- Bump `dependabot/fetch-metadata` from 3.0.0 to 3.1.0 (#32).
+
+**Full Changelog**: https://github.com/masterix21/laravel-subscriptions/compare/1.2.3...1.2.4
 
 ## 1.2.3 - 2026-04-13
 
